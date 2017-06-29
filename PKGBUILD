@@ -10,15 +10,15 @@
 # 3.0 unported license. see http://creativecommons.org/licenses/by/3.0/deed.de
 # endregion
 pkgname=proxy
-pkgver=1.0.2
-pkgrel=2
+pkgver=1.0.3
+pkgrel=3
 pkgdesc='automate your installation process'
 arch=('any')
 url='http://torben.website/proxy'
 license=('CC-BY-3.0')
 depends=('bash'
          'docker')
-source=('base.yml' 'Dockerfile' 'serviceHandler/proxy.service')
+source=('base.yml' 'Dockerfile' 'serviceHandler')
 md5sums=('SKIP')
 copyToAUR=true
 
