@@ -10,14 +10,14 @@
 # 3.0 unported license. see http://creativecommons.org/licenses/by/3.0/deed.de
 # endregion
 pkgname=proxy
-pkgver=1.0.8
-pkgrel=8
+pkgver=1.0.9
+pkgrel=9
 pkgdesc='automate your installation process'
 arch=('any')
 url='http://torben.website/proxy'
 license=('CC-BY-3.0')
 depends=('bash' 'docker')
-source=('base.yml' 'Dockerfile' 'serviceHandler')
+source=('base.yml' 'Dockerfile' 'proxy.service')
 md5sums=('SKIP' 'SKIP' 'SKIP')
 copyToAUR=true
 
@@ -26,7 +26,7 @@ package() {
         "${pkgdir}/srv/http/proxy/base.yml"
     install -D --mode 755 "${srcdir}/Dockerfile" \
         "${pkgdir}/srv/http/proxy/Dockerfile"
-    install -D --mode 655 "${srcdir}/serviceHandler/proxy.service" \
+    install -D --mode 655 "${srcdir}/proxy.service" \
         "${pkgdir}/etc/systemd/system/proxy.service"
 }
 # region vim modline
