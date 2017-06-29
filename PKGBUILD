@@ -10,8 +10,8 @@
 # 3.0 unported license. see http://creativecommons.org/licenses/by/3.0/deed.de
 # endregion
 pkgname=proxy
-pkgver=1.0.1
-pkgrel=1
+pkgver=1.0.2
+pkgrel=2
 pkgdesc='automate your installation process'
 arch=('any')
 url='http://torben.website/proxy'
@@ -23,7 +23,12 @@ md5sums=('SKIP')
 copyToAUR=true
 
 package() {
-    install -D --mode 755 "${srcdir}" "${pkgdir}/usr/lib/proxy"
+    install -D --mode 755 "${srcdir}/base.yml" \
+        "${pkgdir}/srv/http/proxy/base.yml"
+    install -D --mode 755 "${srcdir}/Dockerfile" \
+        "${pkgdir}/srv/http/proxy/Dockerfile"
+    install -D --mode 655 "${srcdir}/serviceHandler/proxy.service" \
+        "${pkgdir}/etc/systemd/system/proxy.service"
 }
 # region vim modline
 # vim: set tabstop=4 shiftwidth=4 expandtab:
