@@ -1,9 +1,8 @@
 # Run the following command in the directory where this file lives to build a
 # new docker image: docker-compose --file base.yml build --no-cache
 
-# Run the following command in the directory where this file lives to start a:
-# - development environment: docker-compose --file local.yml up
-# - production environment: docker-compose --file remote.yml up
+# Run the following command in the directory where this file lives to start:
+# docker-compose --file base.yml up
 
            # region configuration
 FROM       nginx:stable-alpine
