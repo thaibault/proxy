@@ -18,7 +18,7 @@ url='http://torben.website/proxy'
 license=('CC-BY-3.0')
 depends=('bash'
          'docker')
-source=('base.yml' 'Dockerfile' 'serviceHandler')
+source=('base.yml' 'Dockerfile' 'serviceHandler/proxy.service')
 md5sums=('SKIP')
 copyToAUR=true
 
@@ -27,7 +27,7 @@ package() {
         "${pkgdir}/srv/http/proxy/base.yml"
     install -D --mode 755 "${srcdir}/Dockerfile" \
         "${pkgdir}/srv/http/proxy/Dockerfile"
-    install -D --mode 655 "${srcdir}/serviceHandler/proxy.service" \
+    install -D --mode 655 "${srcdir}/proxy.service" \
         "${pkgdir}/etc/systemd/system/proxy.service"
 }
 # region vim modline
