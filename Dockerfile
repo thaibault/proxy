@@ -7,7 +7,7 @@
            # region configuration
 FROM       finalduty/archlinux
 MAINTAINER Torben Sickert <info@torben.website>
-LABEL      Description="proxy" Vendor="t.sickert products" Version="1.0"
+LABEL      Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE     80 443
 ENV        APPLICATION_PATH /srv/http
 ENV        APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '/etc/nginx/conf.d/*.conf'
