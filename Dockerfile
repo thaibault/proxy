@@ -24,7 +24,7 @@ USER       root
            # endregion
            # region install needed packages
            # NOTE: "neovim" is only needed for debugging scenarios.
-RUN        apk add --no-cache bash neovim openssl shadow && \
+RUN        apk add --no-cache bash libcap neovim openssl shadow && \
            # NOTE: Alpine's "mkdir" only supports short options.
            mkdir -p /srv/http /etc/nginx/conf.d && \
            chown nobody:nobody --recursive /srv/http
@@ -54,9 +54,11 @@ RUN        [[ "$MAIN_USER_NAME" != 'root' ]] && \
            # only to root.
 RUN        echo -e "daemon    off;\nerror_log ${TEMPORARY_NGINX_PATH}errorLog;\npid       ${TEMPORARY_NGINX_PATH}pid;\n#user      ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\nworker_processes  4;\nevents {\n    worker_connections  1024;\n}\nhttp {\n    access_log              ${TEMPORARY_NGINX_PATH}accessLog;\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n    include                 mime.types;\n    default_type            application/octet-stream;\n    sendfile                on;\n    gzip                    on;\n    client_body_buffer_size 256k;\n    proxy_set_header        X-Forwarded-Proto $scheme;\n    proxy_set_header        Upgrade $http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n    keepalive_timeout       65;\n    resolver                8.8.8.8;\n    include                 $(pwd)/$APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH;\n}" \
                1>/etc/nginx/nginx.conf && \
-           mkdir --parents /etc/nginx/html && \
+           # NOTE: Alpine's "mkdir" only supports short options.
+           mkdir -p /etc/nginx/html && \
            echo ''>/etc/nginx/html/index.html && \
-           mkdir --parents "$TEMPORARY_NGINX_PATH" && \
+           # NOTE: Alpine's "mkdir" only supports short options.
+           mkdir -p "$TEMPORARY_NGINX_PATH" && \
            chown --recursive "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
                "$TEMPORARY_NGINX_PATH" && \
            # NOTE: Allow none root user to bind to ports lower than 1024 with
