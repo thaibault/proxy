@@ -19,10 +19,10 @@ User=service
 Restart=always
 RestartSec=10
 WorkingDirectory=/srv/http/proxy
-ExecStartPre=-/usr/bin/env docker-compose --file docker-compose.yml kill $APP
-ExecStartPre=-/usr/bin/env docker-compose --file docker-compose.yml rm --force $APP
-ExecStart=/usr/bin/env docker-compose --file docker-compose.yml up --no-build --force-recreate --no-deps $APP
-ExecStop=/usr/bin/env docker-compose --file docker-compose.yml stop $APP
+ExecStartPre=-/usr/bin/env docker-compose --file base.yml kill $APP
+ExecStartPre=-/usr/bin/env docker-compose --file base.yml rm --force $APP
+ExecStart=/usr/bin/env docker-compose --file base.yml up --no-build --force-recreate --no-deps $APP
+ExecStop=/usr/bin/env docker-compose --file base.yml stop $APP
 NotifyAccess=all
 
 [Install]
