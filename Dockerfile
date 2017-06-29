@@ -10,7 +10,7 @@ MAINTAINER Torben Sickert <info@torben.website>
 LABEL      Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE     80 443
 ENV        APPLICATION_PATH /srv/http
-ENV        APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '/etc/nginx/conf.d/*.conf'
+ENV        APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
 ENV        APPLICATION_USER_ID_INDICATOR_FILE_PATH '/etc/nginx/conf.d'
 ENV        COMMAND 'nginx'
 ENV        DEFAULT_MAIN_USER_GROUP_ID 100
@@ -19,7 +19,7 @@ ENV        INITIALIZING_FILE_PATH '/usr/bin/initialize'
 ENV        MAIN_USER_GROUP_NAME users
 ENV        MAIN_USER_NAME http
 ENV        TEMPORARY_NGINX_PATH '/tmp/nginx/'
-WORKDIR    peaceful_sammet$APPLICATION_PATH
+WORKDIR    $APPLICATION_PATH
 USER       root
            # endregion
            # region retrieve wget
