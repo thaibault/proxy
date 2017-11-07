@@ -20,7 +20,7 @@
   "files": [
     "base.yml",
     "Dockerfile",
-    "serviceHandler/proxy.service"
+    "proxy.service"
   ],
   "main": "base.yml",
   "repository": {
