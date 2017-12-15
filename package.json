@@ -20,7 +20,7 @@
   "files": [
     "base.yml",
     "Dockerfile",
-    "serviceHandler/proxy.service"
+    "proxy.service"
   ],
   "main": "base.yml",
   "repository": {
@@ -32,6 +32,6 @@
     "update:documentation": "documentationWebsite --log-level info"
   },
   "devDependencies": {
-    "documentation-website": "^1.0.61"
+    "documentation-website": "^1.0.75"
   }
 }
