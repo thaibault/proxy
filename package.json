@@ -28,6 +28,7 @@
     "url": "https://github.com/thaibault/proxy"
   },
   "scripts": {
+    "clear": "echo clear",
     "update": "npm version patch && npm publish",
     "update:documentation": "documentationWebsite --log-level info"
   },
