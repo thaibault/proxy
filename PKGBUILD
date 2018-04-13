@@ -12,7 +12,7 @@
 pkgname=proxy
 pkgver=1.0.15
 pkgrel=13
-pkgdesc='automate your installation process'
+pkgdesc='generic proxy server'
 arch=(any)
 url=http://torben.website/proxy
 license=(CC-BY-3.0)
