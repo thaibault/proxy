@@ -43,6 +43,8 @@ RUN         configure-user && \
             echo ''>/etc/nginx/html/index.html && \
             mkdir --parents "$TEMPORARY_NGINX_PATH" && \
             chown \
+                --dereference \
+                -L \
                 --recursive \
                 "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
                 "$TEMPORARY_NGINX_PATH" && \
