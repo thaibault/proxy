@@ -21,7 +21,7 @@ USER        root
             # endregion
             # region install needed packages
             # NOTE: "neovim" is only needed for debugging scenarios.
-RUN         yaourt \
+RUN         yay \
                 --needed \
                 --noconfirm \
                 --sync \
