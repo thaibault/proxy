@@ -29,7 +29,7 @@
   },
   "scripts": {
     "clear": "echo clear",
-    "update": "npm version patch && npm publish",
+    "update": "yarn version patch && yarn publish",
     "update:documentation": "documentationWebsite --log-level info"
   },
   "devDependencies": {
