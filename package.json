@@ -3,7 +3,7 @@
   "version": "1.0.16",
   "license": "CC-BY-3.0",
   "description": "generic dockerized proxy server",
-  "homepage": "http://torben.website/proxy",
+  "homepage": "https://torben.website/proxy",
   "documentationWebsite": {
     "name": "proxy",
     "tagline": "proxy your docker container",
@@ -33,6 +33,6 @@
     "update:documentation": "documentationWebsite --log-level info"
   },
   "devDependencies": {
-    "documentation-website": "^1.0.134"
+    "documentation-website": "*"
   }
 }
