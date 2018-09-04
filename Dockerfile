@@ -1,12 +1,12 @@
+# region create image commands
 # Run the following command in the directory where this file lives to build a
 # new docker image:
-
 # - docker pull tsickert/base && docker-compose --file base.yml build --no-cache
-
+# endregion
+# region start container commands
 # Run the following command in the directory where this file lives to start:
-
 # - docker-compose --file base.yml up
-
+# endregion
             # region configuration
 FROM        tsickert/base
 MAINTAINER  Torben Sickert <info@torben.website>
@@ -28,8 +28,7 @@ RUN         yay \
                 nginx \
                 neovim \
                 openssl && \
-           # endregion
-           # region tidy up
+           # tidy up
            rm /var/cache/* --recursive --force
            # endregion
             # region preconfigure nginx to integrate application specifc options
