@@ -18,11 +18,11 @@
     "proxy"
   ],
   "files": [
-    "base.yml",
+    "base.yaml",
     "Dockerfile",
     "proxy.service"
   ],
-  "main": "base.yml",
+  "main": "base.yaml",
   "repository": {
     "type": "git",
     "url": "https://github.com/thaibault/proxy"

@@ -17,13 +17,13 @@ arch=(any)
 url=http://torben.website/proxy
 license=(CC-BY-3.0)
 depends=(bash docker)
-source=(base.yml Dockerfile proxy.service)
+source=(base.yaml Dockerfile proxy.service)
 md5sums=(SKIP SKIP SKIP)
 copy_to_aur=true
 
 package() {
-    install -D --mode 755 "${srcdir}/base.yml" \
-        "${pkgdir}/srv/http/proxy/base.yml"
+    install -D --mode 755 "${srcdir}/base.yaml" \
+        "${pkgdir}/srv/http/proxy/base.yaml"
     install -D --mode 755 "${srcdir}/Dockerfile" \
         "${pkgdir}/srv/http/proxy/Dockerfile"
     install -D --mode 655 "${srcdir}/proxy.service" \
