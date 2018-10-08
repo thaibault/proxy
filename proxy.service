@@ -15,10 +15,10 @@ Conflicts=shutdown.target reboot.target halt.target
 Description=HTTP proxy server.
 
 [Service]
-ExecStartPre=-/usr/bin/env docker-compose --compatibility --file base.yml kill $APP
-ExecStartPre=-/usr/bin/env docker-compose --compatibility --file base.yml rm --force $APP
-ExecStart=/usr/bin/env docker-compose --compatibility --file base.yml up --force-recreate --no-build --no-deps $APP
-ExecStop=/usr/bin/env docker-compose --compatibility --file base.yml stop $APP
+ExecStartPre=-/usr/bin/env docker-compose --compatibility --file base.yaml kill $APP
+ExecStartPre=-/usr/bin/env docker-compose --compatibility --file base.yaml rm --force $APP
+ExecStart=/usr/bin/env docker-compose --compatibility --file base.yaml up --force-recreate --no-build --no-deps $APP
+ExecStop=/usr/bin/env docker-compose --compatibility --file base.yaml stop $APP
 NotifyAccess=all
 Restart=always
 RestartSec=10
