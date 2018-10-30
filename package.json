@@ -1,6 +1,6 @@
 {
   "name": "proxy",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "license": "CC-BY-3.0",
   "description": "generic dockerized proxy server",
   "homepage": "https://torben.website/proxy",
