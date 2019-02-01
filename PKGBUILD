@@ -7,14 +7,14 @@
 # -------
 
 # This library written by Torben Sickert stand under a creative commons naming
-# 3.0 unported license. see http://creativecommons.org/licenses/by/3.0/deed.de
+# 3.0 unported license. See https://creativecommons.org/licenses/by/3.0/deed.de
 # endregion
 pkgname=proxy
 pkgver=1.0.15
 pkgrel=13
 pkgdesc='generic proxy server'
 arch=(any)
-url=http://torben.website/proxy
+url=https://torben.website/proxy
 license=(CC-BY-3.0)
 depends=(bash docker)
 source=(base.yaml Dockerfile proxy.service)
