@@ -3,6 +3,10 @@ services:
     proxy:
         build: ./
         container_name: proxy
+        cap_add:
+          - SYS_ADMIN
+        devices:
+          - /dev/fuse:/dev/fuse
         image: tsickert/proxy:latest
         ports:
             - "80:80"
