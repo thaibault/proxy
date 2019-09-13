@@ -33,7 +33,7 @@ USER        root
             # endregion
             # region install needed packages
             # NOTE: "neovim" is only needed for debugging scenarios.
-RUN         yay \
+RUN         pacman \
                 --needed \
                 --noconfirm \
                 --sync \
