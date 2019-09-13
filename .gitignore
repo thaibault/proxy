@@ -3,6 +3,9 @@
 # NOTE: Every entry has be sorted in given alphabetic order to avoid
 # duplicates!
 
+.encryptionPassword
+plain/*
+
 # Generated documentations
 apiDocumentation
 
@@ -125,6 +128,7 @@ yarn-error.log
 
 # Java
 .java/
+.javacpp
 .jrebel/
 .m2/
 
