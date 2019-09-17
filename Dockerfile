@@ -37,6 +37,7 @@ RUN         pacman \
                 --needed \
                 --noconfirm \
                 --sync \
+                gocryptfs \
                 nginx \
                 neovim \
                 openssl && \
