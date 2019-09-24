@@ -1,0 +1,11 @@
+[Unit]
+Description=Restarts proxy every 24 hours (to reload certificates).
+Conflicts=shutdown.target reboot.target halt.target
+Wants=network-online.target
+After=network.target network-online.target
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=multi-user.target
