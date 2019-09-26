@@ -21,7 +21,7 @@
 # endregion
             # region configuration
 FROM        tsickert/base
-MAINTAINER  Torben Sickert <info@torben.website>
+LABEL       maintainer="Torben Sickert <info@torben.website>"
 LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE      80 443
 ENV         APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
