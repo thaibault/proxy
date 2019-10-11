@@ -5,7 +5,8 @@ Wants=network-online.target
 After=network.target network-online.target
 
 [Timer]
-OnCalendar=daily
+OnBootSec=5min
+OnUnitActiveSec=1w
 
 [Install]
 WantedBy=multi-user.target
