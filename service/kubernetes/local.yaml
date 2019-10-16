@@ -7,17 +7,9 @@ metadata:
   name: proxy_pod
 spec:
   containers:
-  - command:
-    - /bin/sh
-    - -c
-    - /usr/bin/initialize
-    env:
+  - env:
     - name: container
       value: podman
-    - name: COMMAND
-      # TODO
-      value: 'ls -lha /etc/nginx/conf.d'
-      value_backup: nginx
     image: docker.io/tsickert/proxy:latest
     name: proxy
     ports:
@@ -33,8 +25,6 @@ spec:
       capabilities: {}
       privileged: false
       readOnlyRootFilesystem: false
-      runAsUser: 11000
-      runAsGroup: 10100
     workingDir: /application/
     volumeMounts:
     - mountPath: /etc/dockerBase
