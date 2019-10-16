@@ -90,11 +90,17 @@ spec:
     - mountPath: /srv/http
       name: webRoot
   volumes:
-  - name: db-volume
+  - name: containerBaseConfiguration
     hostPath:
-      # directory location on host
-      path: /tmp/pg_data
-      # this field is optional
+      path: ./etc/dockerBase
+      type: Directory
+  - name: nginxConfiguration
+    hostPath:
+      path: ./etc/nginx/conf.d
+      type: Directory
+  - name: webRoot
+    hostPath:
+      path: /srv/http
       type: Directory
 status: {}
 

@@ -88,5 +88,25 @@ spec:
       runAsUser: 1000
       runAsGroup: 100
     workingDir: /application/
+    volumeMounts:
+    - mountPath: /etc/dockerBase
+      name: containerBaseConfiguration
+    - mountPath: /etc/nginx/conf.d
+      name: nginxConfiguration
+    - mountPath: /srv/http
+      name: webRoot
+  volumes:
+  - name: containerBaseConfiguration
+    hostPath:
+      path: ./etc/dockerBase
+      type: Directory
+  - name: nginxConfiguration
+    hostPath:
+      path: ./etc/nginx/conf.d
+      type: Directory
+  - name: webRoot
+    hostPath:
+      path: /srv/http
+      type: Directory
 status: {}
 
