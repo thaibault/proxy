@@ -15,6 +15,7 @@ spec:
     - name: container
       value: podman
     - name: COMMAND
+      # TODO
       value: 'ls -lha /etc/nginx/conf.d'
       value_backup: nginx
     image: docker.io/tsickert/proxy:latest
