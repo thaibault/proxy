@@ -1,0 +1,19 @@
+version: '3'
+services:
+    proxy:
+        build: ./
+        container_name: proxy
+        cap_add:
+            - SYS_ADMIN
+        devices:
+            - /dev/fuse:/dev/fuse
+        image: tsickert/proxy:latest
+        ports:
+            - "8080:80"
+            - "55443:443"
+        security_opt:
+            - apparmor:unconfined
+        volumes:
+            - ./etc/dockerBase:/etc/dockerBase
+            - ./etc/nginx/conf.d:/etc/nginx/conf.d
+            - /srv/http:/srv/http

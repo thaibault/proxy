@@ -10,7 +10,7 @@ metadata:
   creationTimestamp: "2019-10-12T18:55:07Z"
   labels:
     app: proxy
-  name: proxy
+  name: proxy_pod
 spec:
   containers:
   - command:
@@ -85,7 +85,8 @@ spec:
       capabilities: {}
       privileged: false
       readOnlyRootFilesystem: false
-      runAsUser: 0
+      runAsUser: 1000
+      runAsGroup: 100
     workingDir: /application/
 status: {}
 

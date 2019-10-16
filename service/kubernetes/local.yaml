@@ -1,16 +1,10 @@
-# Generation of Kubernetes YAML is still under development!
-#
-# Save the output of this file and use kubectl create -f to import
-# it into Kubernetes.
-#
-# Created with podman-1.6.1
 apiVersion: v1
 kind: Pod
 metadata:
   creationTimestamp: "2019-10-12T18:55:07Z"
   labels:
     app: proxy
-  name: proxy
+  name: proxy_pod
 spec:
   containers:
   - command:
@@ -85,7 +79,22 @@ spec:
       capabilities: {}
       privileged: false
       readOnlyRootFilesystem: false
-      runAsUser: 0
+      runAsUser: 1000
+      runAsGroup: 100
     workingDir: /application/
+    volumeMounts:
+    - mountPath: /etc/dockerBase
+      name: containerBaseConfiguration
+    - mountPath: /etc/nginx/conf.d
+      name: nginxConfiguration
+    - mountPath: /srv/http
+      name: webRoot
+  volumes:
+  - name: db-volume
+    hostPath:
+      # directory location on host
+      path: /tmp/pg_data
+      # this field is optional
+      type: Directory
 status: {}
 
