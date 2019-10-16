@@ -13,7 +13,8 @@
 # region create image commands
 # Run the following command in the directory where this file lives to build a
 # new docker image:
-# - docker pull tsickert/base && docker-compose --file base.yaml build --no-cache
+# - podman pull tsickert/base && podman build --file Dockerfile --no-cache --tag docker.io/tsickert/proxy
+# - podman push docker.io/tsickert/proxy
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
@@ -25,9 +26,9 @@ LABEL       maintainer="Torben Sickert <info@torben.website>"
 LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE      80 443
 ENV         APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
-ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH '/etc/nginx/conf.d'
-ENV         COMMAND 'nginx'
-ENV         TEMPORARY_NGINX_PATH '/tmp/nginx/'
+ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
+ENV         COMMAND 'env && nginx'
+ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
 WORKDIR     $APPLICATION_PATH
 USER        root
             # endregion
@@ -41,9 +42,9 @@ RUN         pacman \
                 nginx \
                 neovim \
                 openssl && \
-           # tidy up
-           rm /var/cache/* --recursive --force
-           # endregion
+            # tidy up
+            rm /var/cache/* --recursive --force
+            # endregion
             # region preconfigure nginx to integrate application specifc options
 RUN         configure-user && \
             # Set all file path options to application user writable locations
@@ -62,7 +63,7 @@ RUN         configure-user && \
                 "$TEMPORARY_NGINX_PATH" && \
             # NOTE: Allow none root user to bind to ports lower than 1024 with
             # nginx.
-            setcap cap_net_bind_service=ep /usr/bin/nginx
+            setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
