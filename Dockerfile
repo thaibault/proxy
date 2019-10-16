@@ -27,7 +27,7 @@ LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE      80 443
 ENV         APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
 ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
-ENV         COMMAND nginx
+ENV         COMMAND 'env && nginx'
 ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
 WORKDIR     $APPLICATION_PATH
 USER        root
@@ -63,7 +63,7 @@ RUN         configure-user && \
                 "$TEMPORARY_NGINX_PATH" && \
             # NOTE: Allow none root user to bind to ports lower than 1024 with
             # nginx.
-            setcap cap_net_bind_service=ep /usr/bin/nginx
+            setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
