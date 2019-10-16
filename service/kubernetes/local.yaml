@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: "2019-10-12T18:55:07Z"
+  creationTimestamp: '2019-10-12T18:55:07Z'
   labels:
     app: proxy
   name: proxy_pod
@@ -79,8 +79,8 @@ spec:
       capabilities: {}
       privileged: false
       readOnlyRootFilesystem: false
-      runAsUser: 1000
-      runAsGroup: 100
+      runAsUser: 11000
+      runAsGroup: 10100
     workingDir: /application/
     volumeMounts:
     - mountPath: /etc/dockerBase
