@@ -21,7 +21,7 @@ spec:
     - name: container
       value: podman
     - name: COMMAND
-      value: nginx
+      value: 'echo TODO && env && nginx'
     - name: STANDALONE
       value: "true"
     - name: ENCRYPTED_PATHS
