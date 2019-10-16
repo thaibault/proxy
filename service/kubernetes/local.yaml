@@ -82,5 +82,19 @@ spec:
       runAsUser: 1000
       runAsGroup: 100
     workingDir: /application/
+    volumeMounts:
+    - mountPath: /etc/dockerBase
+      name: containerBaseConfiguration
+    - mountPath: /etc/nginx/conf.d
+      name: nginxConfiguration
+    - mountPath: /srv/http
+      name: webRoot
+  volumes:
+  - name: db-volume
+    hostPath:
+      # directory location on host
+      path: /tmp/pg_data
+      # this field is optional
+      type: Directory
 status: {}
 
