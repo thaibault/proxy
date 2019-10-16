@@ -13,7 +13,8 @@
 # region create image commands
 # Run the following command in the directory where this file lives to build a
 # new docker image:
-# - docker pull tsickert/base && docker-compose --file base.yaml build --no-cache
+# - podman pull tsickert/base && podman build --file Dockerfile --no-cache --tag docker.io/tsickert/proxy
+# - podman push docker.io/tsickert/proxy
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
@@ -41,9 +42,9 @@ RUN         pacman \
                 nginx \
                 neovim \
                 openssl && \
-           # tidy up
-           rm /var/cache/* --recursive --force
-           # endregion
+            # tidy up
+            rm /var/cache/* --recursive --force
+            # endregion
             # region preconfigure nginx to integrate application specifc options
 RUN         configure-user && \
             # Set all file path options to application user writable locations
