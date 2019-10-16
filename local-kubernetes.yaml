@@ -71,13 +71,13 @@ spec:
     - name: PASSWORD_FILE_PATHS
       value: /application/.encryptionPassword
     image: docker.io/tsickert/proxy:latest
-    name: tenderaryabhata
+    name: proxy
     ports:
     - containerPort: 80
-      hostPort: 80
+      hostPort: 8080
       protocol: TCP
     - containerPort: 443
-      hostPort: 443
+      hostPort: 55443
       protocol: TCP
     resources: {}
     securityContext:
