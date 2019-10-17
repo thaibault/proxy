@@ -19,12 +19,6 @@ spec:
     - containerPort: 443
       hostPort: 443
       protocol: TCP
-    resources: {}
-    securityContext:
-      allowPrivilegeEscalation: true
-      capabilities: {}
-      privileged: false
-      readOnlyRootFilesystem: false
     workingDir: /application/
     volumeMounts:
     - mountPath: /etc/dockerBase
@@ -46,4 +40,3 @@ spec:
     hostPath:
       path: /srv/http
       type: Directory
-status: {}
