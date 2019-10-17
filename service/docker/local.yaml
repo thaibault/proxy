@@ -14,6 +14,6 @@ services:
         security_opt:
             - apparmor:unconfined
         volumes:
-            - ./etc/dockerBase:/etc/dockerBase
-            - ./etc/nginx/conf.d:/etc/nginx/conf.d
+            - ../../etc/dockerBase:/etc/dockerBase
+            - ../../etc/nginx/conf.d:/etc/nginx/conf.d
             - /srv/http:/srv/http
