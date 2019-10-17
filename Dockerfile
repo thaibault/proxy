@@ -18,7 +18,7 @@
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
-# - docker-compose --file base.yaml up
+# - podman pod rm --force proxy_pod; podman play kube service/kubernetes/production.yaml
 # endregion
             # region configuration
 FROM        tsickert/base
