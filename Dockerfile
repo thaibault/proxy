@@ -27,7 +27,7 @@ LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE      80 443
 ENV         APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
 ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
-ENV         COMMAND 'env && nginx'
+ENV         COMMAND nginx
 ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
 WORKDIR     $APPLICATION_PATH
 USER        root
