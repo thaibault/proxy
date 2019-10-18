@@ -19,7 +19,7 @@ spec:
     - containerPort: 443
       hostPort: 443
       protocol: TCP
-    workingDir: /application/
+    workingDir: /application
     volumeMounts:
     - mountPath: /etc/dockerBase
       name: containerBaseConfiguration
