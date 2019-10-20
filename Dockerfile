@@ -13,7 +13,7 @@
 # region create image commands
 # Run the following command in the directory where this file lives to build a
 # new docker image:
-# - podman pull docker.pkg.github.com/thaibault/containerbase/base:latest && podman build --file Dockerfile --no-cache --tag docker.pkg.github.com/thaibault/containerbase/proxy
+# - podman pull docker.pkg.github.com/thaibault/containerbase/base:latest && podman build --file Dockerfile --no-cache --tag docker.pkg.github.com/thaibault/proxy/proxy
 # - podman push docker.pkg.github.com/thaibault/proxy/proxy:latest --creds "thaibault:$(cat "${ILU_CONFIGURATION_PATH}web/github/masterToken.txt")"
 # endregion
 # region start container commands
