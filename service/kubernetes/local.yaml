@@ -17,7 +17,7 @@ spec:
       hostPort: 8080
       protocol: TCP
     - containerPort: 443
-      hostPort: 55443
+      hostPort: 4443
       protocol: TCP
     workingDir: /application
     volumeMounts:

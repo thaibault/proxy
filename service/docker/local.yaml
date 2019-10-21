@@ -9,8 +9,8 @@ services:
             - /dev/fuse:/dev/fuse
         image: tsickert/proxy:latest
         ports:
+            - "4443:443"
             - "8080:80"
-            - "55443:443"
         security_opt:
             - apparmor:unconfined
         volumes:
