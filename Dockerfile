@@ -14,14 +14,18 @@
 # Run the following command in the directory where this file lives to build a
 # new docker image:
 # - podman pull docker.pkg.github.com/thaibault/containerbase/base:latest && podman build --file Dockerfile --no-cache --tag docker.pkg.github.com/thaibault/proxy/proxy
+# - docker pull tsickert/base && docker build --no-cache --tag tsickert/proxy:latest https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
 # - podman push docker.pkg.github.com/thaibault/proxy/proxy:latest --creds "thaibault:$(cat "${ILU_CONFIGURATION_PATH}web/github/masterToken.txt")"
+# - docker push tsickert/proxy
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
 # - podman pod rm --force proxy_pod; podman play kube service/kubernetes/production.yaml
+# - docker rm --force proxy; docker-compose up
 # endregion
             # region configuration
-FROM        docker.pkg.github.com/thaibault/containerbase/base:latest
+#FROM        docker.pkg.github.com/thaibault/containerbase/base:latest
+FROM        tsickert/base
 LABEL       maintainer="Torben Sickert <info@torben.website>"
 LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE      80 443
