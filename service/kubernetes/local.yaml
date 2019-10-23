@@ -17,15 +17,9 @@ spec:
       hostPort: 8080
       protocol: TCP
     - containerPort: 443
-      hostPort: 55443
+      hostPort: 4443
       protocol: TCP
-    resources: {}
-    securityContext:
-      allowPrivilegeEscalation: true
-      capabilities: {}
-      privileged: false
-      readOnlyRootFilesystem: false
-    workingDir: /application/
+    workingDir: /application
     volumeMounts:
     - mountPath: /etc/dockerBase
       name: containerBaseConfiguration
@@ -46,4 +40,3 @@ spec:
     hostPath:
       path: /srv/http
       type: Directory
-status: {}
