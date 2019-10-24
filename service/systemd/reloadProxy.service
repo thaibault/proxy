@@ -16,7 +16,7 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/env systemctl restart proxy
+ExecStart=/usr/bin/env docker exec proxy nginx -s reload
 NotifyAccess=all
 
 [Install]
