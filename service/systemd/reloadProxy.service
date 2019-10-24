@@ -16,6 +16,7 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
+#ExecStart=/usr/bin/env podman exec proxy nginx -s reload
 ExecStart=/usr/bin/env docker exec proxy nginx -s reload
 NotifyAccess=all
 
