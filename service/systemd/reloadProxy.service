@@ -11,7 +11,7 @@
 [Unit]
 After=network.target network-online.target
 Conflicts=shutdown.target reboot.target halt.target
-Description=Restarts proxy service.
+Description=Reloads proxy service configuration (and certificate files).
 Wants=network-online.target
 
 [Service]
