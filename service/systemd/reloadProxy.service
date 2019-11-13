@@ -11,12 +11,13 @@
 [Unit]
 After=network.target network-online.target
 Conflicts=shutdown.target reboot.target halt.target
-Description=Restarts proxy service.
+Description=Reloads proxy service configuration (and certificate files).
 Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/env systemctl restart proxy
+#ExecStart=/usr/bin/env podman exec proxy nginx -s reload
+ExecStart=/usr/bin/env docker exec proxy nginx -s reload
 NotifyAccess=all
 
 [Install]
