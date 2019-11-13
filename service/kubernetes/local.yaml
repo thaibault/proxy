@@ -21,7 +21,7 @@ spec:
       protocol: TCP
     workingDir: /application
     volumeMounts:
-    - mountPath: /etc/dockerBase
+    - mountPath: /etc/containerBase
       name: containerBaseConfiguration
     - mountPath: /etc/nginx/conf.d
       name: nginxConfiguration
@@ -30,7 +30,7 @@ spec:
   volumes:
   - name: containerBaseConfiguration
     hostPath:
-      path: ./etc/dockerBase
+      path: ./etc/containerBase
       type: Directory
   - name: nginxConfiguration
     hostPath:
