@@ -20,7 +20,7 @@ ExecStartPre=-/usr/bin/env docker-compose --compatibility --file service/docker/
 ExecStart=/usr/bin/env docker-compose --compatibility --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy up --force-recreate --no-build --no-deps $APP
 ExecStop=/usr/bin/env docker-compose --compatibility --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy stop $APP
 NotifyAccess=all
-# NOTE: Will be handled by docker. 
+# NOTE: Will be handled by docker.
 #Restart=always
 #RestartSec=10
 User=service
