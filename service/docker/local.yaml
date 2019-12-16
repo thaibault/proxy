@@ -1,19 +1,9 @@
 version: '3'
 services:
     proxy:
-        build: ./
-        container_name: proxy
-        cap_add:
-            - SYS_ADMIN
-        devices:
-            - /dev/fuse:/dev/fuse
-        #image: docker.pkg.github.com/thaibault/proxy/proxy:latest
-        image: tsickert/proxy:latest
         ports:
             - "4443:443"
             - "8080:80"
-        security_opt:
-            - apparmor:unconfined
         volumes:
             - ../../etc/containerBase:/etc/containerBase
             - ../../etc/nginx/conf.d:/etc/nginx/conf.d
