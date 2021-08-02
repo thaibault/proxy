@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+    proxy:
+        container_name: proxy
+        cap_add:
+            - SYS_ADMIN
+        devices:
+            - /dev/fuse:/dev/fuse
+        #image: docker.pkg.github.com/thaibault/proxy/proxy:latest
+        image: tsickert/proxy:latest
+        security_opt:
+            - apparmor:unconfined

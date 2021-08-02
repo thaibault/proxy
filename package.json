@@ -22,7 +22,7 @@
     "Dockerfile",
     "proxy.service"
   ],
-  "main": "base.yaml",
+  "main": "Dockerfile",
   "repository": {
     "type": "git",
     "url": "https://github.com/thaibault/proxy"
