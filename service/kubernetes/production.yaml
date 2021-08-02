@@ -10,7 +10,7 @@ spec:
   - env:
     - name: container
       value: podman
-    image: docker.io/tsickert/proxy:latest
+    image: ghcr.io/thaibault/proxy:latest
     name: proxy
     ports:
     - containerPort: 80
