@@ -16,7 +16,7 @@
 # - podman pull ghcr.io/thaibault/containerbase:latest && podman build --file https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile --no-cache --tag ghcr.io/thaibault/proxy .
 # - podman push ghcr.io/thaibault/proxy:latest --creds "thaibault:$(cat "${ILU_CONFIGURATION_PATH}web/github/masterToken.txt")"
 
-# - docker pull ghcr.io/thaibault/containerbase && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
+# - docker pull ghcr.io/thaibault/containerbase:latest && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
 # - cat "${ILU_CONFIGURATION_PATH}web/github/masterToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest
 # endregion
 # region start container commands
@@ -25,7 +25,6 @@
 # - docker rm --force proxy; docker-compose --file service/docker/base.yaml --file service/docker/local.yaml up
 # endregion
             # region configuration
-#FROM        docker.pkg.github.com/thaibault/containerbase:latest
 FROM        ghcr.io/thaibault/containerbase
 LABEL       maintainer="Torben Sickert <info@torben.website>"
 LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
