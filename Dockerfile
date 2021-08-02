@@ -25,8 +25,8 @@
 # - docker rm --force proxy; docker-compose --file service/docker/base.yaml --file service/docker/local.yaml up
 # endregion
             # region configuration
-#FROM        docker.pkg.github.com/thaibault/containerbase/base:latest
-FROM        tsickert/base
+#FROM        docker.pkg.github.com/thaibault/containerbase:latest
+FROM        ghcr.io/thaibault/containerbase
 LABEL       maintainer="Torben Sickert <info@torben.website>"
 LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
 EXPOSE      80 443
