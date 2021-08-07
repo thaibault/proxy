@@ -13,7 +13,8 @@ endregion -->
 Project status
 --------------
 
-[![build status](https://travis-ci.org/thaibault/proxy.svg?branch=master)](https://travis-ci.org/thaibault/proxy)
+[![<LABEL>](https://github.com/thaibault/containerbase/actions/workflows/build:image:push.yaml/badge.svg)](https://github.com/thaibault/containerbase/actions/workflows/build:image:push.yaml)
+
 [![dependencies](https://img.shields.io/david/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy)
 [![development dependencies](https://img.shields.io/david/dev/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy?type=dev)
 [![peer dependencies](https://img.shields.io/david/peer/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy?type=peer)
