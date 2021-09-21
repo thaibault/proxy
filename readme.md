@@ -13,7 +13,7 @@ endregion -->
 Project status
 --------------
 
-[![<LABEL>](https://github.com/thaibault/containerbase/actions/workflows/build:image:push.yaml/badge.svg)](https://github.com/thaibault/containerbase/actions/workflows/build:image:push.yaml)
+[![<LABEL>](https://github.com/thaibault/proxy/actions/workflows/build:image:push.yaml/badge.svg)](https://github.com/thaibault/proxy/actions/workflows/build:image:push.yaml)
 
 [![dependencies](https://img.shields.io/david/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy)
 [![development dependencies](https://img.shields.io/david/dev/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy?type=dev)
