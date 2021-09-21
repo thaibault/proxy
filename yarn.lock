@@ -2,33 +2,19 @@
 # yarn lockfile v1
 
 
-"@types/webpack@https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.0.tgz":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.0.tgz#7ff0adb2a0e32b1a0a48f432cf31c16b53f7f4ea"
+"@types/webpack@https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz#f8cae15d883ffc0abc663b5eaaa711fcc64bb5c2"
 
 boostnode@*:
   version "1.0.26"
   resolved "https://registry.yarnpkg.com/boostnode/-/boostnode-1.0.26.tgz#8917c83e2f41d627dc9a9973d291d47bb0cf2f23"
   integrity sha512-DuiczS5c6kXuEPU4aDXhoNXZq+8azV+fADI26R/MLl7iZM77myqsAjuxsHb4xM08J3tBL/yW7Z5kndgY1QQdDQ==
 
-bootstrap@^3.3.7:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
-  integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
-
 documentation-website@*:
-  version "1.0.237"
-  resolved "https://registry.yarnpkg.com/documentation-website/-/documentation-website-1.0.237.tgz#bd8a685bef8e8ad7949af583a7dab13f3f0c0589"
-  integrity sha512-wq1Zsp06tRaEnk1EOgbIUxhuH92PkplX6+DTNra6kDJ3J3mzRTj0VRw4PVBuIXpoxKr19dXljq1rwGZMKaehLA==
+  version "1.0.241"
+  resolved "https://registry.yarnpkg.com/documentation-website/-/documentation-website-1.0.241.tgz#d7117151c614dbe543b86208d610cda14c6dc910"
+  integrity sha512-e7PuVITOxr5mhXekjELpPLXoM6OyXYqvkdu6IIjvbhPpQC1m3+rulQThWipcJiJMYbyR0Vq/sXgniojsUfh5Ow==
   dependencies:
-    "@types/webpack" "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.0.tgz"
+    "@types/webpack" "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz"
     boostnode "*"
-    bootstrap "^3.3.7"
-    website-utilities "*"
-
-website-utilities@*:
-  version "1.0.240"
-  resolved "https://registry.yarnpkg.com/website-utilities/-/website-utilities-1.0.240.tgz#eeb2d65975d9d48341614d501e81eb94b3dfd5d8"
-  integrity sha512-ed9VT5u2iIXJi/qx8IrgAcXEALwjeKZsE1H200LsAdyROBGYCfXx5qR6i+tvPtsQ3c5dp1tQRtgYzqw+MDx7TA==
-  dependencies:
-    "@types/webpack" "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.0.tgz"
