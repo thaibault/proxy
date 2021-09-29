@@ -22,7 +22,7 @@
 # region start container commands
 # Run the following command in the directory where this file lives to start:
 # - podman pod rm --force proxy_pod; podman play kube service/kubernetes/production.yaml
-# - docker rm --force proxy; docker-compose --file service/docker/base.yaml --file service/docker/local.yaml up
+# - docker rm --force proxy; docker compose --file service/docker/base.yaml --file service/docker/local.yaml up
 # endregion
             # region configuration
 FROM        ghcr.io/thaibault/containerbase

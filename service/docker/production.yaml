@@ -1,7 +1,7 @@
 version: '3.7'
 services:
     proxy:
-        # NOTE: Only for "docker stack deploy" (not "docker-compose").
+        # NOTE: Only for "docker stack deploy" (not "docker compose").
         deploy:
             restart_policy:
                 condition: on-failure
@@ -11,7 +11,7 @@ services:
         ports:
             - "80:80"
             - "443:443"
-        # NOTE: Only for "docker-compose" (not "docker stack deploy").
+        # NOTE: Only for "docker compose" (not "docker stack deploy").
         restart: on-failure
         volumes:
             - ../../etc/containerBase:/etc/containerBase
