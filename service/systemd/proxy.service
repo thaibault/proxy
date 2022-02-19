@@ -15,14 +15,20 @@ Conflicts=shutdown.target reboot.target halt.target
 Description=HTTP proxy server.
 
 [Service]
-ExecStartPre=-/usr/bin/env docker compose --compatibility --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy kill $APP
-ExecStartPre=-/usr/bin/env docker compose --compatibility --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy rm --force $APP
-ExecStart=/usr/bin/env docker compose --compatibility --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy up --force-recreate --no-build --no-deps $APP
-ExecStop=/usr/bin/env docker compose --compatibility --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy stop $APP
+ExecStartPre=-/usr/bin/env docker network create proxy
+
+ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml kill
+ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml rm --force
+
+ExecStart=/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml up --force-recreate --no-build --no-deps
+
+ExecStop=/usr/bin/env docker compose --file service/docker/base.yaml stop
+
 NotifyAccess=all
 # NOTE: Will be handled by docker.
 #Restart=always
 #RestartSec=10
+
 User=service
 WorkingDirectory=/srv/http/proxy
 
