@@ -34,7 +34,7 @@ EXPOSE      80 443
 
 ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
 
-ENV         PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
+ENV         PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/*.conf'
 ENV         PROXY_CERTIFICATES ''
 ENV         PROXY_CERTIFICATE_DOMAINS ''
 ENV         PROXY_CERTIFICATE_EMAIL_ADDRESSES ''
@@ -65,7 +65,7 @@ RUN         configure-user && \
             # Set all file path options to application user writable locations
             # that will otherwise default to restricted locations accessible
             # only to root.
-            echo -e "daemon               off;\nerror_log            /dev/stderr info;\npid                  ${TEMPORARY_NGINX_PATH}pid;\n#user                ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\nhttp {\n    access_log              /dev/stdout;\n    charset                 utf8;\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n    include                 mime.types;\n    default_type            application/octet-stream;\n    sendfile                on;\n    gzip                    on;\n    client_body_buffer_size 256k;\ntypes_hash_max_size    4096;\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n    keepalive_timeout       65;\n    resolver                8.8.8.8;\n    include                 $(pwd)/$APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH;\n}" \
+            echo -e "daemon               off;\nerror_log            /dev/stderr info;\npid                  ${TEMPORARY_NGINX_PATH}pid;\nuser                ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\nhttp {\n    access_log              /dev/stdout;\n    charset                 utf8;\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n    include                 mime.types;\n    default_type            application/octet-stream;\n    sendfile                on;\n    gzip                    on;\n    client_body_buffer_size 256k;\ntypes_hash_max_size    4096;\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n    keepalive_timeout       65;\n    resolver                8.8.8.8;\n    include                 $(pwd)/$PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH;\n}" \
                 1>/etc/nginx/nginx.conf && \
             mkdir --parents /etc/nginx/html && \
             echo ''>/etc/nginx/html/index.html && \
