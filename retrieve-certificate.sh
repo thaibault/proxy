@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 set -e
 
+declare standalone=''
+if [ "$1" = '--initialize' ]; then
+    standalone='--standalone'
+    shift
+fi
+
 rm --force --recursive "/tmp/$1/letsEncryptLog" &>/dev/null || true
 mkdir --parents "/tmp/$1/letsEncryptLog"
 
@@ -25,7 +31,7 @@ certbot certonly \
     --logs-dir "/tmp/$1/letsEncryptLog" \
     --preferred-challenges http \
     --staging \
-    --standalone \
+    $standalone \
     --webroot -w "${2}letsEncrypt" \
     --work-dir "${2}letsEncrypt"\
     $domains

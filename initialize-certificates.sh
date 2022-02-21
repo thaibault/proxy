@@ -19,8 +19,6 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
     then
         rm --force "$domain_path" &>/dev/null || true
 
-        command=retrieve-certificate
-
         echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
 
         if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
@@ -30,7 +28,7 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
         exec su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
-            -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+            -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
     fi
 done
 # region modline
