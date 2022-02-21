@@ -16,6 +16,8 @@ source decrypt "$@"
 source configure-runtime-user
 
 if [[ "$PROXY_CERTIFICATES" != '' ]]; then
+    initialize-certificates
+
     certificate-service &
 fi
 

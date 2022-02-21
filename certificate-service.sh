@@ -12,11 +12,9 @@ set -e
 # )
 # PROXY_CERTIFICATE_EMAIL_ADDRESSES=(service@info.com)
 
-if ! has-certificates; then
-    # NOTE: Wait if an old certificates matches configuration to avoid making
-    # to many challenges when application restarts many times.
-    sleep 50m
-fi
+# NOTE: Wait if an old certificates matches configuration to avoid making too
+# many challenges when application restarts many times.
+sleep 50m
 
 declare certificate_path
 declare command
@@ -30,7 +28,7 @@ while true; do
         mkdir --parents "$certificate_path"
 
         domain_path="${certificate_path}domains.txt"
-        # If certificates already exists as specified only update an retrieve
+        # If certificates already exists as specified only update and retrieve
         # otherwise.
         if \
             [ -f "$domain_path" ] && \
