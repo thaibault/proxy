@@ -84,8 +84,8 @@ RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
 COPY        ./certificate-service.sh /usr/bin/certificate-service
 COPY        ./initialize-certificates.sh /usr/bin/initialize-certificates
-COPY        ./retrieve-certificate.sh /usr/bin/retrieve-certiticate
-COPY        ./update-certificate.sh /usr/bin/update-certiticate
+COPY        ./retrieve-certificate.sh /usr/bin/retrieve-certificate
+COPY        ./update-certificate.sh /usr/bin/update-certificate
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
