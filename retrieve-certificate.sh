@@ -40,6 +40,7 @@ certbot certonly \
     --config-dir "${2}letsEncrypt/configuration" \
     --email "$4" \
     --logs-dir "/tmp/$1/letsEncryptLog" \
+    --non-interactive \
     --preferred-challenges http \
     $mode \
     --work-dir "${2}letsEncrypt"\
