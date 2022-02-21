@@ -83,6 +83,7 @@ RUN         configure-user && \
 RUN         mkdir --parents "${APPLICATION_PATH}certificates"
 
 COPY        ./certificate-service.sh /usr/bin/certificate-service
+COPY        ./has-certificates.sh /usr/bin/has-certificates
 COPY        ./retrieve-certificate.sh /usr/bin/retrieve-certiticate
 COPY        ./update-certificate.sh /usr/bin/update-certiticate
 # region modline

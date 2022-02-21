@@ -12,21 +12,7 @@ set -e
 # )
 # PROXY_CERTIFICATE_EMAIL_ADDRESSES=(service@info.com)
 
-declare domain_path
-
-declare wait=true
-declare index
-for index in "${!PROXY_CERTIFICATES[@]}"; do
-    domain_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/domains.txt"
-    if \
-        [ ! -f "$domain_path" ] || \
-        [[ "${PROXY_CERTIFICATE_DOMAINS[index]}" != "$(cat "$domain_path")" ]]
-    then
-        wait=false
-        break
-    fi
-done
-if $wait; then
+if ! has-certificates; then
     # NOTE: Wait if an old certificates matches configuration to avoid making
     # to many challenges when application restarts many times.
     sleep 50m
@@ -34,7 +20,10 @@ fi
 
 declare certificate_path
 declare command
+declare domain_path
 declare email_address
+declare index
+
 while true; do
     for index in "${!PROXY_CERTIFICATES[@]}"; do
         certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
