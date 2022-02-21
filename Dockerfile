@@ -26,13 +26,23 @@
 # endregion
             # region configuration
 FROM        ghcr.io/thaibault/containerbase
+
 LABEL       maintainer="Torben Sickert <info@torben.website>"
 LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
+
 EXPOSE      80 443
-ENV         APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
+
 ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
+
+ENV         PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
+ENV         PROXY_CERTIFICATES ''
+ENV         PROXY_CERTIFICATE_DOMAINS ''
+ENV         PROXY_EMAIL_ADDRESSES ''
+
 ENV         COMMAND nginx
+
 ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
+
 WORKDIR     $APPLICATION_PATH
 USER        root
             # endregion
@@ -42,6 +52,7 @@ RUN         pacman \
                 --needed \
                 --noconfirm \
                 --sync \
+                certbot \
                 gocryptfs \
                 nginx \
                 neovim \
@@ -69,6 +80,10 @@ RUN         configure-user && \
             # nginx.
             setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
+RUN         mkdir --parents "${APPLICATION_PATH}certificates"
+
+COPY        ./retrieve-certificate.sh /usr/bin/retrieve-certiticate
+COPY        ./update-certificate.sh /usr/bin/update-certiticate
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
