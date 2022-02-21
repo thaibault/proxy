@@ -19,11 +19,13 @@ for name in $3; do
 done
 
 certbot certonly \
+    --agree-tos \
     --config-dir "${2}letsEncrypt/configuration" \
     --email "$4" \
     --logs-dir "/tmp/$1/letsEncryptLog" \
     --preferred-challenges http \
-    --server https://acme-v02.api.letsencrypt.org/directory \
+    --staging \
+    --standalone \
     --webroot -w "${2}letsEncrypt" \
     --work-dir "${2}letsEncrypt"\
     $domains

@@ -17,11 +17,13 @@ source configure-runtime-user "${APPLICATION_PATH}certificates"
 
 if [[ "$PROXY_CERTIFICATES" != '' ]]; then
     source initialize-certificates
-
-    certificate-service &
 fi
 
 source run-command "$@"
+
+if [[ "$PROXY_CERTIFICATES" != '' ]]; then
+    certificate-service &
+fi
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
