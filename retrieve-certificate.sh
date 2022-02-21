@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 set -e
 
+declare APPLIATION_PATH="$(dirname "$2")/"
+
 declare mode="--webroot -w '${2}letsEncrypt'"
 if [ "$1" = '--initialize' ]; then
     mode='--standalone'
