@@ -1,0 +1,4 @@
+*
+!containerBase/.gitkeep
+!nginx/00_default.conf
+!nginx/helper/ssl.include
