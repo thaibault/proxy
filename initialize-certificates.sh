@@ -8,7 +8,7 @@ declare index
 
 for index in "${!PROXY_CERTIFICATES[@]}"; do
     certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
-    exec su \
+    su \
         "$MAIN_USER_NAME" \
         --group "$MAIN_USER_GROUP_NAME" \
         -c "mkdir --parents '$certificate_path'"
@@ -22,7 +22,7 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
     then
         rm --force "$domain_path" &>/dev/null || true
 
-        exec su \
+        su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
             -c "echo '${PROXY_CERTIFICATE_DOMAINS[index]}' >'${domain_path}'"
@@ -31,7 +31,7 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
             email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
         fi
 
-        exec su \
+        su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
             -c "APPLICATION_PATH='${APPLICATION_PATH}' ./retrieve-certificate.sh --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
