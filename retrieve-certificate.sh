@@ -12,6 +12,8 @@ fi
 rm --force --recursive "/tmp/$1/letsEncryptLog" &>/dev/null || true
 mkdir --parents "/tmp/$1/letsEncryptLog"
 
+# Refresh presence of needed acme challenge locations.
+mkdir --parents "${APPLIATION_PATH}/certificates/acme-challenge"
 rm --force --recursive "${2}letsEncrypt" &>/dev/null || true
 mkdir --parents "${2}letsEncrypt/.well-known"
 ln \
