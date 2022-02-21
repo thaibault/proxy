@@ -32,14 +32,17 @@ if $wait; then
     sleep 50m
 fi
 
+declare certificate_path
 declare command
 declare email_address
 while true; do
     for index in "${!PROXY_CERTIFICATES[@]}"; do
-        mkdir --parents "/tmp/${PROXY_CERTIFICATES[index]}/letsEncryptLog"
-        mkdir --parents "${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}"
+        certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
+        mkdir --parents "$certificate_path"
 
-        domain_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/domains.txt"
+        domain_path="${certificate_path}domains.txt"
+        # If certificates already exists as specified only update an retrieve
+        # otherwise.
         if \
             [ -f "$domain_path" ] && \
             [ "${PROXY_CERTIFICATE_DOMAINS[index]}" = "$(cat "$domain_path")" ]
@@ -60,7 +63,7 @@ while true; do
         exec su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
-            -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} '${PROXY_CERTIFICATES[index]}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+            -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
     done
 
     echo Wait 24 hours until next certificate update check.
