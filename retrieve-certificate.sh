@@ -4,7 +4,7 @@ set -e
 
 declare domains=''
 for name in $2; do
-    domains+='-d ${name}'
+    domains+=" -d ${name}"
 done
 
 certbot \
@@ -15,7 +15,7 @@ certbot \
     --preferred-challenges http \
     --server https://acme-v02.api.letsencrypt.org/directory \
     --webroot -w "${APPLICATION_PATH}certificates/$1/letsEncrypt" \
-    --work-dir "${APPLICATION_PATH}certificates/$1/letsEncrypt" \
+    --work-dir "${APPLICATION_PATH}certificates/$1/letsEncrypt"\
     $domains
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:

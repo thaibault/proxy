@@ -37,7 +37,7 @@ ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
 ENV         PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '../../etc/nginx/conf.d/*.conf'
 ENV         PROXY_CERTIFICATES ''
 ENV         PROXY_CERTIFICATE_DOMAINS ''
-ENV         PROXY_EMAIL_ADDRESSES ''
+ENV         PROXY_CERTIFICATE_EMAIL_ADDRESSES ''
 
 ENV         COMMAND nginx
 
@@ -82,6 +82,7 @@ RUN         configure-user && \
             # endregion
 RUN         mkdir --parents "${APPLICATION_PATH}certificates"
 
+COPY        ./certificate-service.sh /usr/bin/certificate-service
 COPY        ./retrieve-certificate.sh /usr/bin/retrieve-certiticate
 COPY        ./update-certificate.sh /usr/bin/update-certiticate
 # region modline
