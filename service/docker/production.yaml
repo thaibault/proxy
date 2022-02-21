@@ -16,4 +16,8 @@ services:
         volumes:
             - ../../etc/containerBase:/etc/containerBase
             - ../../etc/nginx/conf.d:/etc/nginx/conf.d
-            - /srv/http:/srv/http
+            - /srv/http/proxy/certificates:/application/certificates
+networks:
+  default:
+    external: true
+    name: proxy

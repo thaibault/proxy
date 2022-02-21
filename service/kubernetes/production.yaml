@@ -25,7 +25,7 @@ spec:
       name: containerBaseConfiguration
     - mountPath: /etc/nginx/conf.d
       name: nginxConfiguration
-    - mountPath: /srv/http
+    - mountPath: /application/certificates
       name: webRoot
   volumes:
   - name: containerBaseConfiguration
@@ -38,5 +38,5 @@ spec:
       type: Directory
   - name: webRoot
     hostPath:
-      path: /srv/http
+      path: /srv/http/proxy/certificates
       type: Directory
