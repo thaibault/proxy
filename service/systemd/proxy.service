@@ -17,12 +17,12 @@ Description=HTTP proxy server.
 [Service]
 ExecStartPre=-/usr/bin/env docker network create proxy
 
-ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml kill
-ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml rm --force
+ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy kill
+ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy rm --force
 
-ExecStart=/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml up --force-recreate --no-build --no-deps
+ExecStart=/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy up --force-recreate --no-build --no-deps
 
-ExecStop=/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml stop
+ExecStop=/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy stop
 
 NotifyAccess=all
 # NOTE: Will be handled by docker.
