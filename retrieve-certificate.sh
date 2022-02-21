@@ -5,12 +5,18 @@ set -e
 rm --force --recursive "/tmp/$1/letsEncryptLog" &>/dev/null || true
 mkdir --parents "/tmp/$1/letsEncryptLog"
 
+rm --force --recursive "${2}letsEncrypt" &>/dev/null || true
+mkdir --parents "${2}letsEncrypt/.well-known"
+ln \
+    --force \
+    --symbolic \
+    "${APPLIATION_PATH}/certificates/acme-challenge" \
+    "${2}letsEncrypt/.well-known/acme-challenge"
+
 declare domains=''
 for name in $3; do
     domains+=" -d ${name}"
 done
-
-rm --force --recursive "${2}letsEncrypt" &>/dev/null || true
 
 certbot certonly \
     --config-dir "${2}letsEncrypt/configuration" \
