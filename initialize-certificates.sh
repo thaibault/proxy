@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 set -e
 
+declare certificate_path
+declare domain_path
+declare index
+
 for index in "${!PROXY_CERTIFICATES[@]}"; do
     certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
     mkdir --parents "$certificate_path"
