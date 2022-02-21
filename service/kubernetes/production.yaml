@@ -34,7 +34,7 @@ spec:
       type: Directory
   - name: nginxConfiguration
     hostPath:
-      path: ./etc/nginx/conf.d
+      path: ./etc/nginx
       type: Directory
   - name: certificates
     hostPath:
