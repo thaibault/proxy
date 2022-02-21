@@ -32,7 +32,7 @@ for name in $3; do
     fi
 done
 
-echo Retrieve certificate for \"$1\" (${domain_descriptions[@]}).
+echo Retrieve certificate for \\"$1\\" (${domain_descriptions[@]}).
 
 # NOTE: For testing use "--staging".
 certbot certonly \
