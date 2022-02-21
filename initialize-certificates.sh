@@ -8,7 +8,10 @@ declare index
 
 for index in "${!PROXY_CERTIFICATES[@]}"; do
     certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
-    mkdir --parents "$certificate_path"
+    exec su \
+        "$MAIN_USER_NAME" \
+        --group "$MAIN_USER_GROUP_NAME" \
+        -c "mkdir --parents '$certificate_path'"
 
     domain_path="${certificate_path}domains.txt"
     # If certificates already exists as specified only update and retrieve
@@ -19,7 +22,10 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
     then
         rm --force "$domain_path" &>/dev/null || true
 
-        echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
+        exec su \
+            "$MAIN_USER_NAME" \
+            --group "$MAIN_USER_GROUP_NAME" \
+            -c "echo '${PROXY_CERTIFICATE_DOMAINS[index]}' >'${domain_path}'"
 
         if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
             email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
