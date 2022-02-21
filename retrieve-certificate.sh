@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 set -e
 
-declare standalone=''
+declare mode="--webroot -w '${2}letsEncrypt'"
 if [ "$1" = '--initialize' ]; then
-    standalone='--standalone'
+    mode='--standalone'
+
     shift
 fi
 
@@ -31,8 +32,7 @@ certbot certonly \
     --logs-dir "/tmp/$1/letsEncryptLog" \
     --preferred-challenges http \
     --staging \
-    $standalone \
-    --webroot -w "${2}letsEncrypt" \
+    $mode \
     --work-dir "${2}letsEncrypt"\
     $domains
 # region modline
