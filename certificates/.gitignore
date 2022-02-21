@@ -1,0 +1,4 @@
+*
+!acme-challenge
+acme-challenge/*
+!acme-challenge/.gitkeep
