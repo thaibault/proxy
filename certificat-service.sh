@@ -63,7 +63,7 @@ while true; do
             -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} '${PROXY_CERTIFICATES[index]}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
     done
 
-    echo Wait for 24 hours for next certificate update check.
+    echo Wait 24 hours until next certificate update check.
     sleep 24h
 done
 # region modline
