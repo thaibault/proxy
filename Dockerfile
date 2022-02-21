@@ -80,7 +80,7 @@ RUN         configure-user && \
             # nginx.
             setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
-RUN         mkdir --parents "${APPLICATION_PATH}certificates"
+RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
 COPY        ./certificate-service.sh /usr/bin/certificate-service
 COPY        ./initialize-certificates.sh /usr/bin/initialize-certificates
