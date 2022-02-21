@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 set -e
 
+echo Update certificate for \"$1\".
+
 certbot renew \
     --config-dir "${2}letsEncrypt/configuration" \
     --email "$4" \
