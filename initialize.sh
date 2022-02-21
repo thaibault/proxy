@@ -13,7 +13,7 @@ fi
 
 source decrypt "$@"
 
-source configure-runtime-user
+source configure-runtime-user "${APPLICATION_PATH}certificates"
 
 if [[ "$PROXY_CERTIFICATES" != '' ]]; then
     initialize-certificates
