@@ -5,7 +5,7 @@ set -e
 certbot \
     renew \
     --config-dir "${APPLICATION_PATH}certificates/$1/letsEncrypt/configuration" \
-    --email "$2" \
+    --email "$3" \
     --logs-dir "/tmp/$1/letsEncryptLog" \
     --work-dir "${APPLICATION_PATH}certificates/$1/letsEncrypt"
 # region modline

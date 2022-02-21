@@ -35,6 +35,7 @@ certbot_service() {
     fi
 
     while true; do
+        local email_address
         for index in "${!PROXY_CERTIFICATES[@]}"; do
             mkdir --parents "/tmp/${CERTIFICATES[index]}/letsEncryptLog"
 
@@ -53,10 +54,14 @@ certbot_service() {
                 echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
             fi
 
+            if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
+                email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
+            fi
+
             exec su \
                 "$MAIN_USER_NAME" \
                 --group "$MAIN_USER_GROUP_NAME" \
-                -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} '${CERTIFICATES[index]}' '${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}' '${PROXY_CERTIFICATE_DOMAINS[index]}'"
+                -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} '${CERTIFICATES[index]}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}' '${email_address}'"
         done
 
         sleep 24h
