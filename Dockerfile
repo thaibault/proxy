@@ -91,12 +91,12 @@ COPY        ./initialize-certificates.sh "${APPLICATION_PATH}initialize-certific
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}initialize-certificates.sh" \
                 /usr/bin/initialize-certificates
-COPY        ./retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate"
+COPY        ./retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.sh"
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}initialize-certificates.sh" \
                 /usr/bin/retrieve-certificate
 
-COPY        ./update-certificate.sh "${APPLICATION_PATH}update-certificate"
+COPY        ./update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}update-certificate.sh" \
                 /usr/bin/update-certificate
