@@ -34,11 +34,11 @@ while true; do
             [ -f "$domain_path" ] && \
             [ "${PROXY_CERTIFICATE_DOMAINS[index]}" = "$(cat "$domain_path")" ]
         then
-            command=./update-certificate.sh
+            command=update-certificate
         else
             rm --force "$domain_path" &>/dev/null || true
 
-            command=./retrieve-certificate.sh
+            command=retrieve-certificate
 
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi

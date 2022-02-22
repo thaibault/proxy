@@ -34,7 +34,7 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
         su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
-            -c "APPLICATION_PATH='${APPLICATION_PATH}' ./retrieve-certificate.sh --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+            -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
     fi
 done
 # region modline

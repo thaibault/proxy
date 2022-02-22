@@ -82,10 +82,29 @@ RUN         configure-user && \
             # endregion
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
-COPY        ./certificate-service.sh /usr/bin/certificate-service
-COPY        ./initialize-certificates.sh /usr/bin/initialize-certificates
-COPY        ./retrieve-certificate.sh /usr/bin/retrieve-certificate
-COPY        ./update-certificate.sh /usr/bin/update-certificate
+COPY        ./certificate-service.sh "${APPLICATION_PATH}certificate-service.sh"
+RUN         ln --symbolic \
+                "${APPLICATION_PATH}certificate-service.sh" \
+                /usr/bin/certificate-service
+
+COPY        ./initialize-certificates.sh "${APPLICATION_PATH}initialize-certificates.sh"
+RUN         ln --symbolic \
+                "${APPLICATION_PATH}initialize-certificates.sh" \
+                /usr/bin/initialize-certificates
+COPY        ./retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate"
+RUN         ln --symbolic \
+                "${APPLICATION_PATH}initialize-certificates.sh" \
+                /usr/bin/retrieve-certificate
+
+COPY        ./update-certificate.sh "${APPLICATION_PATH}update-certificate"
+RUN         ln --symbolic \
+                "${APPLICATION_PATH}update-certificate.sh" \
+                /usr/bin/update-certificate
+
+COPY        ./initialize.sh "${APPLICATION_PATH}initialize.sh"
+RUN         ln --symbolic \
+                "${APPLICATION_PATH}initialize.sh" \
+                "$INITIALIZING_FILE_PATH"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
