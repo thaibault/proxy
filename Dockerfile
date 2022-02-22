@@ -80,8 +80,6 @@ RUN         configure-user && \
             # nginx.
             setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
-USER        $MAIN_USER_NAME
-
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
 COPY        ./certificate-service.sh "${APPLICATION_PATH}certificate-service.sh"
@@ -90,7 +88,12 @@ COPY        ./retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.s
 COPY        ./update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
 COPY        ./initialize.sh "${APPLICATION_PATH}initialize.sh"
 
-USER        root
+RUN         chown \
+                --dereference \
+                -L \
+                --recursive \
+                "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
+                "$APPLICATION_PATH"
 
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}certificate-service.sh" \
