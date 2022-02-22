@@ -102,7 +102,7 @@ RUN         ln --symbolic \
                 /usr/bin/update-certificate
 
 COPY        ./initialize.sh "${APPLICATION_PATH}initialize.sh"
-RUN         ln --symbolic \
+RUN         ln --force --symbolic \
                 "${APPLICATION_PATH}initialize.sh" \
                 "$INITIALIZING_FILE_PATH"
 # region modline
