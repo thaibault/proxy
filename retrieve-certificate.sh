@@ -11,8 +11,8 @@ if [ "$1" = '--initialize' ]; then
     shift
 fi
 
-rm --force --recursive "/tmp/$1/letsEncryptLog" &>/dev/null || true
-mkdir --parents "/tmp/$1/letsEncryptLog"
+rm --force --recursive "/tmp/${1}/letsEncryptLog" &>/dev/null || true
+mkdir --parents "/tmp/${1}/letsEncryptLog"
 
 # Refresh presence of needed acme challenge locations.
 mkdir --parents "${APPLIATION_PATH}/certificates/acme-challenge"
@@ -43,7 +43,7 @@ certbot certonly \
     --agree-tos \
     --config-dir "${2}letsEncrypt/configuration" \
     --email "$4" \
-    --logs-dir "/tmp/$1/letsEncryptLog" \
+    --logs-dir "/tmp/${1}/letsEncryptLog" \
     --non-interactive \
     --preferred-challenges http \
     $mode \
