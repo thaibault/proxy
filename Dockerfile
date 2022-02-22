@@ -85,25 +85,25 @@ USER        $MAIN_USER_NAME
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
 COPY        ./certificate-service.sh "${APPLICATION_PATH}certificate-service.sh"
+COPY        ./initialize-certificates.sh "${APPLICATION_PATH}initialize-certificates.sh"
+COPY        ./retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.sh"
+COPY        ./update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
+COPY        ./initialize.sh "${APPLICATION_PATH}initialize.sh"
+
+USER        root
+
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}certificate-service.sh" \
                 /usr/bin/certificate-service
-
-COPY        ./initialize-certificates.sh "${APPLICATION_PATH}initialize-certificates.sh"
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}initialize-certificates.sh" \
                 /usr/bin/initialize-certificates
-COPY        ./retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.sh"
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}initialize-certificates.sh" \
+                "${APPLICATION_PATH}retrieve-certificates.sh" \
                 /usr/bin/retrieve-certificate
-
-COPY        ./update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}update-certificate.sh" \
                 /usr/bin/update-certificate
-
-COPY        ./initialize.sh "${APPLICATION_PATH}initialize.sh"
 RUN         ln --force --symbolic \
                 "${APPLICATION_PATH}initialize.sh" \
                 "$INITIALIZING_FILE_PATH"
