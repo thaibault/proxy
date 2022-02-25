@@ -27,6 +27,10 @@ while true; do
         certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
         mkdir --parents "$certificate_path"
 
+        if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
+            email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
+        fi
+
         domain_path="${certificate_path}domains.txt"
         # If certificates already exists as specified only update and retrieve
         # otherwise.
@@ -39,18 +43,16 @@ while true; do
             rm --force "$domain_path" &>/dev/null || true
 
             command=retrieve-certificate
-
-            echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
-        fi
-
-        if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
-            email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
         fi
 
         exec su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
             -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+
+        if [ "$command" = 'retrieve-certificate' ]; then
+            echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
+        fi
     done
 
     echo Wait 24 hours until next certificate update check.

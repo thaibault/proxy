@@ -4,6 +4,7 @@ set -e
 
 declare certificate_path
 declare domain_path
+declare email_address
 declare index
 
 for index in "${!PROXY_CERTIFICATES[@]}"; do
@@ -12,6 +13,10 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
         "$MAIN_USER_NAME" \
         --group "$MAIN_USER_GROUP_NAME" \
         -c "mkdir --parents '$certificate_path'"
+
+    if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
+        email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
+    fi
 
     domain_path="${certificate_path}domains.txt"
     # If certificates already exists as specified only update and retrieve
@@ -25,16 +30,12 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
         su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
-            -c "echo '${PROXY_CERTIFICATE_DOMAINS[index]}' >'${domain_path}'"
-
-        if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
-            email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
-        fi
+            -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
 
         su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
-            -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+            -c "echo '${PROXY_CERTIFICATE_DOMAINS[index]}' >'${domain_path}'"
     fi
 done
 # region modline
