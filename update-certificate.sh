@@ -14,10 +14,16 @@ ln \
     "${2}letsEncrypt/.well-known/acme-challenge"
 
 certbot renew \
+    --agree-tos \
+    --cert-name "$1" \
     --config-dir "${2}letsEncrypt/configuration" \
     --email "$4" \
+    --expand \
+    --keep-until-expiring \
     --logs-dir "/tmp/${1}/letsEncryptLog" \
     --non-interactive \
+    --renew-with-new-domains \
+    --verbose \
     --work-dir "${2}letsEncrypt"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:

@@ -41,11 +41,15 @@ echo Retrieve certificate for \"$1\" \(${domain_descriptions[@]}\).
 # NOTE: For testing use "--staging".
 certbot certonly \
     --agree-tos \
+    --cert-name "$1" \
     --config-dir "${2}letsEncrypt/configuration" \
     --email "$4" \
+    --expand \
     --logs-dir "/tmp/${1}/letsEncryptLog" \
     --non-interactive \
+    --renew-with-new-domains \
     --preferred-challenges http \
+    --verbose \
     $mode \
     --work-dir "${2}letsEncrypt"\
     $domains
