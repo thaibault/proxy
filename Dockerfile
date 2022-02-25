@@ -102,7 +102,7 @@ RUN         ln --symbolic \
                 "${APPLICATION_PATH}initialize-certificates.sh" \
                 /usr/bin/initialize-certificates
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}retrieve-certificates.sh" \
+                "${APPLICATION_PATH}retrieve-certificate.sh" \
                 /usr/bin/retrieve-certificate
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}update-certificate.sh" \
