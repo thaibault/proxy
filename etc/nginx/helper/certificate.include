@@ -1,8 +1,4 @@
-include                 conf.d/helper/ssl.include;
+include             conf.d/helper/ssl.include;
 
-add_header              Strict-Transport-Security max-age=15768000 always;
-
-ssl_certificate         /application/certificates/$name/letsEncrypt/configuration/live/$name/fullchain.pem;
-ssl_certificate_key     /application/certificates/$name/letsEncrypt/configuration/live/$name/privkey.pem;
-ssl_dhparam             /application/certificates/$name/dhparam.pem;
-ssl_trusted_certificate /application/certificates/$name/letsEncrypt/configuration/live/$name/chain.pem;
+ssl_certificate     /application/certificates/$name/letsEncrypt/configuration/live/$name/fullchain.pem;
+ssl_certificate_key /application/certificates/$name/letsEncrypt/configuration/live/$name/privkey.pem;
