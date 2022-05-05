@@ -18,9 +18,10 @@
     "proxy"
   ],
   "files": [
-    "base.yaml",
     "Dockerfile",
-    "proxy.service"
+    "etc",
+    "scripts",
+    "service"
   ],
   "main": "Dockerfile",
   "repository": {

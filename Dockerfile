@@ -82,11 +82,12 @@ RUN         configure-user && \
             # endregion
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
-COPY        ./certificate-service.sh "${APPLICATION_PATH}certificate-service.sh"
-COPY        ./initialize-certificates.sh "${APPLICATION_PATH}initialize-certificates.sh"
-COPY        ./retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.sh"
-COPY        ./update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
-COPY        ./initialize.sh "${APPLICATION_PATH}initialize.sh"
+COPY        ./scripts/certificate-service.sh "${APPLICATION_PATH}certificate-service.sh"
+COPY        ./scripts/initialize.sh "${APPLICATION_PATH}initialize.sh"
+COPY        ./scripts/initialize-certificates.sh "${APPLICATION_PATH}initialize-certificates.sh"
+COPY        ./scripts/reload-nginx.sh "${APPLICATION_PATH}reload-nginx.sh"
+COPY        ./scripts/retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.sh"
+COPY        ./scripts/update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
 
 RUN         chown \
                 --dereference \
@@ -98,18 +99,22 @@ RUN         chown \
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}certificate-service.sh" \
                 /usr/bin/certificate-service
+RUN         ln --force --symbolic \
+                "${APPLICATION_PATH}initialize.sh" \
+                "$INITIALIZING_FILE_PATH"
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}initialize-certificates.sh" \
                 /usr/bin/initialize-certificates
+RUN         ln --symbolic \
+                "${APPLICATION_PATH}reload-nginx.sh" \
+                /etc/letsencrypt/renewal-hooks/post/50-reload-nginx.sh
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}retrieve-certificate.sh" \
                 /usr/bin/retrieve-certificate
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}update-certificate.sh" \
                 /usr/bin/update-certificate
-RUN         ln --force --symbolic \
-                "${APPLICATION_PATH}initialize.sh" \
-                "$INITIALIZING_FILE_PATH"
+
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:

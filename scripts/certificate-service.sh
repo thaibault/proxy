@@ -12,8 +12,8 @@ set -e
 # )
 # PROXY_CERTIFICATE_EMAIL_ADDRESSES=(service@info.com)
 
-# NOTE: Wait if an old certificates matches configuration to avoid making too
-# many challenges when application restarts many times.
+# NOTE: Wait a bit before starting to avoid making too many challenges when
+# application restarts many times in short period.
 sleep 50m
 
 declare certificate_path
