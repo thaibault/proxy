@@ -105,6 +105,7 @@ RUN         ln --force --symbolic \
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}initialize-certificates.sh" \
                 /usr/bin/initialize-certificates
+RUN         mkdir --parents /etc/letsencrypt/renewal-hooks/post
 RUN         ln --symbolic \
                 "${APPLICATION_PATH}reload-nginx.sh" \
                 /etc/letsencrypt/renewal-hooks/post/50-reload-nginx.sh
