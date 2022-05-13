@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+    proxy:
+        ports:
+            - "4443:443"
+            - "8080:80"
+        volumes:
+            - ../../etc/containerBase:/etc/containerBase
+            - ../../etc/nginx:/etc/nginx/conf.d
+            - ../../:/application
