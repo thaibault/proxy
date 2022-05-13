@@ -15,9 +15,6 @@ Project status
 
 [![<LABEL>](https://github.com/thaibault/proxy/actions/workflows/build:image:push.yaml/badge.svg)](https://github.com/thaibault/proxy/actions/workflows/build:image:push.yaml)
 
-[![dependencies](https://img.shields.io/david/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy)
-[![development dependencies](https://img.shields.io/david/dev/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy?type=dev)
-[![peer dependencies](https://img.shields.io/david/peer/thaibault/proxy.svg)](https://david-dm.org/thaibault/proxy?type=peer)
 [![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/proxy.svg?label=documentation-website)](https://torben.website/proxy)
 
 <!--|deDE:Einsatz-->
