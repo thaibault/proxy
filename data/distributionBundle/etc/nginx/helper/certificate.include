@@ -1,0 +1,9 @@
+include                 conf.d/helper/ssl.include;
+
+# NOTE: Wheter these directives support variable evaluating it is not supported
+# in included partials in general. So "web" has to be hard coded.
+ssl_certificate         "/application/certificates/web/letsEncrypt/configuration/live/web/fullchain.pem";
+ssl_certificate_key     "/application/certificates/web/letsEncrypt/configuration/live/web/privkey.pem";
+# NOTE: Not yet supported to use variables in these type of directives.
+ssl_dhparam             "/application/certificates/web/dhparam.pem";
+ssl_trusted_certificate "/application/certificates/web/letsEncrypt/configuration/live/web/chain.pem";

@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+# region header
+# Copyright Torben Sickert (t.sickert["~at~"]gmail.com) 16.12.2012
+
+# License
+# -------
+
+# This library written by Torben Sickert stand under a creative commons naming
+# 3.0 unported license. See https://creativecommons.org/licenses/by/3.0/deed.de
+# endregion
+[Unit]
+After=docker.service
+BindsTo=docker.service
+Conflicts=shutdown.target reboot.target halt.target
+Description=HTTP proxy server.
+
+[Service]
+ExecStartPre=-/usr/bin/env docker network create proxy
+
+ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy kill
+ExecStartPre=-/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy rm --force
+
+ExecStart=/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy up --force-recreate --no-build --no-deps
+
+ExecStop=/usr/bin/env docker compose --file service/docker/base.yaml --file service/docker/production.yaml --project-name proxy stop
+
+NotifyAccess=all
+# NOTE: Will be handled by docker.
+#Restart=always
+#RestartSec=10
+
+User=service
+WorkingDirectory=/srv/http/proxy
+
+[Install]
+WantedBy=multi-user.target
+# region vim modline
+# vim: set tabstop=4 shiftwidth=4 expandtab:
+# vim: foldmethod=marker foldmarker=region,endregion:
+# endregion
