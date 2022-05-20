@@ -18,9 +18,10 @@
     "proxy"
   ],
   "files": [
-    "base.yaml",
     "Dockerfile",
-    "proxy.service"
+    "etc",
+    "scripts",
+    "service"
   ],
   "main": "Dockerfile",
   "repository": {
@@ -30,7 +31,7 @@
   "scripts": {
     "clear": "echo clear",
     "update": "yarn version --patch && yarn publish",
-    "update:documentation": "documentationWebsite --log-level info"
+    "update:documentation": "documentation-website"
   },
   "devDependencies": {
     "documentation-website": "*"

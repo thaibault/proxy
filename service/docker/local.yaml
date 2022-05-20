@@ -6,5 +6,5 @@ services:
             - "8080:80"
         volumes:
             - ../../etc/containerBase:/etc/containerBase
-            - ../../etc/nginx/conf.d:/etc/nginx/conf.d
+            - ../../etc/nginx:/etc/nginx/conf.d
             - ../../:/application

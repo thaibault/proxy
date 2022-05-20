@@ -34,9 +34,9 @@ spec:
       type: Directory
   - name: nginxConfiguration
     hostPath:
-      path: ./etc/nginx/conf.d
+      path: ./etc/nginx
       type: Directory
-  - name: webRoot
+  - name: certificates
     hostPath:
       path: /srv/http/proxy/certificates
       type: Directory
