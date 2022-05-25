@@ -25,8 +25,8 @@ spec:
       name: containerBaseConfiguration
     - mountPath: /etc/nginx/conf.d
       name: nginxConfiguration
-    - mountPath: /application
-      name: webRoot
+    - mountPath: /application/certificates
+      name: certificates
   volumes:
   - name: containerBaseConfiguration
     hostPath:
@@ -36,7 +36,38 @@ spec:
     hostPath:
       path: ./etc/nginx
       type: Directory
-  - name: webRoot
+  - name: certificates
     hostPath:
-      path: ./
+      path: ./certificates
       type: Directory
+  # TODO Used for interactive script testing.
+  - name: 
+    hostPath:
+      path: ./scripts/
+      type: File 
+  - ../../scripts/initialize.sh:/application/initialize.sh
+  - name:
+    hostPath:
+      path: ./scripts/
+      type: File 
+  - ../../scripts/reload-nginx.sh:/application/reload-nginx.sh
+  - name:
+    hostPath:
+      path: ./scripts/
+      type: File 
+  - ../../scripts/retrieve-certificate.sh:/application/retrieve-certificate.sh
+  - name:
+    hostPath:
+      path: ./scripts/
+      type: File
+  - ../../scripts/initialize-certificates.sh:/application/initialize-certificates.sh
+  - name:
+    hostPath:
+      path: ./scripts/
+      type: File
+  - ../../scripts/certificate-service.sh:/application/certificate-service.sh
+  - name:
+    hostPath:
+      path: ./scripts/
+      type: File
+  - ../../scripts/update-certificate.sh:/application/update-certificate.sh

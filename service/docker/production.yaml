@@ -13,10 +13,6 @@ services:
             - "443:443"
         # NOTE: Only for "docker compose" (not "docker stack deploy").
         restart: on-failure
-        volumes:
-            - ../../etc/containerBase:/etc/containerBase
-            - ../../etc/nginx:/etc/nginx/conf.d
-            - ../../certificates:/application/certificates
 networks:
   default:
     external: true
