@@ -18,7 +18,7 @@ source configure-runtime-user "${APPLICATION_PATH}certificates"
 if [[ "$PROXY_CERTIFICATES" != '' ]]; then
     source initialize-certificates
 
-    certificate-service &
+    source certificate-service &
 fi
 
 source run-command "$@"
