@@ -7,4 +7,5 @@ services:
         volumes:
             - ../../etc/containerBase:/etc/containerBase
             - ../../etc/nginx:/etc/nginx/conf.d
+            # TODO not working anymore. Provide debug.yaml instead where scripts are mounted!
             - ../../:/application
