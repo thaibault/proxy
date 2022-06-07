@@ -45,7 +45,7 @@ while true; do
             command=retrieve-certificate
         fi
 
-        exec su \
+        su \
             "$MAIN_USER_NAME" \
             --group "$MAIN_USER_GROUP_NAME" \
             -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
