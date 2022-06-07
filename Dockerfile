@@ -44,7 +44,7 @@ ENV         COMMAND nginx
 ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
 
 WORKDIR     $APPLICATION_PATH
-ENV         $SCRIPTS_PATH "${APPLICATION_PATH}scripts"
+ENV         SCRIPTS_PATH "${APPLICATION_PATH}scripts"
 USER        root
             # endregion
             # region install needed packages

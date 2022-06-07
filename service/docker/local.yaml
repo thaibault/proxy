@@ -6,9 +6,4 @@ services:
             - "8080:80"
         volumes:
             # Used for interactive script testing.
-            - ../../scripts/initialize.sh:/application/initialize.sh
-            - ../../scripts/reload-nginx.sh:/application/reload-nginx.sh
-            - ../../scripts/retrieve-certificate.sh:/application/retrieve-certificate.sh
-            - ../../scripts/initialize-certificates.sh:/application/initialize-certificates.sh
-            - ../../scripts/certificate-service.sh:/application/certificate-service.sh
-            - ../../scripts/update-certificate.sh:/application/update-certificate.sh
+            - ../../scripts:/application/scripts
