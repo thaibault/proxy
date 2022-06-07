@@ -42,14 +42,14 @@ while true; do
         then
             # NOTE: Updates have to be run as root to be able to temporary
             # manipulate nginx configuration files.
-            eval "${command} ${command_line_arguments}"
+            eval "update-certificate ${command_line_arguments}"
         else
             rm --force "$domain_path" &>/dev/null || true
 
             su \
                 "$MAIN_USER_NAME" \
                 --group "$MAIN_USER_GROUP_NAME" \
-                -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} ${command_line_arguments}"
+                -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments}"
 
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi
