@@ -6,6 +6,7 @@ declare APPLIATION_PATH="$(dirname "$2")/"
 
 declare mode="--webroot -w '${2}letsEncrypt'"
 if [ "$1" = '--initialize' ]; then
+    # NOTE: In this case no server has started yet.
     mode='--standalone'
 
     shift
@@ -46,7 +47,6 @@ certbot certonly \
     --email "$4" \
     --expand \
     --logs-dir "/tmp/${1}/letsEncryptLog" \
-    --nginx \
     --non-interactive \
     --renew-with-new-domains \
     --preferred-challenges http \
