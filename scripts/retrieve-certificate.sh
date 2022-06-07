@@ -46,6 +46,7 @@ certbot certonly \
     --email "$4" \
     --expand \
     --logs-dir "/tmp/${1}/letsEncryptLog" \
+    --nginx \
     --non-interactive \
     --renew-with-new-domains \
     --preferred-challenges http \

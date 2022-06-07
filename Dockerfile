@@ -44,6 +44,7 @@ ENV         COMMAND nginx
 ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
 
 WORKDIR     $APPLICATION_PATH
+ENV         $SCRIPTS_PATH "${APPLICATION_PATH}scripts"
 USER        root
             # endregion
             # region install needed packages
@@ -83,12 +84,7 @@ RUN         configure-user && \
             # endregion
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
-COPY        ./scripts/certificate-service.sh "${APPLICATION_PATH}certificate-service.sh"
-COPY        ./scripts/initialize.sh "${APPLICATION_PATH}initialize.sh"
-COPY        ./scripts/initialize-certificates.sh "${APPLICATION_PATH}initialize-certificates.sh"
-COPY        ./scripts/reload-nginx.sh "${APPLICATION_PATH}reload-nginx.sh"
-COPY        ./scripts/retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.sh"
-COPY        ./scripts/update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
+COPY        ./scripts "${SCRIPTS_PATH}"
 
 RUN         chown \
                 --dereference \
@@ -98,23 +94,23 @@ RUN         chown \
                 "$APPLICATION_PATH"
 
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}certificate-service.sh" \
+                "${SCRIPTS_PATH}certificate-service.sh" \
                 /usr/bin/certificate-service
 RUN         ln --force --symbolic \
-                "${APPLICATION_PATH}initialize.sh" \
+                "${SCRIPTS_PATH}initialize.sh" \
                 "$INITIALIZING_FILE_PATH"
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}initialize-certificates.sh" \
+                "${SCRIPTS_PATH}initialize-certificates.sh" \
                 /usr/bin/initialize-certificates
 RUN         mkdir --parents /etc/letsencrypt/renewal-hooks/post
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}reload-nginx.sh" \
+                "${SCRIPTS_PATH}reload-nginx.sh" \
                 /etc/letsencrypt/renewal-hooks/post/50-reload-nginx.sh
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}retrieve-certificate.sh" \
+                "${SCRIPTS_PATH}retrieve-certificate.sh" \
                 /usr/bin/retrieve-certificate
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}update-certificate.sh" \
+                "${SCRIPTS_PATH}update-certificate.sh" \
                 /usr/bin/update-certificate
 
 # region modline

@@ -21,6 +21,7 @@ certbot renew \
     --expand \
     --keep-until-expiring \
     --logs-dir "/tmp/${1}/letsEncryptLog" \
+    --nginx \
     --non-interactive \
     --renew-with-new-domains \
     --verbose \
