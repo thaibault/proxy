@@ -53,6 +53,7 @@ RUN         pacman \
                 --noconfirm \
                 --sync \
                 certbot \
+                certbot-nginx \
                 gocryptfs \
                 nginx \
                 neovim \
