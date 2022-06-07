@@ -31,26 +31,26 @@ while true; do
             email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
         fi
 
+        command_line_arguments="${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
         domain_path="${certificate_path}domains.txt"
-        # If certificates already exists as specified only update and retrieve
-        # otherwise.
+
+        # If certificates already exists as specified only update existing ones
+        # and retrieve them initially otherwise.
         if \
             [ -f "$domain_path" ] && \
             [ "${PROXY_CERTIFICATE_DOMAINS[index]}" = "$(cat "$domain_path")" ]
         then
-            command=update-certificate
+            # NOTE: Updates have to be run as root to be able to temporary
+            # manipulate nginx configuration files.
+            eval "${command} ${command_line_arguments}"
         else
             rm --force "$domain_path" &>/dev/null || true
 
-            command=retrieve-certificate
-        fi
+            su \
+                "$MAIN_USER_NAME" \
+                --group "$MAIN_USER_GROUP_NAME" \
+                -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} ${command_line_arguments}"
 
-        su \
-            "$MAIN_USER_NAME" \
-            --group "$MAIN_USER_GROUP_NAME" \
-            -c "APPLICATION_PATH='${APPLICATION_PATH}' ${command} ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
-
-        if [ "$command" = 'retrieve-certificate' ]; then
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi
     done
