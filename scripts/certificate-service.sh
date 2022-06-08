@@ -14,7 +14,7 @@ set -e
 
 # NOTE: Wait a bit before starting to avoid making too many challenges when
 # application restarts many times in short period.
-sleep 50m
+sleep ${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}
 
 declare certificate_path
 declare command
