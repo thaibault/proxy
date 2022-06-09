@@ -45,7 +45,7 @@ while true; do
             eval "update-certificate ${command_line_arguments}"
 
             chmod \
-                --recurisve \
+                --recursive \
                 "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
                 "${APPLICATION_PATH}certificates"
         else
