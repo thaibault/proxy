@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-    environment:
-        PROXY_CERTIFICATES_START_UPDATE_DELAY: 0
     proxy:
+        environment:
+            PROXY_CERTIFICATES_START_UPDATE_DELAY: 0
         ports:
             - "4443:443"
             - "8080:80"
