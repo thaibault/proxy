@@ -44,7 +44,7 @@ while true; do
             # manipulate nginx configuration files.
             eval "update-certificate ${command_line_arguments}"
 
-            chmod \
+            chown \
                 --recursive \
                 "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
                 "${APPLICATION_PATH}certificates"
