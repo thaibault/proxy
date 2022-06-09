@@ -17,11 +17,12 @@ certbot renew \
     --agree-tos \
     --cert-name "$1" \
     --config-dir "${2}letsEncrypt/configuration" \
+    --disable-renew-updates \
     --email "$4" \
     --expand \
+    --installer null \
     --keep-until-expiring \
     --logs-dir "/tmp/${1}/letsEncryptLog" \
-    --nginx \
     --non-interactive \
     --renew-with-new-domains \
     --verbose \

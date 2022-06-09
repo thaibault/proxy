@@ -39,7 +39,7 @@ done
 
 echo Retrieve certificate for \"$1\" \(${domain_descriptions[@]}\).
 
-# NOTE: For testing use "--staging".
+# NOTE: For testing use "--test-cert".
 certbot certonly \
     --agree-tos \
     --cert-name "$1" \

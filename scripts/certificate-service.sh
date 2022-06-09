@@ -40,14 +40,24 @@ while true; do
             [ -f "$domain_path" ] && \
             [ "${PROXY_CERTIFICATE_DOMAINS[index]}" = "$(cat "$domain_path")" ]
         then
-            # NOTE: Updates have to be run as root to be able to temporary
-            # manipulate nginx configuration files.
-            eval "update-certificate ${command_line_arguments}"
+            # NOTE: Server configuration file updates have to be run as root to
+            # be able to temporary manipulate nginx configuration files:
 
-            chown \
-                --recursive \
-                "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
-                "${APPLICATION_PATH}certificates"
+            #eval "update-certificate ${command_line_arguments}"
+
+            #chown \
+            #    --recursive \
+            #    "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
+            #    "${APPLICATION_PATH}certificates" \
+            #    "/tmp/${PROXY_CERTIFICATES[index]}/letsEncryptLog"
+
+            # If we do not use the nginx plugin installer "--installer null"
+            # we can run the renewal as application user and have to reload
+            # the server via an hook.
+            su \
+                "$MAIN_USER_NAME" \
+                --group "$MAIN_USER_GROUP_NAME" \
+                -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments}"
         else
             rm --force "$domain_path" &>/dev/null || true
 
