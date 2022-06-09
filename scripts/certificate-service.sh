@@ -43,6 +43,11 @@ while true; do
             # NOTE: Updates have to be run as root to be able to temporary
             # manipulate nginx configuration files.
             eval "update-certificate ${command_line_arguments}"
+
+            chmod \
+                --recurisve \
+                "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
+                "${APPLICATION_PATH}certificates"
         else
             rm --force "$domain_path" &>/dev/null || true
 
