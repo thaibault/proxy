@@ -57,7 +57,7 @@ while true; do
             su \
                 "$MAIN_USER_NAME" \
                 --group "$MAIN_USER_GROUP_NAME" \
-                -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments}"
+                -c "APPLICATION_PATH='${APPLICATION_PATH}' update-certificate ${command_line_arguments}"
         else
             rm --force "$domain_path" &>/dev/null || true
 
