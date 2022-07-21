@@ -34,10 +34,10 @@ jobs:
           # NOTE: If not set branch name will be used.
           tags: latest
 
-      - name: Build and push image
+      - name: Build x86_64 and push image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}-x86-64
           labels: ${{ steps.meta.outputs.labels }}
