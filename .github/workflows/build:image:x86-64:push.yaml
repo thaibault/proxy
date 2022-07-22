@@ -1,4 +1,4 @@
-name: Build x86_64 image and push
+name: Build x86-64 image and push
 on:
   push:
     branches: [ master ]
@@ -34,7 +34,7 @@ jobs:
           # NOTE: If not set branch name will be used.
           tags: latest
 
-      - name: Build x86_64 and push image
+      - name: Build x86-64 and push image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
