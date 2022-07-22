@@ -66,7 +66,6 @@ RUN         pacman \
                 --sync \
                 certbot \
                 certbot-nginx \
-                gocryptfs \
                 nginx \
                 neovim \
                 openssl && \
