@@ -19,12 +19,12 @@
 # - podman pull ghcr.io/thaibault/containerbase:latest-x86-64 && podman build --file https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile --no-cache --tag ghcr.io/thaibault/proxy:latest-x86-64 .
 # - podman push ghcr.io/thaibault/proxy:latest-x86-64 --creds "thaibault:$(cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt")"
 
-# - docker pull ghcr.io/thaibault/containerbase:latest-x86-64 && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest-x86-64 https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
+# - docker pull ghcr.io/thaibault/containerbase:latest-x86-64 && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest-x86-64 https://github.com/thaibault/proxy.git
 # - cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest-x86-64
 
 # arm_64
 
-# - docker pull ghcr.io/thaibault/containerbase:latest-arm-64 && docker build --build-arg BASE_IMAGE=ghcr.io/thaibault/containerbase:latest-arm-64 --no-cache --tag ghcr.io/thaibault/proxy:latest-arm-64 https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
+# - docker pull ghcr.io/thaibault/containerbase:latest-arm-64 && docker build --build-arg BASE_IMAGE=ghcr.io/thaibault/containerbase:latest-arm-64 --no-cache --tag ghcr.io/thaibault/proxy:latest-arm-64 https://github.com/thaibault/proxy.git
 # - cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest-arm-64
 # endregion
 # region start container commands
