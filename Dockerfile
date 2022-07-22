@@ -67,7 +67,6 @@ RUN         pacman \
                 certbot \
                 certbot-nginx \
                 nginx \
-                neovim \
                 openssl && \
             # tidy up
             rm /var/cache/* --recursive --force
