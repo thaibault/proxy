@@ -24,7 +24,7 @@
 
 # arm_64
 
-# - docker pull ghcr.io/thaibault/containerbase:latest-arm-64 && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest-arm-64 https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
+# - docker pull ghcr.io/thaibault/containerbase:latest-arm-64 && docker build --build-arg BASE_IMAGE=ghcr.io/thaibault/containerbase:latest-arm-64 --no-cache --tag ghcr.io/thaibault/proxy:latest-arm-64 https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
 # - cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest-arm-64
 # endregion
 # region start container commands
