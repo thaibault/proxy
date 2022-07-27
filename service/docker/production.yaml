@@ -8,10 +8,10 @@ services:
         delay: 10s
         max_attempts: 5
         window: 120s
-      logging:
-        options:
-          max-file: 10
-          max-size: "10m"
+    logging:
+      options:
+        max-file: 10
+        max-size: "10m"
     ports:
       - "80:80"
       - "443:443"
