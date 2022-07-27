@@ -12,10 +12,10 @@ services:
         options:
           max-file: 10
           max-size: "10m"
-      ports:
-        - "80:80"
-        - "443:443"
-        # NOTE: Only for "docker compose" (not "docker stack deploy").
+    ports:
+      - "80:80"
+      - "443:443"
+      # NOTE: Only for "docker compose" (not "docker stack deploy").
     restart: on-failure
 networks:
   default:
