@@ -44,6 +44,8 @@ EXPOSE      80 443
 
 ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
 
+ENV         MAIN_USER_NAME http
+
 ENV         PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '/etc/nginx/conf.d/*.conf'
 ENV         PROXY_CERTIFICATES ''
 ENV         PROXY_CERTIFICATE_DOMAINS ''
@@ -91,6 +93,7 @@ RUN         configure-user && \
             # nginx.
             setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
+            # region build file structure
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
 COPY        ./scripts "${SCRIPTS_PATH}"
@@ -121,7 +124,7 @@ RUN         ln --symbolic \
 RUN         ln --symbolic \
                 "${SCRIPTS_PATH}update-certificate.sh" \
                 /usr/bin/update-certificate
-
+            # endregion
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
