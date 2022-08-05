@@ -52,6 +52,9 @@ ENV         PROXY_CERTIFICATE_DOMAINS ''
 ENV         PROXY_CERTIFICATE_EMAIL_ADDRESSES ''
 ENV         PROXY_CERTIFICATES_START_UPDATE_DELAY 50m
 
+ENV         ERROR_LOG  '/dev/stderr info'
+ENV         ACCESS_LOG '/dev/stdout'
+
 ENV         COMMAND nginx
 
 ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
@@ -78,7 +81,7 @@ RUN         configure-user && \
             # Set all file path options to application user writable locations
             # that will otherwise default to restricted locations accessible
             # only to root.
-            echo -e "daemon               off;\nerror_log            /dev/stderr info;\npid                  ${TEMPORARY_NGINX_PATH}pid;\n\n# Not needed since process is already started as non-root user.\n#user                ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\n\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\n\nhttp {\n    access_log              /dev/stdout;\n    charset                 utf8;\n\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n\n    default_type            application/octet-stream;\n    gzip                    on;\n\n    sendfile                on;\n\n    client_body_buffer_size 256k;\n    types_hash_max_size     4096;\n\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n\n    keepalive_timeout       65;\n\n    resolver                8.8.8.8;\n\n    include                 mime.types;\n    include                 ${PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH};\n}" \
+            echo -e "daemon               off;\nerror_log            ${ERROR_LOG};\npid                  ${TEMPORARY_NGINX_PATH}pid;\n\n# Not needed since process is already started as non-root user.\n#user                ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\n\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\n\nhttp {\n    access_log              ${ACCESS_LOG};\n    charset                 utf8;\n\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n\n    default_type            application/octet-stream;\n    gzip                    on;\n\n    sendfile                on;\n\n    client_body_buffer_size 256k;\n    types_hash_max_size     4096;\n\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n\n    keepalive_timeout       65;\n\n    resolver                8.8.8.8;\n\n    include                 mime.types;\n    include                 ${PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH};\n}" \
                 1>/etc/nginx/nginx.conf && \
             mkdir --parents /etc/nginx/html && \
             echo ''>/etc/nginx/html/index.html && \
