@@ -10,8 +10,8 @@ services:
         window: 120s
     logging:
       options:
-        max-file: 10
-        max-size: "10m"
+        max-file: 1
+        max-size: "100m"
     ports:
       - "80:80"
       - "443:443"
