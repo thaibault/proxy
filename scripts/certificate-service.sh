@@ -43,28 +43,29 @@ while true; do
             # NOTE: Server configuration file updates have to be run as root to
             # be able to temporary manipulate nginx configuration files:
 
-            #eval "update-certificate ${command_line_arguments}"
+            eval "update-certificate ${command_line_arguments}"
 
-            #chown \
-            #    --recursive \
-            #    "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
-            #    "${APPLICATION_PATH}certificates" \
-            #    "/tmp/${PROXY_CERTIFICATES[index]}/letsEncryptLog"
+            chown \
+                --recursive \
+                "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
+                "${APPLICATION_PATH}certificates" \
+                "/tmp/${PROXY_CERTIFICATES[index]}/letsEncryptLog"
 
             # If we do not use the nginx plugin installer "--installer null"
             # we can run the renewal as application user and have to reload
-            # the server via an hook.
-            su \
-                "$MAIN_USER_NAME" \
-                --group "$MAIN_USER_GROUP_NAME" \
-                -c "APPLICATION_PATH='${APPLICATION_PATH}' update-certificate ${command_line_arguments}"
+            # the server via an hook. But this is not working yet since the
+            # pid file is always to be owened by root not matter who starts
+            # nginx.
+
+            #su \
+            #    "$MAIN_USER_NAME" \
+            #    --group "$MAIN_USER_GROUP_NAME" \
+            #    -c "APPLICATION_PATH='${APPLICATION_PATH}' update-certificate ${command_line_arguments}"
         else
             rm --force "$domain_path" &>/dev/null || true
 
-            su \
-                "$MAIN_USER_NAME" \
-                --group "$MAIN_USER_GROUP_NAME" \
-                -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments}"
+            run-command
+                "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments}"
 
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi
