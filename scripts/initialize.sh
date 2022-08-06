@@ -21,6 +21,7 @@ if [[ "$PROXY_CERTIFICATES" != '' ]]; then
     source certificate-service &
 fi
 
+# Run as root to let nginx fork process under configured user and group name.
 exec "$COMMAND $*"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
