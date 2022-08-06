@@ -21,7 +21,7 @@ if [[ "$PROXY_CERTIFICATES" != '' ]]; then
     source certificate-service &
 fi
 
-source execute-command "$(eval "$COMMAND $*")"
+exec "$COMMAND $*"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
