@@ -22,7 +22,7 @@ if [[ "$PROXY_CERTIFICATES" != '' ]]; then
 fi
 
 # Run as root to let nginx fork process under configured user and group name.
-exec "$COMMAND $*"
+eval "$COMMAND $*"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
