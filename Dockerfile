@@ -52,8 +52,9 @@ ENV         PROXY_CERTIFICATE_DOMAINS ''
 ENV         PROXY_CERTIFICATE_EMAIL_ADDRESSES ''
 ENV         PROXY_CERTIFICATES_START_UPDATE_DELAY 50m
 
-ENV         ERROR_LOG  '/dev/stderr info'
 ENV         ACCESS_LOG '/dev/stdout'
+ENV         CERTIFICATION_SERVICE_LOG="${APPLICATION_PATH}certificates/log.txt"
+ENV         ERROR_LOG  '/dev/stderr info'
 
 ENV         COMMAND nginx
 
