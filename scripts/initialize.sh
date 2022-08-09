@@ -20,6 +20,7 @@ if [[ "$PROXY_CERTIFICATES" != '' ]]; then
 
     if ! [ -f "$CERTIFICATION_SERVICE_LOG" ]; then
         run-command touch "$CERTIFICATION_SERVICE_LOG"
+        chmod o+w "$CERTIFICATION_SERVICE_LOG"
     fi
 
     source certificate-service >>"$CERTIFICATION_SERVICE_LOG" &
