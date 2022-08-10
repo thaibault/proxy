@@ -21,7 +21,7 @@ fi
 # application restarts many times in short period.
 declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}"
 echo "Wait $delay until first certificate update check." \
-    >>"$CERTIFICATION_SERVICE_LOG"
+    &>>"$CERTIFICATION_SERVICE_LOG"
 sleep $delay
 
 declare certificate_path
@@ -36,7 +36,7 @@ while true; do
         name="${PROXY_CERTIFICATES[index]}"
 
         echo "Start checking certificate \"${name}\"." \
-            >>"$CERTIFICATION_SERVICE_LOG"
+            &>>"$CERTIFICATION_SERVICE_LOG"
 
         certificate_path="${APPLICATION_PATH}certificates/${name}/"
         mkdir --parents "$certificate_path"
@@ -57,7 +57,7 @@ while true; do
             # NOTE: Server configuration file updates have to be run as root to
             # be able to temporary manipulate nginx configuration files:
 
-            eval "update-certificate ${command_line_arguments} >>'${CERTIFICATION_SERVICE_LOG}'"
+            eval "update-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
             chown \
                 --recursive \
@@ -79,17 +79,17 @@ while true; do
             rm --force "$domain_path" &>/dev/null || true
 
             run-command
-                "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments} >>'${CERTIFICATION_SERVICE_LOG}'"
+                "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi
 
         echo "Stopped checking certificate \"${name}\"." \
-            >>"$CERTIFICATION_SERVICE_LOG"
+            &>>"$CERTIFICATION_SERVICE_LOG"
     done
 
     echo Wait 24 hours until next certificate update check. \
-        >>"$CERTIFICATION_SERVICE_LOG"
+        &>>"$CERTIFICATION_SERVICE_LOG"
     sleep 24h
 done
 # region modline
