@@ -13,11 +13,19 @@
 # region create image commands
 # Run the following command in the directory where this file lives to build a
 # new docker image:
-# - podman pull ghcr.io/thaibault/containerbase:latest && podman build --file https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile --no-cache --tag ghcr.io/thaibault/proxy .
-# - podman push ghcr.io/thaibault/proxy:latest --creds "thaibault:$(cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt")"
 
-# - docker pull ghcr.io/thaibault/containerbase:latest && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile
-# - cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest
+# x86-64
+
+# - podman pull ghcr.io/thaibault/containerbase:latest-x86-64 && podman build --file https://raw.githubusercontent.com/thaibault/proxy/master/Dockerfile --no-cache --tag ghcr.io/thaibault/proxy:latest-x86-64 .
+# - podman push ghcr.io/thaibault/proxy:latest-x86-64 --creds "thaibault:$(cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt")"
+
+# - docker pull ghcr.io/thaibault/containerbase:latest-x86-64 && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest-x86-64 https://github.com/thaibault/proxy.git
+# - cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest-x86-64
+
+# arm-64
+
+# - docker pull ghcr.io/thaibault/containerbase:latest-arm-64 && docker build --build-arg BASE_IMAGE=ghcr.io/thaibault/containerbase:latest-arm-64 --no-cache --tag ghcr.io/thaibault/proxy:latest-arm-64 https://github.com/thaibault/proxy.git
+# - cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}masterToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest-arm-64
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
@@ -25,7 +33,9 @@
 # - docker rm --force proxy; docker compose --file service/docker/base.yaml --file service/docker/local.yaml up
 # endregion
             # region configuration
-FROM        ghcr.io/thaibault/containerbase
+ARG         BASE_IMAGE
+
+FROM        ${BASE_IMAGE:-'ghcr.io/thaibault/containerbase:latest-x86-64'}
 
 LABEL       maintainer="Torben Sickert <info@torben.website>"
 LABEL       Description="proxy" Vendor="thaibault products" Version="1.0"
@@ -34,16 +44,24 @@ EXPOSE      80 443
 
 ENV         APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
 
+ENV         MAIN_USER_NAME http
+
 ENV         PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '/etc/nginx/conf.d/*.conf'
 ENV         PROXY_CERTIFICATES ''
 ENV         PROXY_CERTIFICATE_DOMAINS ''
 ENV         PROXY_CERTIFICATE_EMAIL_ADDRESSES ''
+ENV         PROXY_CERTIFICATES_START_UPDATE_DELAY 50m
+
+ENV         ACCESS_LOG '/dev/stdout'
+ENV         CERTIFICATION_SERVICE_LOG="${APPLICATION_PATH}certificates/log.txt"
+ENV         ERROR_LOG  '/dev/stderr info'
 
 ENV         COMMAND nginx
 
 ENV         TEMPORARY_NGINX_PATH /tmp/nginx/
 
 WORKDIR     $APPLICATION_PATH
+ENV         SCRIPTS_PATH "${APPLICATION_PATH}scripts/"
 USER        root
             # endregion
             # region install needed packages
@@ -53,9 +71,8 @@ RUN         pacman \
                 --noconfirm \
                 --sync \
                 certbot \
-                gocryptfs \
+                certbot-nginx \
                 nginx \
-                neovim \
                 openssl && \
             # tidy up
             rm /var/cache/* --recursive --force
@@ -65,7 +82,7 @@ RUN         configure-user && \
             # Set all file path options to application user writable locations
             # that will otherwise default to restricted locations accessible
             # only to root.
-            echo -e "daemon               off;\nerror_log            /dev/stderr info;\npid                  ${TEMPORARY_NGINX_PATH}pid;\n# Not needed since process is already started as non-root user.\n#user                ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\nhttp {\n    access_log              /dev/stdout;\n    charset                 utf8;\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n    include                 mime.types;\n    default_type            application/octet-stream;\n    sendfile                on;\n    gzip                    on;\n    client_body_buffer_size 256k;\ntypes_hash_max_size    4096;\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n    keepalive_timeout       65;\n    resolver                8.8.8.8;\n    include                 ${PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH};\n}" \
+            echo -e "daemon               off;\nerror_log            ${ERROR_LOG};\npid                  ${TEMPORARY_NGINX_PATH}pid;\n\nuser                 ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\n\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\n\nhttp {\n    access_log              ${ACCESS_LOG};\n    charset                 utf8;\n\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n\n    default_type            application/octet-stream;\n    gzip                    on;\n\n    sendfile                on;\n\n    client_body_buffer_size 256k;\n    types_hash_max_size     4096;\n\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n\n    keepalive_timeout       65;\n\n    resolver                8.8.8.8;\n\n    include                 mime.types;\n    include                 ${PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH};\n}" \
                 1>/etc/nginx/nginx.conf && \
             mkdir --parents /etc/nginx/html && \
             echo ''>/etc/nginx/html/index.html && \
@@ -80,14 +97,10 @@ RUN         configure-user && \
             # nginx.
             setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
+            # region build file structure
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
-COPY        ./scripts/certificate-service.sh "${APPLICATION_PATH}certificate-service.sh"
-COPY        ./scripts/initialize.sh "${APPLICATION_PATH}initialize.sh"
-COPY        ./scripts/initialize-certificates.sh "${APPLICATION_PATH}initialize-certificates.sh"
-COPY        ./scripts/reload-nginx.sh "${APPLICATION_PATH}reload-nginx.sh"
-COPY        ./scripts/retrieve-certificate.sh "${APPLICATION_PATH}retrieve-certificate.sh"
-COPY        ./scripts/update-certificate.sh "${APPLICATION_PATH}update-certificate.sh"
+COPY        ./scripts "${SCRIPTS_PATH}"
 
 RUN         chown \
                 --dereference \
@@ -97,25 +110,25 @@ RUN         chown \
                 "$APPLICATION_PATH"
 
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}certificate-service.sh" \
+                "${SCRIPTS_PATH}certificate-service.sh" \
                 /usr/bin/certificate-service
 RUN         ln --force --symbolic \
-                "${APPLICATION_PATH}initialize.sh" \
+                "${SCRIPTS_PATH}initialize.sh" \
                 "$INITIALIZING_FILE_PATH"
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}initialize-certificates.sh" \
+                "${SCRIPTS_PATH}initialize-certificates.sh" \
                 /usr/bin/initialize-certificates
 RUN         mkdir --parents /etc/letsencrypt/renewal-hooks/post
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}reload-nginx.sh" \
+                "${SCRIPTS_PATH}reload-nginx.sh" \
                 /etc/letsencrypt/renewal-hooks/post/50-reload-nginx.sh
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}retrieve-certificate.sh" \
+                "${SCRIPTS_PATH}retrieve-certificate.sh" \
                 /usr/bin/retrieve-certificate
 RUN         ln --symbolic \
-                "${APPLICATION_PATH}update-certificate.sh" \
+                "${SCRIPTS_PATH}update-certificate.sh" \
                 /usr/bin/update-certificate
-
+            # endregion
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
