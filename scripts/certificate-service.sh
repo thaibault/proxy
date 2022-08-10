@@ -14,24 +14,31 @@ set -e
 
 # NOTE: Wait a bit before starting to avoid making too many challenges when
 # application restarts many times in short period.
-sleep ${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}
+declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}"
+sleep $delay
+echo "Wait $delay until first certificate update check."
 
 declare certificate_path
 declare command
 declare domain_path
 declare email_address
 declare index
+declare name
 
 while true; do
     for index in "${!PROXY_CERTIFICATES[@]}"; do
-        certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
+        name="${PROXY_CERTIFICATES[index]}"
+
+        echo "Start checking certificate \"${name}\"."
+
+        certificate_path="${APPLICATION_PATH}certificates/${name}/"
         mkdir --parents "$certificate_path"
 
         if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
             email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
         fi
 
-        command_line_arguments="${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+        command_line_arguments="${name} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
         domain_path="${certificate_path}domains.txt"
 
         # If certificates already exists as specified only update existing ones
@@ -49,7 +56,7 @@ while true; do
                 --recursive \
                 "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
                 "${APPLICATION_PATH}certificates" \
-                "/tmp/${PROXY_CERTIFICATES[index]}/letsEncryptLog"
+                "/tmp/${name}/letsEncryptLog"
 
             # If we do not use the nginx plugin installer "--installer null"
             # we can run the renewal as application user and have to reload
@@ -69,6 +76,8 @@ while true; do
 
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi
+
+        echo "Stopped checking certificate \"${name}\"."
     done
 
     echo Wait 24 hours until next certificate update check.
