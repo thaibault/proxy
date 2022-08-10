@@ -18,12 +18,7 @@ source configure-runtime-user "${APPLICATION_PATH}certificates"
 if [[ "$PROXY_CERTIFICATES" != '' ]]; then
     source initialize-certificates
 
-    if ! [ -f "$CERTIFICATION_SERVICE_LOG" ]; then
-        run-command touch "$CERTIFICATION_SERVICE_LOG"
-        chmod o+w "$CERTIFICATION_SERVICE_LOG"
-    fi
-
-    source certificate-service >>"$CERTIFICATION_SERVICE_LOG" &
+    source certificate-service &
 fi
 
 # Run as root to let nginx fork process under configured user and group name.
