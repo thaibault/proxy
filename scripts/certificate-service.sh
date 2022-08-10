@@ -15,8 +15,8 @@ set -e
 # NOTE: Wait a bit before starting to avoid making too many challenges when
 # application restarts many times in short period.
 declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}"
-sleep $delay
 echo "Wait $delay until first certificate update check."
+sleep $delay
 
 declare certificate_path
 declare command
