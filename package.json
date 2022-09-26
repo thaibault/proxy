@@ -30,6 +30,7 @@
   },
   "scripts": {
     "clear": "echo clear",
+    "postversion": "git push --tags && yarn publish . --tag $npm_package_version && git push",
     "start": "docker compose --file service/docker/base.yaml --file service/docker/mounts.yaml --file service/docker/local.yaml up",
     "update": "yarn version --patch && yarn publish",
     "update:documentation": "documentation-website"
