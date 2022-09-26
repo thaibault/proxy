@@ -1,6 +1,6 @@
 {
   "name": "proxy",
-  "version": "1.0.79",
+  "version": "1.0.80",
   "license": "CC-BY-3.0",
   "description": "generic dockerized proxy server",
   "homepage": "https://torben.website/proxy",
@@ -30,9 +30,8 @@
   },
   "scripts": {
     "clear": "echo clear",
-    "postversion": "git push --tags && yarn publish . --tag $npm_package_version && git push",
     "start": "docker compose --file service/docker/base.yaml --file service/docker/mounts.yaml --file service/docker/local.yaml up",
-    "update": "yarn version --patch && yarn publish",
+    "update": "yarn version --patch && git push --tags && yarn publish . --tag $npm_package_version && git push",
     "update:documentation": "documentation-website"
   },
   "devDependencies": {
