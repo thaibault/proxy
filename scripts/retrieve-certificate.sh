@@ -54,6 +54,13 @@ certbot certonly \
     $mode \
     --work-dir "${2}letsEncrypt"\
     $domains
+
+# Prepare configuration to be able to update certificate by using the nginx web
+# server.
+sed \
+    --in-place \
+    --regexp-extended 's/^(authenticator += +)standalone$/\1nginx/' \
+    "${2}letsEncrypt/configuration/renewal/${1}.conf"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
