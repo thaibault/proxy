@@ -31,7 +31,8 @@
   "scripts": {
     "clear": "echo clear",
     "start": "docker compose --file service/docker/base.yaml --file service/docker/mounts.yaml --file service/docker/local.yaml up",
-    "update": "yarn version --patch && git push --tags && git push",
+    "postversion": "git push --tags && git push",
+    "update": "yarn version --patch",
     "update:documentation": "documentation-website"
   },
   "devDependencies": {
