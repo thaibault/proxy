@@ -20,7 +20,7 @@ fi
 # NOTE: Wait a bit before starting to avoid making too many challenges when
 # application restarts many times in short period.
 declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}"
-echo "Wait $delay until first certificate update check." \
+echo "$(date): Wait $delay until first certificate update check." \
     &>>"$CERTIFICATION_SERVICE_LOG"
 sleep $delay
 
@@ -40,7 +40,7 @@ while true; do
     for index in "${!PROXY_CERTIFICATES[@]}"; do
         name="${PROXY_CERTIFICATES[index]}"
 
-        echo "Start checking certificate \"${name}\"." \
+        echo "$(date): Start checking certificate \"${name}\"." \
             &>>"$CERTIFICATION_SERVICE_LOG"
 
         certificate_path="${APPLICATION_PATH}certificates/${name}/"
@@ -89,14 +89,14 @@ while true; do
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi
 
-        echo "Stopped checking certificate \"${name}\"." \
+        echo "$(date): Stopped checking certificate \"${name}\"." \
             &>>"$CERTIFICATION_SERVICE_LOG"
     done
 
     number_of_intervalls=$((number_of_intervalls + 1))
 
     if ((number_of_intervalls == RELOAD_NGINX_INTERVAL)); then
-        echo "Reload nginx on ${number_of_intervalls}th intervall." \
+        echo "$(date): Reload nginx on ${number_of_intervalls}th intervall." \
             &>>"$CERTIFICATION_SERVICE_LOG"
 
         reload-nginx
@@ -104,7 +104,7 @@ while true; do
         number_of_intervalls+=0
     fi
 
-    echo Wait 24 hours until next certificate update check. \
+    echo "$(date): Wait 24 hours until next certificate update check." \
         &>>"$CERTIFICATION_SERVICE_LOG"
     sleep 24h
 done
