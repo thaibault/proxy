@@ -4,8 +4,8 @@ on:
   create:
     branches: [ master ]
   schedule:
-    # Run every Sunday at 2am o'clock.
-    - cron: '0 2 * * 0'
+    # Run every Sunday at 1am o'clock.
+    - cron: '0 1 * * 0'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 env:
