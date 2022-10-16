@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: thaibault/build-image-push-action@main
         with:
-          name: env.IMAGE_NAME
+          name: ${{ env.IMAGE_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
