@@ -1,0 +1,53 @@
+name: Build arm-64 image and push
+on:
+  # NOTE: Runs on branch or tag creation.
+  create:
+    branches: [ master ]
+  schedule:
+    # Run every Sunday at 1am o'clock.
+    - cron: '0 1 * * 0'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+jobs:
+  build-image-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Set up QEMU for emulating arm architecture on amd or intel.
+        if: ${{ runner.arch == 'X86' || runner.arch == 'X64' }}
+        id: qemu-arm64
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: arm64
+
+      - uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v2
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # NOTE: If not set branch name will be used.
+          tags: latest
+
+      - name: Build arm-64 and push image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}-arm-64
+          labels: ${{ steps.meta.outputs.labels }}
