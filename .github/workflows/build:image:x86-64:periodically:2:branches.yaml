@@ -1,6 +1,6 @@
 name: Build x86-64 image and push
 on:
-  # NOTE: Runs on branch to tag creation.
+  # NOTE: Runs on branch or tag creation.
   create:
     branches: [ master ]
   schedule:
