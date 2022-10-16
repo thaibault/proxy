@@ -4,8 +4,8 @@ on:
   create:
     branches: [ master ]
   schedule:
-    # Run every Sunday at 1am o'clock.
-    - cron: '0 1 * * 0'
+    # Run every Sunday at 2am o'clock.
+    - cron: '0 2 * * 0'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 env:
@@ -19,35 +19,9 @@ jobs:
       packages: write
 
     steps:
-      - name: Set up QEMU for x86 architecture on arm.
-        if: ${{ runner.arch == 'ARM64'  }}
-        id: qemu-x86_64
-        uses: docker/setup-qemu-action@v1
+      - uses: thaibault/build-image-push-action@main
         with:
-          image: tonistiigi/binfmt:latest
-          platforms: x86_64
-
-      - uses: actions/checkout@v2
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
+          name: env.IMAGE_NAME
+          password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v2
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # NOTE: If not set branch name will be used.
-          tags: latest
-
-      - name: Build x86-64 and push image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}-x86-64
-          labels: ${{ steps.meta.outputs.labels }}
