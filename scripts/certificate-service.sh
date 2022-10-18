@@ -70,11 +70,11 @@ while true; do
                 "${APPLICATION_PATH}certificates" \
                 "/tmp/${name}/letsEncryptLog"
 
-            # If we do not use the nginx plugin installer "--installer null"
-            # we can run the renewal as application user and have to reload
-            # the server via an hook. But this is not working yet since the
-            # pid file is always to be owened by root not matter who starts
-            # nginx.
+            # If we do not use the nginx plugin installer (e.g. using the cli
+            # option "--installer null") we can run the renewal as application
+            # user and have to reload the server via a certbot hook. But this
+            # is not working as long as the pid file is owened by root not
+            # matter who starts nginx.
 
             #su \
             #    "$MAIN_USER_NAME" \
