@@ -1,4 +1,4 @@
-name: Build arm-64 image and push
+name: Build image and push
 on:
   # NOTE: Runs on branch or tag creation.
   create:
@@ -21,9 +21,6 @@ jobs:
     steps:
       - uses: thaibault/build-image-push-action@main
         with:
-          architecture: arm-64
-          build-args: |
-            BASE_IMAGE=ghcr.io/thaibault/containerbase:latest-arm-64
           name: ${{ env.IMAGE_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.REGISTRY }}
