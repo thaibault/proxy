@@ -9,6 +9,22 @@ on:
     - cron: '0 2 * * 0'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      architecture:
+        default: x86-64
+        description: Architecture name to build for.
+        type: choice
+        options:
+          - all
+          - arm-64
+          - x86-64
+      build-args:
+        description: List of build-time variables.
+      no-cache:
+        description: Do not use cache when building the image.
+        default: 'false'
+      tags:
+        description: Image tags to use for registering.
 
 env:
   REGISTRY: ghcr.io
@@ -24,7 +40,9 @@ jobs:
     steps:
       - uses: thaibault/build-image-push-action@main
         with:
+          build-args: ${{ inputs.build-args }}
           name: ${{ env.IMAGE_NAME }}
+          no-cache: ${{ inputs.no-cache }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
