@@ -22,7 +22,8 @@ on:
         description: List of build-time variables.
       no-cache:
         description: Do not use cache when building the image.
-        default: 'false'
+        default: false
+        type: boolean
       tags:
         description: Image tags to use for registering.
 
