@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       architecture:
-        default: x86-64
+        default: all
         description: Architecture name to build for.
         type: choice
         options:
