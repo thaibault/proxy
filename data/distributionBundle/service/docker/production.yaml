@@ -1,22 +1,22 @@
 version: '3.7'
 services:
-    proxy:
-        # NOTE: Only for "docker stack deploy" (not "docker compose").
-        deploy:
-            restart_policy:
-                condition: on-failure
-                delay: 10s
-                max_attempts: 5
-                window: 120s
-        ports:
-            - "80:80"
-            - "443:443"
-        # NOTE: Only for "docker compose" (not "docker stack deploy").
-        restart: on-failure
-        volumes:
-            - ../../etc/containerBase:/etc/containerBase
-            - ../../etc/nginx:/etc/nginx/conf.d
-            - ../../certificates:/application/certificates
+  proxy:
+    # NOTE: Only for "docker stack deploy" (not "docker compose").
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 120s
+    logging:
+      options:
+        max-file: 1
+        max-size: "10m"
+    ports:
+      - "80:80"
+      - "443:443"
+      # NOTE: Only for "docker compose" (not "docker stack deploy").
+    restart: on-failure
 networks:
   default:
     external: true

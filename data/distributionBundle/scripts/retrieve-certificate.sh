@@ -6,6 +6,7 @@ declare APPLIATION_PATH="$(dirname "$2")/"
 
 declare mode="--webroot -w '${2}letsEncrypt'"
 if [ "$1" = '--initialize' ]; then
+    # NOTE: In this case no server has started yet.
     mode='--standalone'
 
     shift
@@ -38,7 +39,7 @@ done
 
 echo Retrieve certificate for \"$1\" \(${domain_descriptions[@]}\).
 
-# NOTE: For testing use "--staging".
+# NOTE: For testing use "--test-cert".
 certbot certonly \
     --agree-tos \
     --cert-name "$1" \
@@ -53,6 +54,13 @@ certbot certonly \
     $mode \
     --work-dir "${2}letsEncrypt"\
     $domains
+
+# Prepare configuration to be able to update certificate by using the nginx web
+# server.
+sed \
+    --in-place \
+    --regexp-extended 's/^(authenticator += +)standalone$/\1nginx/' \
+    "${2}letsEncrypt/configuration/renewal/${1}.conf"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:
