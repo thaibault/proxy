@@ -13,7 +13,7 @@ endregion -->
 Project status
 --------------
 
-[![<LABEL>](https://github.com/thaibault/proxy/actions/workflows/build:image:periodically:2:branches.yaml/badge.svg)](https://github.com/thaibault/proxy/actions/workflows/build:image:periodically:2:branches.yaml)
+[![<LABEL>](https://github.com/thaibault/proxy/actions/workflows/build-image-periodically-2-branches.yaml/badge.svg)](https://github.com/thaibault/proxy/actions/workflows/build-image-periodically-2-branches.yaml)
 
 [![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/proxy.svg?label=documentation-website)](https://torben.website/proxy)
 

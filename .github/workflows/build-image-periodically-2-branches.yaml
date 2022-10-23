@@ -1,4 +1,5 @@
 name: Build image and push
+
 on:
   # NOTE: Runs on branch or tag creation.
   create:
@@ -8,9 +9,28 @@ on:
     - cron: '0 2 * * 0'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      architecture:
+        default: all
+        description: Architecture name to build for.
+        type: choice
+        options:
+          - all
+          - arm-64
+          - x86-64
+      build-args:
+        description: List of build-time variables.
+      no-cache:
+        description: Do not use cache when building the image.
+        default: false
+        type: boolean
+      tags:
+        description: Image tags to use for registering.
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build-image-and-push:
     runs-on: ubuntu-latest
@@ -21,7 +41,9 @@ jobs:
     steps:
       - uses: thaibault/build-image-push-action@main
         with:
+          build-args: ${{ inputs.build-args }}
           name: ${{ env.IMAGE_NAME }}
+          no-cache: ${{ inputs.no-cache }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
