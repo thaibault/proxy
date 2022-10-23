@@ -18,10 +18,11 @@ source configure-runtime-user "${APPLICATION_PATH}certificates"
 if [[ "$PROXY_CERTIFICATES" != '' ]]; then
     source initialize-certificates
 
-    certificate-service &
+    source certificate-service &
 fi
 
-source run-command "$@"
+# Run as root to let nginx fork process under configured user and group name.
+eval "$COMMAND $*"
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
 # vim: foldmethod=marker foldmarker=region,endregion:

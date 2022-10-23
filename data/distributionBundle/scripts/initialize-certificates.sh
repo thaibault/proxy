@@ -9,10 +9,7 @@ declare index
 
 for index in "${!PROXY_CERTIFICATES[@]}"; do
     certificate_path="${APPLICATION_PATH}certificates/${PROXY_CERTIFICATES[index]}/"
-    su \
-        "$MAIN_USER_NAME" \
-        --group "$MAIN_USER_GROUP_NAME" \
-        -c "mkdir --parents '$certificate_path'"
+    run-command "mkdir --parents '$certificate_path'"
 
     if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
         email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
@@ -27,15 +24,11 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
     then
         rm --force "$domain_path" &>/dev/null || true
 
-        su \
-            "$MAIN_USER_NAME" \
-            --group "$MAIN_USER_GROUP_NAME" \
-            -c "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+        run-command \
+            "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
 
-        su \
-            "$MAIN_USER_NAME" \
-            --group "$MAIN_USER_GROUP_NAME" \
-            -c "echo '${PROXY_CERTIFICATE_DOMAINS[index]}' >'${domain_path}'"
+        run-command \
+            "echo '${PROXY_CERTIFICATE_DOMAINS[index]}' >'${domain_path}'"
     fi
 done
 # region modline
