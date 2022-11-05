@@ -3,7 +3,7 @@ name: Build image and push
 on:
   # NOTE: Runs on branch or tag creation.
   create:
-    branches: [ master ]
+    branches: [ main ]
   schedule:
     # Run every Sunday at 2am o'clock.
     - cron: '0 2 * * 0'
