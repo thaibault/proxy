@@ -7,8 +7,8 @@
   resolved "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz#f8cae15d883ffc0abc663b5eaaa711fcc64bb5c2"
 
 documentation-website@*:
-  version "1.0.282"
-  resolved "https://registry.yarnpkg.com/documentation-website/-/documentation-website-1.0.282.tgz#5305208e53898c28c23301d23fa613716d0af067"
-  integrity sha512-OvUJ7uvI6qJo4QFfM/DslvvrMoI0FwMMBYfP+cFyv8Apxi54C3DGqK15NzIpj8/c7ky142LMC5v/yV+kZiTh6g==
+  version "1.0.283"
+  resolved "https://registry.yarnpkg.com/documentation-website/-/documentation-website-1.0.283.tgz#acbe07c2fd6f74107b8221c87a9735a502fbe3b4"
+  integrity sha512-NVWAm/q+Gh34MWRqYrrBvZ7U6wgVzlCKdPmms5odPTP1bfZc+S6QAgSv8whogJQsgw+wy7OpCdnHFX89SP1KzQ==
   dependencies:
     "@types/webpack" "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz"
