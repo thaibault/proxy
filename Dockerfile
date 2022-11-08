@@ -56,7 +56,7 @@ USER        root
             # endregion
             # region install needed packages
             # NOTE: "neovim" is only needed for debugging scenarios.
-RUN         pacman \
+RUN         yay \
                 --needed \
                 --noconfirm \
                 --sync \
@@ -64,8 +64,7 @@ RUN         pacman \
                 certbot-nginx \
                 nginx \
                 openssl && \
-            # tidy up
-            rm /var/cache/* --recursive --force
+            clean-up
             # endregion
             # region preconfigure nginx to integrate application specifc options
 RUN         configure-user && \
