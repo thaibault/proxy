@@ -5,12 +5,12 @@ set -e
 echo Update certificate for \"$1\".
 
 # Ensure presence of needed acme challenge locations.
-mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
+mkdir --parents "${APPLICATION_PATH}certificates/challenge"
 mkdir --parents "${2}letsEncrypt/.well-known"
 ln \
     --force \
     --symbolic \
-    "${APPLICATION_PATH}certificates/acme-challenge" \
+    "${APPLICATION_PATH}certificates/challenge" \
     "${2}letsEncrypt/.well-known/acme-challenge"
 
 certbot renew \

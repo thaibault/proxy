@@ -87,7 +87,7 @@ RUN         configure-user && \
             setcap cap_net_bind_service=ep "$(which nginx)"
             # endregion
             # region build file structure
-RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
+RUN         mkdir --parents "${APPLICATION_PATH}certificates/challenge"
 
 COPY        ./scripts "${SCRIPTS_PATH}"
 
