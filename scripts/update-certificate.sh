@@ -5,9 +5,9 @@ set -e
 echo Update certificate for \"$1\".
 
 # Ensure presence of needed acme challenge locations.
-mkdir --parents "${APPLICATION_PATH}certificates/challenge"
-mkdir --parents "${2}letsEncrypt/.well-known"
-ln \
+run-command mkdir --parents "${APPLICATION_PATH}certificates/challenge"
+run-command mkdir --parents "${2}letsEncrypt/.well-known"
+run-command ln \
     --force \
     --symbolic \
     "${APPLICATION_PATH}certificates/challenge" \
