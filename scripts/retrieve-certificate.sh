@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 set -e
 
-declare APPLIATION_PATH="$(dirname "$2")/"
+declare APPLICATION_PATH="$(dirname "$2")/"
 
 declare mode="--webroot -w '${2}letsEncrypt'"
 if [ "$1" = '--initialize' ]; then
@@ -16,13 +16,13 @@ rm --force --recursive "/tmp/${1}/letsEncryptLog" &>/dev/null || true
 mkdir --parents "/tmp/${1}/letsEncryptLog"
 
 # Refresh presence of needed acme challenge locations.
-mkdir --parents "${APPLIATION_PATH}/certificates/acme-challenge"
+mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 rm --force --recursive "${2}letsEncrypt" &>/dev/null || true
 mkdir --parents "${2}letsEncrypt/.well-known"
 ln \
     --force \
     --symbolic \
-    "${APPLIATION_PATH}/certificates/acme-challenge" \
+    "${APPLICATION_PATH}certificates/acme-challenge" \
     "${2}letsEncrypt/.well-known/acme-challenge"
 
 declare domains=''
