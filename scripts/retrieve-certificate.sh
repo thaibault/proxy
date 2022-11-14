@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 set -e
 
-declare APPLICATION_PATH="$(dirname "$2")/"
-
 declare mode="--webroot -w '${2}letsEncrypt'"
 if [ "$1" = '--initialize' ]; then
     # NOTE: In this case no server has started yet.
