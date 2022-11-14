@@ -7,6 +7,8 @@ echo Update certificate for \"$1\".
 # Ensure presence of needed acme challenge locations.
 run-command mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 run-command mkdir --parents "${2}letsEncrypt/.well-known"
+# Avoid nested linking by first removing old one.
+rm "${2}letsEncrypt/.well-known/acme-challenge" &>/dev/null || true
 run-command ln \
     --force \
     --symbolic \
