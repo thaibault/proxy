@@ -43,9 +43,9 @@ jobs:
         with:
           name: ${{ env.IMAGE_NAME }}
 
-          architecture: ${{ inputs.architecture }}
+          architecture: ${{ inputs.architecture || 'all' }}
           build-args: ${{ inputs.build-args }}
-          no-cache: ${{ inputs.no-cache }}
+          no-cache: ${{ inputs.no-cache || false }}
 
           alternate-registry: docker.io
           alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
