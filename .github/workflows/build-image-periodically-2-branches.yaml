@@ -29,7 +29,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.event.repository.name }}
 
 jobs:
   build-image-and-push:
@@ -41,9 +41,15 @@ jobs:
     steps:
       - uses: thaibault/build-image-push-action@main
         with:
-          build-args: ${{ inputs.build-args }}
           name: ${{ env.IMAGE_NAME }}
+
+          build-args: ${{ inputs.build-args }}
           no-cache: ${{ inputs.no-cache }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+
+          alternate-registry: docker.io
+          alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
+
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
