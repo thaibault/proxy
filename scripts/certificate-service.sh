@@ -61,7 +61,6 @@ while true; do
         then
             # NOTE: Server configuration file updates have to be run as root to
             # be able to temporary manipulate nginx configuration files:
-
             eval "update-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
             chown \
@@ -73,18 +72,24 @@ while true; do
             # If we do not use the nginx plugin installer (e.g. using the cli
             # option "--installer null") we can run the renewal as application
             # user and have to reload the server via a certbot hook. But this
-            # is not working as long as the pid file is owened by root not
+            # is not working as long as the pid file is owened by root no
             # matter who starts nginx.
 
-            #su \
-            #    "$MAIN_USER_NAME" \
-            #    --group "$MAIN_USER_GROUP_NAME" \
-            #    -c "APPLICATION_PATH='${APPLICATION_PATH}' update-certificate ${command_line_arguments}"
+            #run-command \
+            #    "APPLICATION_PATH='${APPLICATION_PATH}' update-certificate ${command_line_arguments}"
         else
             rm --force "$domain_path" &>/dev/null || true
 
-            run-command
-                "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
+            # NOTE: Certbot retrieving have to be run as root to be able to
+            # open tcp ports.
+            eval "retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
+            chown \
+                --recursive \
+                "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
+                "${APPLICATION_PATH}certificates" \
+                "/tmp/${name}/letsEncryptLog"
+            #run-command
+            #    "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
             echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
         fi

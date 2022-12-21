@@ -24,8 +24,16 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
     then
         rm --force "$domain_path" &>/dev/null || true
 
-        run-command \
-            "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+        # NOTE: Certbot retrieving have to be run as root to be able to open
+        # tcp ports.
+        eval "retrieve-certificate ${command_line_arguments}  --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+        chown \
+            --recursive \
+            "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
+            "${APPLICATION_PATH}certificates" \
+            "/tmp/${name}/letsEncryptLog"
+        #run-command \
+        #    "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate --initialize ${PROXY_CERTIFICATES[index]} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
 
         run-command \
             "echo '${PROXY_CERTIFICATE_DOMAINS[index]}' >'${domain_path}'"
