@@ -16,8 +16,7 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
     fi
 
     domain_path="${certificate_path}domains.txt"
-    # If certificates already exists as specified only update and retrieve
-    # otherwise.
+    # If certificates already exists as specified in manifest file do nothing.
     if \
         [ ! -f "$domain_path" ] || \
         [[ "${PROXY_CERTIFICATE_DOMAINS[index]}" != "$(cat "$domain_path")" ]]
