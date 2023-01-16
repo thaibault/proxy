@@ -43,10 +43,15 @@ jobs:
         shell: bash
         run: echo ${GITHUB_REF} and ${GITHUB_HEAD_REF}
 
-      - name: Extract current branch name
-        id: extract_branch
+      - name: Extract current branch or tag name
+        id: extract_name
         shell: bash
-        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+        run: |
+          [[ $GITHUB_REF == */heads/* ]] &&
+          echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT ||
+          [[ $GITHUB_REF == */tags/* ]] &&
+          echo "name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
       - name: Set resolved tag by given branch name.
         id: derive_tags
         if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
@@ -59,6 +64,7 @@ jobs:
         shell: bash
         run: |
           echo BRANCH ${{ steps.extract_branch.outputs.name }}
+          echo GITHUB ${GITHUB_REF_NAME}
           echo DERIVED TAGS ${{ steps.derive_tags.outputs.tags }}
 
       #- uses: thaibault/build-image-push-action@main
