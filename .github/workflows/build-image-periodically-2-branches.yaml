@@ -51,7 +51,10 @@ jobs:
         id: resolved_tags
         if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
         shell: bash
-        run: 'name="${{ inputs.tags }}"; echo JAU $name "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}"; echo "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT'
+        run: |
+          name="${{ inputs.tags }}
+          echo JAU $name "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}"
+          echo "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT
 
       - name: TODO Print determined branch name and tag
         shell: bash
