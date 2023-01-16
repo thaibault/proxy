@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
       - name: Set resolved tag by given branch name.
-        id: resolved_tags
+        id: resolve_tags
         if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
         shell: bash
         run: |
@@ -58,7 +58,9 @@ jobs:
 
       - name: TODO Print determined branch name and tag
         shell: bash
-        run: echo ${{ steps.extract_branch.outputs.name }} and ${{ steps.resolve_tag.outputs.tags }}
+        run: |
+          echo A ${{ steps.extract_branch.outputs.name }}
+          echo B ${{ steps.resolve_tags.outputs.tags }}
 
       #- uses: thaibault/build-image-push-action@main
       #   with:
