@@ -25,7 +25,6 @@ on:
         default: false
         type: boolean
       tags:
-        default: CURRENT_TAG_OR_BRANCH latest
         description: Image tags to use for registering.
 
 env:
@@ -43,7 +42,7 @@ jobs:
       - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
-          tags: ${{ inputs.tags }}
+          tags: ${{ inputs.tags || 'CURRENT_TAG_OR_BRANCH latest' }}
 
           architecture: ${{ inputs.architecture || 'all' }}
           build-args: ${{ inputs.build-args }}
