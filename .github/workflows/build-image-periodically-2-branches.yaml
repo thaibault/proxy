@@ -53,12 +53,12 @@ jobs:
         shell: bash
         run: |
           name=${{ inputs.tags }}
-          echo JAU $name "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" $GITHUB_OUTPUT
+          echo JAU $name "tags='${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}'" $GITHUB_OUTPUT
           echo "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT
 
       - name: TODO Print determined branch name and tag
         shell: bash
-        run: echo ${{ steps.extract_branch.outputs.name }} and ${{ steps.resolve_tag.outputs.name }}
+        run: echo ${{ steps.extract_branch.outputs.name }} and ${{ steps.resolve_tag.outputs.tags }}
 
       #- uses: thaibault/build-image-push-action@main
       #   with:
