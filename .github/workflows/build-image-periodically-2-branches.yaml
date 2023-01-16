@@ -39,6 +39,24 @@ jobs:
       packages: write
 
     steps:
+      - name: TODO Print
+        shell: bash
+        run: echo ${GITHUB_REF} and ${GITHUB_HEAD_REF}
+
+      - name: Extract current branch name
+        id: extract_branch
+        shell: bash
+        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+      - name: Set resolved tag by given branch name.
+        id: resolved_tags
+        if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
+        shell: bash
+        run: 'name="${{ inputs.tags }}"; echo JAU $name; echo "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT'
+
+      - name: TODO Print determined branch name and tag
+        shell: bash
+        run: echo ${{ steps.extract_branch.outputs.name }} and ${{ steps.resolve_tag.outputs.name }}
+
       - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
