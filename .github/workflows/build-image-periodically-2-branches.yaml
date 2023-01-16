@@ -25,7 +25,6 @@ on:
         default: false
         type: boolean
       tags:
-        default: CURRENT_TAG_OR_BRANCH
         description: Image tags to use for registering.
 
 env:
