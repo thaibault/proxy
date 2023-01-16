@@ -52,7 +52,7 @@ jobs:
         if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
         shell: bash
         run: |
-          tags='${{ inputs.tags }}'
+          tags="${{ inputs.tags }}"
           echo JAU $name "tags='${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}'"
           echo "tags=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT
 
