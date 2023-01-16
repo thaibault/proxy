@@ -53,7 +53,6 @@ jobs:
       - name: TODO Print determined branch name and tag
         shell: bash
         run: |
-          echo BRANCH ${{ steps.extract_branch.outputs.name }}
           echo GITHUB ${GITHUB_REF_NAME}
           echo DERIVED TAGS ${{ steps.derive_tags.outputs.tags }}
 
