@@ -48,32 +48,31 @@ jobs:
         shell: bash
         run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
       - name: Set resolved tag by given branch name.
-        id: resolve_tags
+        id: derive_tags
         if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
         shell: bash
         run: |
           tags="${{ inputs.tags }}"
-          echo JAU $tags "tags='${tags//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}'"
           echo "tags=${tags//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT
 
       - name: TODO Print determined branch name and tag
         shell: bash
         run: |
-          echo A ${{ steps.extract_branch.outputs.name }}
-          echo B ${{ steps.resolve_tags.outputs.tags }}
+          echo BRANCH ${{ steps.extract_branch.outputs.name }}
+          echo DERIVED TAGS ${{ steps.derive_tags.outputs.tags }}
 
       #- uses: thaibault/build-image-push-action@main
-      #   with:
+      #  with:
       #    name: ${{ env.IMAGE_NAME }}
       #
       #    architecture: ${{ inputs.architecture || 'all' }}
       #    build-args: ${{ inputs.build-args }}
       #    no-cache: ${{ inputs.no-cache || false }}
-      #
+
       #    alternate-registry: docker.io
       #    alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
       #    alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-          #    registry: ${{ env.REGISTRY }}
-          #username: ${{ github.actor }}
-          #password: ${{ secrets.GITHUB_TOKEN }}
+      #    registry: ${{ env.REGISTRY }}
+      #    username: ${{ github.actor }}
+      #    password: ${{ secrets.GITHUB_TOKEN }}
