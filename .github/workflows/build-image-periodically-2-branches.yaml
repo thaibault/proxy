@@ -39,26 +39,16 @@ jobs:
       packages: write
 
     steps:
-      - name: TODO Print
-        shell: bash
-        run: echo ${GITHUB_REF} and ${GITHUB_HEAD_REF}
-
-      - name: Extract current branch or tag name
-        id: extract_name
-        shell: bash
-        run: |
-          [[ $GITHUB_REF == */heads/* ]] &&
-          echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT ||
-          [[ $GITHUB_REF == */tags/* ]] &&
-          echo "name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
       - name: Set resolved tag by given branch name.
         id: derive_tags
         if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
         shell: bash
         run: |
           tags="${{ inputs.tags }}"
-          echo "tags=${tags//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT
+          tags="${tags//CURRENT_BRANCH_NAME/${GITHUB_REF_NAME}}"
+          tags="${tags//main/latest}"
+          tags="${tags//master/latest}"
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - name: TODO Print determined branch name and tag
         shell: bash
