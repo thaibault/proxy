@@ -53,7 +53,7 @@ jobs:
         shell: bash
         run: |
           name=${{ inputs.tags }}
-          echo JAU $name "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}"
+          echo JAU $name "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" $GITHUB_OUTPUT
           echo "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT
 
       - name: TODO Print determined branch name and tag
