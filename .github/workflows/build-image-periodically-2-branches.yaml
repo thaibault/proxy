@@ -48,13 +48,13 @@ jobs:
           tags="${tags//CURRENT_BRANCH_NAME/${GITHUB_REF_NAME}}"
           tags="${tags//main/latest}"
           tags="${tags//master/latest}"
-          echo "tags=${tags}" >> $GITHUB_OUTPUT
+          echo "names=${tags}" >> $GITHUB_OUTPUT
 
       - name: TODO Print determined branch name and tag
         shell: bash
         run: |
           echo GITHUB ${GITHUB_REF_NAME}
-          echo DERIVED TAGS ${{ steps.derive_tags.outputs.tags }}
+          echo DERIVED TAGS ${{ steps.derive_tags.outputs.names }}
 
       #- uses: thaibault/build-image-push-action@main
       #  with:
