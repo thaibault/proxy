@@ -41,10 +41,10 @@ jobs:
     steps:
       - name: Set resolved tag by given branch name.
         id: derive_tags
-        if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
         shell: bash
         run: |
-          tags="${{ inputs.tags }}"
+          tags="${GITHUB_REF_NAME}"
+          [[ "${{ inputs.tags }}" != '' ]] && tags="${{ inputs.tags }}"
           tags="${tags//CURRENT_BRANCH_NAME/${GITHUB_REF_NAME}}"
           tags="${tags//main/latest}"
           tags="${tags//master/latest}"
