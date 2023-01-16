@@ -39,18 +39,40 @@ jobs:
       packages: write
 
     steps:
-      - uses: thaibault/build-image-push-action@main
-        with:
-          name: ${{ env.IMAGE_NAME }}
+      - name: TODO Print
+        shell: bash
+        run: echo ${GITHUB_REF} and ${GITHUB_HEAD_REF}
 
-          architecture: ${{ inputs.architecture || 'all' }}
-          build-args: ${{ inputs.build-args }}
-          no-cache: ${{ inputs.no-cache || false }}
+      - name: Extract current branch name
+        id: extract_branch
+        shell: bash
+        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+      - name: Set resolved tag by given branch name.
+        id: derive_tags
+        if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
+        shell: bash
+        run: |
+          tags="${{ inputs.tags }}"
+          echo "tags=${tags//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT
 
-          alternate-registry: docker.io
-          alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
-          alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: TODO Print determined branch name and tag
+        shell: bash
+        run: |
+          echo BRANCH ${{ steps.extract_branch.outputs.name }}
+          echo DERIVED TAGS ${{ steps.derive_tags.outputs.tags }}
 
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      #- uses: thaibault/build-image-push-action@main
+      #  with:
+      #    name: ${{ env.IMAGE_NAME }}
+      #
+      #    architecture: ${{ inputs.architecture || 'all' }}
+      #    build-args: ${{ inputs.build-args }}
+      #    no-cache: ${{ inputs.no-cache || false }}
+
+      #    alternate-registry: docker.io
+      #    alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      #    registry: ${{ env.REGISTRY }}
+      #    username: ${{ github.actor }}
+      #    password: ${{ secrets.GITHUB_TOKEN }}
