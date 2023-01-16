@@ -51,24 +51,24 @@ jobs:
         id: resolved_tags
         if: contains(inputs.tags, 'CURRENT_BRANCH_NAME')
         shell: bash
-        run: 'name="${{ inputs.tags }}"; echo JAU $name; echo "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT'
+        run: 'name="${{ inputs.tags }}"; echo JAU $name "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}"; echo "name=${name//CURRENT_BRANCH_NAME/${{ steps.extract_branch.outputs.name }}}" >> $GITHUB_OUTPUT'
 
       - name: TODO Print determined branch name and tag
         shell: bash
         run: echo ${{ steps.extract_branch.outputs.name }} and ${{ steps.resolve_tag.outputs.name }}
 
-      - uses: thaibault/build-image-push-action@main
-        with:
-          name: ${{ env.IMAGE_NAME }}
+      #- uses: thaibault/build-image-push-action@main
+      #   with:
+      #    name: ${{ env.IMAGE_NAME }}
+      #
+      #    architecture: ${{ inputs.architecture || 'all' }}
+      #    build-args: ${{ inputs.build-args }}
+      #    no-cache: ${{ inputs.no-cache || false }}
+      #
+      #    alternate-registry: docker.io
+      #    alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-          architecture: ${{ inputs.architecture || 'all' }}
-          build-args: ${{ inputs.build-args }}
-          no-cache: ${{ inputs.no-cache || false }}
-
-          alternate-registry: docker.io
-          alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
-          alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          #    registry: ${{ env.REGISTRY }}
+          #username: ${{ github.actor }}
+          #password: ${{ secrets.GITHUB_TOKEN }}
