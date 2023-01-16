@@ -25,6 +25,7 @@ on:
         default: false
         type: boolean
       tags:
+        default: CURRENT_BRANCH_NAME
         description: Image tags to use for registering.
 
 env:
@@ -39,35 +40,19 @@ jobs:
       packages: write
 
     steps:
-      - name: Set resolved tag by given branch name.
-        id: derive_tags
-        shell: bash
-        run: |
-          tags="${GITHUB_REF_NAME}"
-          [[ "${{ inputs.tags }}" != '' ]] && tags="${{ inputs.tags }}"
-          tags="${tags//CURRENT_BRANCH_NAME/${GITHUB_REF_NAME}}"
-          tags="${tags//main/latest}"
-          tags="${tags//master/latest}"
-          echo "names=${tags}" >> $GITHUB_OUTPUT
+      - uses: thaibault/build-image-push-action@main
+        with:
+          name: ${{ env.IMAGE_NAME }}
+          tags: ${{ inputs.tags }}
 
-      - name: TODO Print determined branch name and tag
-        shell: bash
-        run: |
-          echo GITHUB ${GITHUB_REF_NAME}
-          echo DERIVED TAGS ${{ steps.derive_tags.outputs.names }}
+          architecture: ${{ inputs.architecture || 'all' }}
+          build-args: ${{ inputs.build-args }}
+          no-cache: ${{ inputs.no-cache || false }}
 
-      #- uses: thaibault/build-image-push-action@main
-      #  with:
-      #    name: ${{ env.IMAGE_NAME }}
-      #
-      #    architecture: ${{ inputs.architecture || 'all' }}
-      #    build-args: ${{ inputs.build-args }}
-      #    no-cache: ${{ inputs.no-cache || false }}
+          alternate-registry: docker.io
+          alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      #    alternate-registry: docker.io
-      #    alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #    alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      #    registry: ${{ env.REGISTRY }}
-      #    username: ${{ github.actor }}
-      #    password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
