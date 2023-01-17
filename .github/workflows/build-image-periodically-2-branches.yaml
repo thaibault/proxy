@@ -45,7 +45,9 @@ jobs:
           tags: ${{ inputs.tags || 'CURRENT_TAG_OR_BRANCH latest' }}
 
           architecture: ${{ inputs.architecture || 'all' }}
-          build-args: ${{ inputs.build-args }}
+          build-args: |
+            BRANCH_NAME=${{ github.ref_name || 'main' }}
+            ${{ inputs.build-args }}
           no-cache: ${{ inputs.no-cache || false }}
 
           alternate-registry: docker.io
