@@ -39,10 +39,6 @@ jobs:
       packages: write
 
     steps:
-      - name: print
-        shell: bash
-        run: echo ${{ github.event_name }}
-
       - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
