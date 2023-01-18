@@ -14,7 +14,7 @@
 # Run the following command in the directory where this file lives to build a
 # new docker image:
 
-# - docker pull ghcr.io/thaibault/containerbase:latest && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest https://github.com/thaibault/proxy.git#main
+# - docker pull ghcr.io/thaibault/containerbase:latest && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest .
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
