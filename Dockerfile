@@ -88,7 +88,7 @@ RUN         configure-user && \
             # region build file structure
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
-COPY        ./scripts "${SCRIPTS_PATH}"
+COPY        --link ./scripts "${SCRIPTS_PATH}"
 
 RUN         chown \
                 --dereference \
