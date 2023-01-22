@@ -48,6 +48,9 @@ jobs:
           build-args: |
             BRANCH_NAME=${{ github.ref_name || 'main' }}
             ${{ inputs.build-args }}
+
+          cache-key: ${{ runner.os }}-buildx-layer-${{ github.sha }}
+          cache-restore-keys: ${{ runner.os }}-buildx-layer-
           no-cache: ${{ inputs.no-cache || github.event_name == 'schedule' }}
 
           alternate-registry: docker.io
