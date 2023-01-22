@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile-upstream:master-labs
 # region header
 # [Project page](https://torben.website/proxy)
 
