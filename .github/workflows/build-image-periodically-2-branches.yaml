@@ -20,9 +20,9 @@ on:
           - x86-64
       build-args:
         description: List of build-time variables.
-      no-cache:
-        description: Do not use cache when building the image.
-        default: false
+      use-cache:
+        description: Use cache when building the image.
+        default: true
         type: boolean
       tags:
         description: Image tags to use for registering.
@@ -51,7 +51,7 @@ jobs:
 
           cache-key: ${{ runner.os }}-buildx-layer-${{ github.sha }}
           cache-restore-keys: ${{ runner.os }}-buildx-layer-
-          no-cache: ${{ inputs.no-cache || github.event_name == 'schedule' }}
+          use-cache: ${{ inputs.use-cache && github.event_name != 'schedule' }}
 
           alternate-registry: docker.io
           alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
