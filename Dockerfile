@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile-upstream:master-labs
 # region header
 # [Project page](https://torben.website/proxy)
 
@@ -14,8 +15,7 @@
 # Run the following command in the directory where this file lives to build a
 # new docker image:
 
-# - docker pull ghcr.io/thaibault/containerbase:latest && docker build --no-cache --tag ghcr.io/thaibault/proxy:latest https://github.com/thaibault/proxy.git#main
-# - cat "${ILU_GITHUB_BASE_CONFIGURATION_PATH}mainToken.txt" | docker login ghcr.io --username thaibault --password-stdin && docker push ghcr.io/thaibault/proxy:latest
+# - docker pull ghcr.io/thaibault/containerbase:latest && docker buildx build --no-cache --tag ghcr.io/thaibault/proxy:latest .
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
@@ -89,7 +89,7 @@ RUN         configure-user && \
             # region build file structure
 RUN         mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
 
-COPY        ./scripts "${SCRIPTS_PATH}"
+COPY        --link ./scripts "${SCRIPTS_PATH}"
 
 RUN         chown \
                 --dereference \

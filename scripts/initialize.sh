@@ -6,7 +6,7 @@ set -e
 # 2. Loads environment files if existing.
 source prepare-initializer "$@"
 
-# Remove indicator to load latest initializer file.
+# Remove cli indicator to load latest initializer file.
 if [ "$1" = '--no-check-local-initializer' ]; then
     shift
 fi
