@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 set -e
 # 1. Checks if newer initializer is bind into container and exec into to if
