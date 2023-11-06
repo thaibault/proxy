@@ -13,9 +13,9 @@ endregion -->
 Project status
 --------------
 
-[![<LABEL>](https://github.com/thaibault/proxy/actions/workflows/build-image-periodically-2-branches.yaml/badge.svg)](https://github.com/thaibault/proxy/actions/workflows/build-image-periodically-2-branches.yaml)
+[![build push image](https://img.shields.io/github/actions/workflow/status/thaibault/proxy/build-image-periodically-2-branches.yaml?label=build%20push%20image&style=for-the-badge)](https://github.com/thaibault/proxy/actions/workflows/build-image-periodically-2-branches.yaml)
 
-[![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/proxy.svg?label=documentation-website)](https://torben.website/proxy)
+[![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/proxy.svg?label=documentation-website&style=for-the-badge)](https://torben.website/proxy)
 
 <!--|deDE:Einsatz-->
 Use case
