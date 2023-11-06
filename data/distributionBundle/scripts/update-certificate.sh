@@ -1,16 +1,18 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 set -e
 
 echo Update certificate for \"$1\".
 
 # Ensure presence of needed acme challenge locations.
-mkdir --parents "${APPLIATION_PATH}certificates/acme-challenge"
-mkdir --parents "${2}letsEncrypt/.well-known"
-ln \
+run-command mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
+run-command mkdir --parents "${2}letsEncrypt/.well-known"
+# Avoid nested linking by first removing old one.
+rm "${2}letsEncrypt/.well-known/acme-challenge" &>/dev/null || true
+run-command ln \
     --force \
     --symbolic \
-    "${APPLIATION_PATH}certificates/acme-challenge" \
+    "${APPLICATION_PATH}certificates/acme-challenge" \
     "${2}letsEncrypt/.well-known/acme-challenge"
 
 certbot renew \

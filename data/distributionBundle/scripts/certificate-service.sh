@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 set -e
 
@@ -29,6 +29,7 @@ sleep $delay
 declare RELOAD_NGINX_INTERVAL=7
 
 declare certificate_path
+declare domains
 declare command
 declare domain_path
 declare email_address
@@ -38,6 +39,7 @@ declare name
 declare number_of_intervalls=0
 while true; do
     for index in "${!PROXY_CERTIFICATES[@]}"; do
+        domains=${PROXY_CERTIFICATE_DOMAINS[index]}
         name="${PROXY_CERTIFICATES[index]}"
 
         echo "$(date): Start checking certificate \"${name}\"." \
@@ -50,18 +52,16 @@ while true; do
             email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
         fi
 
-        command_line_arguments="${name} '${certificate_path}' '${PROXY_CERTIFICATE_DOMAINS[index]}' '${email_address}'"
+        command_line_arguments="${name} '${certificate_path}' '${domains}' '${email_address}'"
         domain_path="${certificate_path}domains.txt"
 
         # If certificates already exists as specified only update existing ones
         # and retrieve them initially otherwise.
         if \
-            [ -f "$domain_path" ] && \
-            [ "${PROXY_CERTIFICATE_DOMAINS[index]}" = "$(cat "$domain_path")" ]
+            [ -f "$domain_path" ] && [ "${domains}" = "$(cat "$domain_path")" ]
         then
             # NOTE: Server configuration file updates have to be run as root to
             # be able to temporary manipulate nginx configuration files:
-
             eval "update-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
             chown \
@@ -73,20 +73,26 @@ while true; do
             # If we do not use the nginx plugin installer (e.g. using the cli
             # option "--installer null") we can run the renewal as application
             # user and have to reload the server via a certbot hook. But this
-            # is not working as long as the pid file is owened by root not
+            # is not working as long as the pid file is owened by root no
             # matter who starts nginx.
 
-            #su \
-            #    "$MAIN_USER_NAME" \
-            #    --group "$MAIN_USER_GROUP_NAME" \
-            #    -c "APPLICATION_PATH='${APPLICATION_PATH}' update-certificate ${command_line_arguments}"
+            #run-command \
+            #    "APPLICATION_PATH='${APPLICATION_PATH}' update-certificate ${command_line_arguments}"
         else
             rm --force "$domain_path" &>/dev/null || true
 
-            run-command
-                "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
+            # NOTE: Certbot retrieving have to be run as root to be able to
+            # open tcp ports.
+            eval "retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
+            chown \
+                --recursive \
+                "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
+                "${APPLICATION_PATH}certificates" \
+                "/tmp/${name}/letsEncryptLog"
+            #run-command
+            #    "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
-            echo "${PROXY_CERTIFICATE_DOMAINS[index]}" >"$domain_path"
+            echo "${domains}" >"$domain_path"
         fi
 
         echo "$(date): Stopped checking certificate \"${name}\"." \
