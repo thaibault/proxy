@@ -30,7 +30,7 @@ NotifyAccess=all
 #RestartSec=10
 
 User=service
-WorkingDirectory=/srv/http/proxy
+WorkingDirectory=/srv/http/service/proxy
 
 [Install]
 WantedBy=multi-user.target
