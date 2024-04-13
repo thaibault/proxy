@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   proxy:
     # NOTE: Only for "docker stack deploy" (not "docker compose").
