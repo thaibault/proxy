@@ -22,7 +22,7 @@ fi
 declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}"
 echo "$(date): Wait $delay until first certificate update check." \
     &>>"$CERTIFICATION_SERVICE_LOG"
-sleep $delay
+sleep "$delay"
 
 # Defines how often we should reload nginx "1" means on every check and "7" on
 # every 7th check for example.
@@ -30,7 +30,6 @@ declare RELOAD_NGINX_INTERVAL=7
 
 declare certificate_path
 declare domains
-declare command
 declare domain_path
 declare email_address
 declare index
@@ -107,7 +106,7 @@ while true; do
 
         reload-nginx
 
-        number_of_intervalls+=0
+        number_of_intervalls=$((number_of_intervalls + 1))
     fi
 
     echo "$(date): Wait 24 hours until next certificate update check." \

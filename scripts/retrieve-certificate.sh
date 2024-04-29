@@ -31,11 +31,12 @@ for name in $3; do
     if [ "$domain_descriptions" = '' ]; then
         domain_descriptions+="\"${name}\""
     else
+        # shellcheck disable=SC2089
         domain_descriptions+=", \"${name}\""
     fi
 done
 
-echo Retrieve certificate for \"$1\" \(${domain_descriptions[@]}\).
+echo "Retrieve certificate for \"$1\" (${domain_descriptions[*]})."
 
 # NOTE: For testing use "--test-cert".
 certbot certonly \
@@ -49,9 +50,9 @@ certbot certonly \
     --renew-with-new-domains \
     --preferred-challenges http \
     --verbose \
-    $mode \
-    --work-dir "${2}letsEncrypt"\
-    $domains
+    "${mode[@]}" \
+    --work-dir "${2}letsEncrypt" \
+    "${domains[@]}"
 
 # Prepare configuration to be able to update certificate by using the nginx web
 # server.
