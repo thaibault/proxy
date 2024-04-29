@@ -31,6 +31,8 @@
   "scripts": {
     "clear": "echo nothing to clear.",
     "build": "echo nothing to build.",
+    "lint": "hash shellcheck && shellcheck -x **/*.sh || echo Please install \"shellcheck\". || true",
+    "lint:given": "shellcheck -x",
     "start": "docker compose --file service/docker/base.yaml --file service/docker/mounts.yaml --file service/docker/local.yaml up",
     "update": "yarn version patch && yarn npm publish",
     "update:documentation": "documentation-website"
