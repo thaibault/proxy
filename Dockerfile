@@ -8,7 +8,7 @@
 # -------
 
 # This library written by Torben Sickert stand under a creative commons naming
-# 3.0 unported license.
+# 4.0 unported license.
 # See https://creativecommons.org/licenses/by/3.0/deed.de
 # endregion
 # region create image commands
@@ -27,8 +27,14 @@ ARG        BASE_IMAGE
 
 FROM       ${BASE_IMAGE:-'ghcr.io/thaibault/containerbase:latest'}
 
-LABEL      maintainer="Torben Sickert <info@torben.website>"
-LABEL      Description="proxy" Vendor="thaibault products" Version="1.0"
+LABEL      org.opencontainers.image.title=Nginx proxy with certbot.
+LABEL      org.opencontainers.image.description=Image serving an engix proxy next to a running configurable certbot with encryption support.
+LABEL      org.opencontainers.image.authors=Torben Sickert <info@torben.website> (@thaibault)
+LABEL      org.opencontainers.image.url=https://github.com/thaibault/proxy/pkgs/container/proxy
+LABEL      org.opencontainers.image.documentation=https://github.com/thaibault/proxy/blob/main/readme.md
+LABEL      org.opencontainers.image.source=https://github.com/thaibault/proxy
+LABEL      org.opencontainers.image.licenses=CC-4.0
+LABEL      org.opencontainers.image.version=0.0.1
 
 EXPOSE     80 443
 
