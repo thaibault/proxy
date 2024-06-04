@@ -27,9 +27,9 @@ ARG        BASE_IMAGE
 
 FROM       ${BASE_IMAGE:-'ghcr.io/thaibault/containerbase:latest'}
 
-LABEL      org.opencontainers.image.title=Nginx proxy with certbot.
-LABEL      org.opencontainers.image.description=Image serving an engix proxy next to a running configurable certbot with encryption support.
-LABEL      org.opencontainers.image.authors=Torben Sickert <info@torben.website> (@thaibault)
+LABEL      org.opencontainers.image.title='Nginx proxy with certbot.'
+LABEL      org.opencontainers.image.description='Image serving an engix proxy next to a running configurable certbot with encryption support.'
+LABEL      org.opencontainers.image.authors='Torben Sickert <info@torben.website> (@thaibault)'
 LABEL      org.opencontainers.image.url=https://github.com/thaibault/proxy/pkgs/container/proxy
 LABEL      org.opencontainers.image.documentation=https://github.com/thaibault/proxy/blob/main/readme.md
 LABEL      org.opencontainers.image.source=https://github.com/thaibault/proxy
