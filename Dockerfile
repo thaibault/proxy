@@ -38,26 +38,26 @@ LABEL      org.opencontainers.image.version=0.0.1
 
 EXPOSE     80 443
 
-ENV        APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
+ENV        APPLICATION_USER_ID_INDICATOR_FILE_PATH=/etc/nginx/conf.d
 
-ENV        MAIN_USER_NAME http
+ENV        MAIN_USER_NAME=http
 
-ENV        PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '/etc/nginx/conf.d/*.conf'
-ENV        PROXY_CERTIFICATES ''
-ENV        PROXY_CERTIFICATE_DOMAINS ''
-ENV        PROXY_CERTIFICATE_EMAIL_ADDRESSES ''
-ENV        PROXY_CERTIFICATES_START_UPDATE_DELAY 50m
+ENV        PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH='/etc/nginx/conf.d/*.conf'
+ENV        PROXY_CERTIFICATES=''
+ENV        PROXY_CERTIFICATE_DOMAINS=''
+ENV        PROXY_CERTIFICATE_EMAIL_ADDRESSES=''
+ENV        PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
 
-ENV        ACCESS_LOG '/dev/stdout'
+ENV        ACCESS_LOG='/dev/stdout'
 ENV        CERTIFICATION_SERVICE_LOG="${APPLICATION_PATH}certificates/log.txt"
-ENV        ERROR_LOG  '/dev/stderr info'
+ENV        ERROR_LOG='/dev/stderr info'
 
-ENV        COMMAND nginx
+ENV        COMMAND=nginx
 
-ENV        TEMPORARY_NGINX_PATH /tmp/nginx/
+ENV        TEMPORARY_NGINX_PATH=/tmp/nginx/
 
 WORKDIR    $APPLICATION_PATH
-ENV        SCRIPTS_PATH "${APPLICATION_PATH}scripts/"
+ENV        SCRIPTS_PATH="${APPLICATION_PATH}scripts/"
 USER       root
            # endregion
            # region install needed packages
