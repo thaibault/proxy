@@ -29,7 +29,3 @@ package() {
     install -D --mode 655 "${srcdir}/proxy.service" \
         "${pkgdir}/etc/systemd/system/proxy.service"
 }
-# region vim modline
-# vim: set tabstop=4 shiftwidth=4 expandtab:
-# vim: foldmethod=marker foldmarker=region,endregion:
-# endregion
