@@ -125,7 +125,3 @@ RUN        ln --symbolic \
                /usr/bin/update-certificate
            # endregion
 #ENTRYPOINT ...
-# region modline
-# vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
-# vim: foldmethod=marker foldmarker=region,endregion:
-# endregion

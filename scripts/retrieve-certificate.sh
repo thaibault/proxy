@@ -23,10 +23,10 @@ ln \
     "${APPLICATION_PATH}certificates/acme-challenge" \
     "${2}letsEncrypt/.well-known/acme-challenge"
 
-declare domains=''
+declare domains=()
 declare domain_descriptions=''
 for name in $3; do
-    domains+=" -d ${name}"
+    domains+=(-d "$name")
 
     if [ "$domain_descriptions" = '' ]; then
         domain_descriptions+="\"${name}\""
