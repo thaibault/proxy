@@ -61,10 +61,11 @@ ENV        SCRIPTS_PATH="${APPLICATION_PATH}scripts/"
 USER       root
            # endregion
            # region install needed packages
-           # NOTE: "neovim" is only needed for debugging scenarios.
 RUN        yay \
                --needed \
                --noconfirm \
+               --noprogressbar \
+               --refresh \
                --sync \
                certbot \
                certbot-nginx \
