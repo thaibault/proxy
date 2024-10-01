@@ -1,6 +1,6 @@
 {
   "name": "proxy",
-  "version": "1.0.137",
+  "version": "1.0.138",
   "license": "CC-BY-3.0",
   "description": "generic dockerized proxy server",
   "homepage": "https://torben.website/proxy",
@@ -38,7 +38,7 @@
     "update:documentation": "documentation-website"
   },
   "devDependencies": {
-    "documentation-website": "^1.0.330",
+    "documentation-website": "^1.0.333",
     "shellcheck": "^3.0.0"
   },
   "engines": {
