@@ -61,12 +61,12 @@ ENV        SCRIPTS_PATH="${APPLICATION_PATH}scripts/"
 USER       root
            # endregion
            # region install needed packages
-RUN        yay \
+RUN        pacman-wrapper \
+               --sync \
                --needed \
                --noconfirm \
                --noprogressbar \
                --refresh \
-               --sync \
                certbot \
                certbot-nginx \
                nginx \
