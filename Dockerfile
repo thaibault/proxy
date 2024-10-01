@@ -63,7 +63,6 @@ USER       root
            # region install needed packages
 RUN        pacman-wrapper \
                --sync \
-               --needed \
                --noconfirm \
                --noprogressbar \
                --refresh \
