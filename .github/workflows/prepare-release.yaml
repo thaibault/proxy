@@ -1,0 +1,35 @@
+name: Prepare release
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: Sets "NODE_ENV" to "debug".
+        default: false
+        type: boolean
+      type:
+        description: Sets semantic version update type.
+        default: patch
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  build-package-and-push:
+    runs-on: ubuntu-latest
+    container: node:lts
+    steps:
+      - uses: thaibault/prepare-release-action@main
+        id: prepare-release
+        with:
+          debug: ${{ inputs.debug || '' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          npm-token: ${{ secrets.NPM_TOKEN }}
+          type: ${{ inputs.type || 'patch' }}
+
+      - name: Print determined version.
+        run: echo Newly determined version is \"${{ steps.prepare-release.outputs.version }}\".
+        shell: bash
