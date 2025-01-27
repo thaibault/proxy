@@ -2,7 +2,7 @@ name: Build image and push
 
 on:
   # NOTE: Runs on branch or tag creation.
-  push:
+  create:
     tags:
       - '*'
   schedule:
