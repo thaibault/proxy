@@ -51,7 +51,7 @@ jobs:
       - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
-          tags: ${{ inputs.tags || context.payload.workflow_run.steps.prepare-release.outputs.version || 'CURRENT_TAG_OR_BRANCH latest' }}
+          tags: ${{ inputs.tags || github.event.workflow_run.steps.prepare-release.outputs.version || 'CURRENT_TAG_OR_BRANCH latest' }}
 
           architecture: ${{ inputs.architecture || 'all' }}
           build-args: |
