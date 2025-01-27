@@ -26,8 +26,6 @@ jobs:
         id: prepare-release
         with:
           debug: ${{ inputs.debug || '' }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          npm-token: ${{ secrets.NPM_TOKEN }}
           type: ${{ inputs.type || 'patch' }}
 
       - name: Print determined version.
