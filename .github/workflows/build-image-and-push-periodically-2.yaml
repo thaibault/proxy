@@ -33,7 +33,7 @@ env:
   IMAGE_NAME: ${{ github.event.repository.name }}
 
 jobs:
-  build-image-and-push:
+  main:
     runs-on: ubuntu-latest
     permissions:
       contents: read
