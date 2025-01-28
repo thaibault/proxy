@@ -43,6 +43,7 @@ jobs:
       contents: read
       packages: write
 
+    steps:
       - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
