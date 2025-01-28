@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - name: Print determined version.
-        run: echo Newly determined version is \"${{ github.event.client_payload }}\".
+        run: echo Newly determined version is \"${{ github.event.client_payload.version }}\".
         shell: bash
 
     #- uses: thaibault/build-image-push-action@main
