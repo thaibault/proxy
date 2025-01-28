@@ -44,24 +44,28 @@ jobs:
       packages: write
 
     steps:
-      - uses: thaibault/build-image-push-action@main
-        with:
-          name: ${{ env.IMAGE_NAME }}
-          tags: ${{ inputs.tags || github.event.client_payload.version || 'CURRENT_TAG_OR_BRANCH latest' }}
+      - name: Print determined version.
+        run: echo Newly determined version is \"${{ github.event.client_payload }}\".
+        shell: bash
 
-          architecture: ${{ inputs.architecture || 'all' }}
-          build-args: |
-            BRANCH_NAME=${{ github.ref_name || 'main' }}
-            ${{ inputs.build-args }}
-
-          cache-key: ${{ runner.os }}-buildx-layer-${{ github.sha }}
-          cache-restore-keys: ${{ runner.os }}-buildx-layer-
-          use-cache: ${{ inputs.use-cache && github.event_name != 'schedule' }}
-
-          alternate-registry: docker.io
-          alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
-          alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    #- uses: thaibault/build-image-push-action@main
+    #    with:
+    #      name: ${{ env.IMAGE_NAME }}
+    #      tags: ${{ inputs.tags || github.event.client_payload.version || 'CURRENT_TAG_OR_BRANCH latest' }}
+    #
+    #      architecture: ${{ inputs.architecture || 'all' }}
+    #      build-args: |
+    #        BRANCH_NAME=${{ github.ref_name || 'main' }}
+    #        ${{ inputs.build-args }}
+    #
+    #      cache-key: ${{ runner.os }}-buildx-layer-${{ github.sha }}
+    #      cache-restore-keys: ${{ runner.os }}-buildx-layer-
+    #      use-cache: ${{ inputs.use-cache && github.event_name != 'schedule' }}
+    #
+    #      alternate-registry: docker.io
+    #      alternate-username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #      alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
+    #
+    #      registry: ${{ env.REGISTRY }}
+    #      username: ${{ github.actor }}
+    #      password: ${{ secrets.GITHUB_TOKEN }}
