@@ -43,10 +43,10 @@ jobs:
       contents: read
       packages: write
 
-    - uses: thaibault/build-image-push-action@main
+      - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
-          tags: ${{ inputs.tags || github.event.client_payload.version || 'CURRENT_TAG_OR_BRANCH latest' }}
+          tags: ${{ inputs.tags || github.event.client_payload.version && format('{0} latest', github.event.client_payload.version) || 'CURRENT_TAG_OR_BRANCH latest' }}
 
           architecture: ${{ inputs.architecture || 'all' }}
           build-args: |
