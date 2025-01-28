@@ -37,4 +37,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: prepare-release
-          client-payload: '{"version": "${{ steps.prepare-release.outputs.version }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "version": "${{ steps.prepare-release.outputs.version }}"}'
