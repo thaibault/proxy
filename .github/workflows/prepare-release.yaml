@@ -37,5 +37,5 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: prepare-release
+          event-type: prepare-release-event
           client-payload: '{"version": "${{ steps.prepare-release.outputs.version }}"}'
