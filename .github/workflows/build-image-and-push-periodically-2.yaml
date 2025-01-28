@@ -72,5 +72,5 @@ jobs:
           alternate-password: ${{ secrets.DOCKERHUB_TOKEN }}
 
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
