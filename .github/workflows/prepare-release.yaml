@@ -31,3 +31,9 @@ jobs:
       - name: Print determined version.
         run: echo Newly determined version is \"${{ steps.prepare-release.outputs.version }}\".
         shell: bash
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          event-type: prepare-release
+          client-payload: '{"version": "${{ steps.prepare-release.outputs.version }}"}'
