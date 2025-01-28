@@ -22,10 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     container: node:lts
 
-    permissions:
-      contents: read
-      packages: write
-
     steps:
       - uses: thaibault/prepare-release-action@main
         id: prepare-release

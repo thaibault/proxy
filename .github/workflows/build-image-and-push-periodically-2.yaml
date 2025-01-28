@@ -38,6 +38,7 @@ env:
 jobs:
   main:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
