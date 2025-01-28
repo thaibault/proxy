@@ -21,6 +21,11 @@ jobs:
   main:
     runs-on: ubuntu-latest
     container: node:lts
+
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - uses: thaibault/prepare-release-action@main
         id: prepare-release
@@ -35,6 +40,5 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           event-type: prepare-release
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "version": "${{ steps.prepare-release.outputs.version }}"}'
+          client-payload: '{"version": "${{ steps.prepare-release.outputs.version }}"}'
