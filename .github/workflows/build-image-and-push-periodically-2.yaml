@@ -7,7 +7,7 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+'
   # Runs when a new version was prepared.
   repository_dispatch:
-    types: [prepare-release]
+    types: [prepare-release-event]
   # Run every Sunday at 2am o'clock.
   schedule:
     - cron: '0 2 * * 0'
