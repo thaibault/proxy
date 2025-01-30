@@ -4,8 +4,8 @@ on:
   # NOTE: Runs on version tag creation.
   push:
     tags:
-      - 'v[1-9][0-9]*.[1-9][0-9]*.[1-9][0-9]*'
-      - 'v[1-9][0-9]*.[1-9][0-9]*.[1-9][0-9]*-[1-9][0-9]*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-[0-9]+'
   # Runs when a new version was prepared.
   repository_dispatch:
     types:
