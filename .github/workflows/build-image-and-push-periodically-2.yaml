@@ -1,4 +1,5 @@
 name: Build image and push
+run-name: Build image and push
 
 on:
   # NOTE: Runs on version tag creation.
