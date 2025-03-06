@@ -62,6 +62,7 @@ USER       root
            # endregion
            # region install needed packages
 RUN        pacman-wrapper \
+               --disable-sandbox \
                --sync \
                --noconfirm \
                --noprogressbar \
