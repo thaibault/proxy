@@ -38,15 +38,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.event.repository.name }}
-  TAG: ${{
-    inputs.tags ||
-    format(
-      '{0} latest',
-      github.event.client_payload.version ||
-      github.head_ref ||
-      github.ref_name
-    )
-  }}
+  TAG: ${{ inputs.tags || format('{0} latest', github.event.client_payload.version || github.head_ref || github.ref_name) }}
 
 jobs:
   main:
