@@ -38,6 +38,15 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.event.repository.name }}
+  TAG: ${{
+    inputs.tags ||
+    format(
+      '{0} latest',
+      github.event.client_payload.version ||
+      github.head_ref ||
+      github.ref_name
+    )
+  }}
 
 jobs:
   main:
@@ -51,16 +60,7 @@ jobs:
       - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
-          tags: |
-            ${{
-              inputs.tags ||
-              format(
-                '{0} latest',
-                github.event.client_payload.version ||
-                github.head_ref ||
-                github.ref_name
-              )
-            }}
+          tags: ${{ env.TAG }}
 
           architecture: ${{ inputs.architecture || 'all' }}
           build-args: |
@@ -78,3 +78,10 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: image-built
+          client-payload: '{"image": "${{ env.IMAGE_NAME }}", "reference": "${{ env.IMAGE_NAME }}:${{ env.TAG }}", "tag": "${{ env.TAG }}"}'
