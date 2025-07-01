@@ -29,6 +29,7 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
 
         # NOTE: Certbot retrieving have to be run as root to be able to open
         # tcp ports.
+        # shellcheck disable=SC2154
         eval "retrieve-certificate ${command_line_arguments}  --initialize ${name} '${certificate_path}' '${domains}' '${email_address}'"
         chown \
             --recursive \

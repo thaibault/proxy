@@ -8,7 +8,7 @@
 # -------
 
 # This library written by Torben Sickert stand under a creative commons naming
-# 3.0 unported license.
+# 4.0 unported license.
 # See https://creativecommons.org/licenses/by/3.0/deed.de
 # endregion
 # region create image commands
@@ -27,39 +27,45 @@ ARG        BASE_IMAGE
 
 FROM       ${BASE_IMAGE:-'ghcr.io/thaibault/containerbase:latest'}
 
-LABEL      maintainer="Torben Sickert <info@torben.website>"
-LABEL      Description="proxy" Vendor="thaibault products" Version="1.0"
+LABEL      org.opencontainers.image.title='Nginx proxy with certbot.'
+LABEL      org.opencontainers.image.description='Image serving an engix proxy next to a running configurable certbot with encryption support.'
+LABEL      org.opencontainers.image.authors='Torben Sickert <info@torben.website> (@thaibault)'
+LABEL      org.opencontainers.image.url=https://github.com/thaibault/proxy/pkgs/container/proxy
+LABEL      org.opencontainers.image.documentation=https://github.com/thaibault/proxy/blob/main/readme.md
+LABEL      org.opencontainers.image.source=https://github.com/thaibault/proxy
+LABEL      org.opencontainers.image.licenses=CC-4.0
+LABEL      org.opencontainers.image.version=0.0.1
 
 EXPOSE     80 443
 
-ENV        APPLICATION_USER_ID_INDICATOR_FILE_PATH /etc/nginx/conf.d
+ENV        APPLICATION_USER_ID_INDICATOR_FILE_PATH=/etc/nginx/conf.d
 
-ENV        MAIN_USER_NAME http
+ENV        MAIN_USER_NAME=http
 
-ENV        PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH '/etc/nginx/conf.d/*.conf'
-ENV        PROXY_CERTIFICATES ''
-ENV        PROXY_CERTIFICATE_DOMAINS ''
-ENV        PROXY_CERTIFICATE_EMAIL_ADDRESSES ''
-ENV        PROXY_CERTIFICATES_START_UPDATE_DELAY 50m
+ENV        PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH='/etc/nginx/conf.d/*.conf'
+ENV        PROXY_CERTIFICATES=''
+ENV        PROXY_CERTIFICATE_DOMAINS=''
+ENV        PROXY_CERTIFICATE_EMAIL_ADDRESSES=''
+ENV        PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
 
-ENV        ACCESS_LOG '/dev/stdout'
+ENV        ACCESS_LOG='/dev/stdout'
 ENV        CERTIFICATION_SERVICE_LOG="${APPLICATION_PATH}certificates/log.txt"
-ENV        ERROR_LOG  '/dev/stderr info'
+ENV        ERROR_LOG='/dev/stderr info'
 
-ENV        COMMAND nginx
+ENV        COMMAND=nginx
 
-ENV        TEMPORARY_NGINX_PATH /tmp/nginx/
+ENV        TEMPORARY_NGINX_PATH=/tmp/nginx/
 
 WORKDIR    $APPLICATION_PATH
-ENV        SCRIPTS_PATH "${APPLICATION_PATH}scripts/"
+ENV        SCRIPTS_PATH="${APPLICATION_PATH}scripts/"
 USER       root
            # endregion
            # region install needed packages
-           # NOTE: "neovim" is only needed for debugging scenarios.
-RUN        yay \
-               --needed \
-               --noconfirm \
+RUN        pacman-wrapper \
                --sync \
+               --noconfirm \
+               --noprogressbar \
+               --refresh \
                certbot \
                certbot-nginx \
                nginx \
@@ -119,7 +125,3 @@ RUN        ln --symbolic \
                /usr/bin/update-certificate
            # endregion
 #ENTRYPOINT ...
-# region modline
-# vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
-# vim: foldmethod=marker foldmarker=region,endregion:
-# endregion
