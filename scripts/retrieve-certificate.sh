@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 set -e
 
+source get-bashlink
+
 declare mode="--webroot -w '${2}letsEncrypt'"
 if [ "$1" = '--initialize' ]; then
     # NOTE: In this case no server has started yet.
@@ -36,7 +38,7 @@ for name in $3; do
     fi
 done
 
-echo "Retrieve certificate for \"$1\" (${domain_descriptions[*]})."
+bl.logging.info "Retrieve certificate for \"$1\" (${domain_descriptions[*]})."
 
 # NOTE: For testing use "--test-cert".
 certbot certonly \
