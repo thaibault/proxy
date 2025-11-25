@@ -28,17 +28,21 @@ on:
           - x86-64
       build-args:
         description: List of build-time variables.
+      build-target:
+        description: Sets the target stage to build.
+
+      tags:
+        description: Image tags to use for registering.
+
       use-cache:
         description: Use cache when building the image.
         default: true
         type: boolean
-      tags:
-        description: Image tags to use for registering.
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.event.repository.name }}
-  TAG: ${{ inputs.tags || format('{0} latest', github.event.client_payload.version || github.head_ref || github.ref_name) }}
+  TAGS: ${{ inputs.tags || format('{0} latest', github.event.client_payload.version || github.head_ref || github.ref_name) }}
 
 jobs:
   main:
@@ -52,12 +56,13 @@ jobs:
       - uses: thaibault/build-image-push-action@main
         with:
           name: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.TAG }}
+          tags: ${{ env.TAGS }}
 
           architecture: ${{ inputs.architecture || 'all' }}
           build-args: |
             BRANCH_NAME=${{ github.ref_name || 'main' }}
             ${{ inputs.build-args }}
+          build-target: ${{ inputs.build-target }}
 
           cache-key: ${{ runner.os }}-buildx-layer-${{ github.sha }}
           cache-restore-keys: ${{ runner.os }}-buildx-layer-
@@ -76,4 +81,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: image-built
-          client-payload: '{"image": "${{ env.IMAGE_NAME }}", "reference": "${{ env.IMAGE_NAME }}:${{ env.TAG }}", "tag": "${{ env.TAG }}"}'
+          client-payload: '{"image": "${{ env.IMAGE_NAME }}", "owner": "${{ github.repository_owner }}", "reference": "${{ env.IMAGE_NAME }}:${{ env.TAGS }}", "registry": "${{ env.REGISTRY }}", "tags": "${{ env.TAGS }}"}'
