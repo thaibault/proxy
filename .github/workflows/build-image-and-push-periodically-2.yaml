@@ -81,4 +81,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: image-built
-          client-payload: '{"image": "${{ env.IMAGE_NAME }}", "owner": "${{ github.repository_owner }}", "reference": "${{ env.IMAGE_NAME }}:${{ env.TAGS }}", "registry": "${{ env.REGISTRY }}", "tags": "${{ env.TAGS }}"}'
+          client-payload: '{"image": "${{ env.IMAGE_NAME }}", "owner": "${{ github.repository_owner }}", "reference": "${{ env.IMAGE_NAME }}:${{ env.TAGS }}", "registry": "${{ env.REGISTRY }}", "tags": "${{ env.TAGS }}", "inputTags": "${{ inputs.tags }}"}'
