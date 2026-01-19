@@ -43,6 +43,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.event.repository.name }}
   TAGS: ${{ inputs.tags || format('{0} latest', github.event.client_payload.version || github.head_ref || github.ref_name) }}
+  TARGET_TAG: ${{ inputs.tags || 'latest' }}
 
 jobs:
   main:
@@ -81,4 +82,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: image-built
-          client-payload: '{"image": "${{ env.IMAGE_NAME }}", "owner": "${{ github.repository_owner }}", "reference": "${{ env.IMAGE_NAME }}:${{ env.TAGS }}", "registry": "${{ env.REGISTRY }}", "tags": "${{ env.TAGS }}", "inputTags": "${{ inputs.tags }}"}'
+          client-payload: '{"image": "${{ env.IMAGE_NAME }}", "owner": "${{ github.repository_owner }}", "reference": "${{ env.IMAGE_NAME }}:${{ env.TAGS }}", "registry": "${{ env.REGISTRY }}", "tags": "${{ env.TAGS }}", "inputTags": "${{ inputs.tags }}", "targetTag": "${{ env.TARGET_TAG }}"}'
