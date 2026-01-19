@@ -58,6 +58,7 @@ jobs:
         with:
           name: ${{ env.IMAGE_NAME }}
           tags: ${{ env.TAGS }}
+          description: ${{ github.event.repository.description || format('Container image for {0}', github.event.repository.name) }}
 
           architecture: ${{ inputs.architecture || 'all' }}
           build-args: |
