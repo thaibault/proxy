@@ -266,12 +266,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"documentation-website@npm:^1.0.397":
-  version: 1.0.397
-  resolution: "documentation-website@npm:1.0.397"
+"documentation-website@npm:^1.0.398":
+  version: 1.0.398
+  resolution: "documentation-website@npm:1.0.398"
   bin:
     documentation-website: build/deploy.js
-  checksum: 10c0/f2b964dde29caab3d065161f05a4c7946b84ce1c3fa003633bfc91b743b4aa21cec18ac8d6cf934dd3073653b0a3cd2e6532d62d0f7ccfd02e5abddca7ccf2f1
+  checksum: 10c0/81cb393c19b7c1b65e70a01e05a00456a40c39fed8da7aa0fed7bbddd85648e83ac82f650bafb619e93246178e491fb2dd336d16ebb814680dc240ef0a0f1c80
   languageName: node
   linkType: hard
 
@@ -649,7 +649,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "proxy@workspace:."
   dependencies:
-    documentation-website: "npm:^1.0.397"
+    documentation-website: "npm:^1.0.398"
     shellcheck: "npm:^4.1.0"
   languageName: unknown
   linkType: soft
