@@ -34,10 +34,10 @@
     "lint": "shellcheck -x **/*.sh",
     "lint:given": "shellcheck -x",
     "start": "docker compose --file service/docker/base.yaml --file service/docker/mounts.yaml --file service/docker/local.yaml up",
-    "update:documentation": "documentation-website"
+    "update:documentation": "web-documentation"
   },
   "devDependencies": {
-    "documentation-website": "^1.0.401",
+    "web-documentation": "^1.0.0",
     "shellcheck": "^4.1.0"
   },
   "engines": {
