@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 set -e
 
+source get-bashlink
+
 # Example environment configuration:
 # APPLICATION_PATH='./'
 #
@@ -20,7 +22,8 @@ fi
 # NOTE: Wait a bit before starting to avoid making too many challenges when
 # application restarts many times in short period.
 declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}"
-echo "$(date): Wait $delay until first certificate update check." \
+bl.logging.info \
+    "Wait $delay until first certificate update check." \
     &>>"$CERTIFICATION_SERVICE_LOG"
 sleep "$delay"
 
@@ -41,7 +44,8 @@ while true; do
         domains=${PROXY_CERTIFICATE_DOMAINS[index]}
         name="${PROXY_CERTIFICATES[index]}"
 
-        echo "$(date): Start checking certificate \"${name}\"." \
+        bl.logging.info \
+            "Start checking certificate \"${name}\"." \
             &>>"$CERTIFICATION_SERVICE_LOG"
 
         certificate_path="${APPLICATION_PATH}certificates/${name}/"
@@ -61,7 +65,8 @@ while true; do
         then
             # NOTE: Server configuration file updates have to be run as root to
             # be able to temporary manipulate nginx configuration files:
-            eval "update-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
+            eval \
+                "update-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
             chown \
                 --recursive \
@@ -82,7 +87,8 @@ while true; do
 
             # NOTE: Certbot retrieving have to be run as root to be able to
             # open tcp ports.
-            eval "retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
+            eval \
+                "retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
             chown \
                 --recursive \
                 "${MAIN_USER_NAME}:${MAIN_USER_GROUP_NAME}" \
@@ -94,14 +100,16 @@ while true; do
             echo "${domains}" >"$domain_path"
         fi
 
-        echo "$(date): Stopped checking certificate \"${name}\"." \
+        bl.logging.info \
+            "Stopped checking certificate \"${name}\"." \
             &>>"$CERTIFICATION_SERVICE_LOG"
     done
 
     number_of_intervalls=$((number_of_intervalls + 1))
 
     if ((number_of_intervalls == RELOAD_NGINX_INTERVAL)); then
-        echo "$(date): Reload nginx on ${number_of_intervalls}th intervall." \
+        bl.logging.info \
+            "Reload nginx on ${number_of_intervalls}th intervall." \
             &>>"$CERTIFICATION_SERVICE_LOG"
 
         reload-nginx
@@ -109,7 +117,8 @@ while true; do
         number_of_intervalls=$((number_of_intervalls + 1))
     fi
 
-    echo "$(date): Wait 24 hours until next certificate update check." \
+    bl.logging.info \
+        "Wait 24 hours until next certificate update check." \
         &>>"$CERTIFICATION_SERVICE_LOG"
     sleep 24h
 done

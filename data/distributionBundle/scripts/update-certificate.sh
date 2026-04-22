@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 set -e
 
-echo "Update certificate for \"$1\"."
+source get-bashlink
+
+bl.logging.info "Update certificate for \"$1\"."
 
 # Ensure presence of needed acme challenge locations.
 run-command mkdir --parents "${APPLICATION_PATH}certificates/acme-challenge"
