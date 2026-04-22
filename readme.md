@@ -16,7 +16,7 @@ Project status
 [![build push image](https://img.shields.io/github/actions/workflow/status/thaibault/proxy/build-image-and-push-periodically-2.yaml?label=build%20push%20image&style=for-the-badge)](https://github.com/thaibault/proxy/actions/workflows/build-image-and-push-periodically-2.yaml)
 
 [![deploy web documentation](https://img.shields.io/github/actions/workflow/status/thaibault/proxy/deploy-web-documentation.yaml?label=deploy%20web%20documentation&style=for-the-badge)](https://github.com/thaibault/proxy/actions/workflows/deploy-web-documentation.yaml)
-[![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/proxy.svg?label=documentation-website&style=for-the-badge)](https://torben.website/proxy)
+[![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/proxy.svg?label=web-documentation&style=for-the-badge)](https://torben.website/proxy)
 
 <!--|deDE:Einsatz-->
 Use case
