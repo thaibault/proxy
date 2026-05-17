@@ -641,7 +641,7 @@ __metadata:
   resolution: "proxy@workspace:."
   dependencies:
     shellcheck: "npm:^4.1.0"
-    web-documentation: "npm:^1.0.2"
+    web-documentation: "npm:^1.0.12"
   languageName: unknown
   linkType: soft
 
@@ -883,12 +883,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-documentation@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "web-documentation@npm:1.0.2"
+"web-documentation@npm:^1.0.12":
+  version: 1.0.12
+  resolution: "web-documentation@npm:1.0.12"
   bin:
     web-documentation: build/deploy.js
-  checksum: 10c0/e95ffd9e7ffefa0f8b1b44161079c21b6dcf80ae16343dbc63452430c6768cf3cee09f2039c4cf4672b811bc884231cc02b193c4f0d6d37174af53627d6d1aa5
+  checksum: 10c0/1843886ffe687fb96e821cad4785d42bfde918087b4a8b1452af533c2554b1265af23ee1648b4d64d90e2b8107856ebc311c41149ec079cd66493fc2a0538bfb
   languageName: node
   linkType: hard
 
