@@ -4,8 +4,7 @@
   "license": "CC-BY-3.0",
   "description": "generic dockerized proxy server",
   "homepage": "https://torben.website/proxy",
-  "documentationWebsite": {
-    "name": "proxy",
+  "webDocumentation": {
     "tagline": "proxy your docker container",
     "trackingCode": "UA-40192634-26"
   },
