@@ -2,12 +2,8 @@
   "name": "proxy",
   "version": "1.0.186",
   "license": "CC-BY-3.0",
+  "version": "1.0.184",
   "description": "generic dockerized proxy server",
-  "homepage": "https://torben.website/proxy",
-  "webDocumentation": {
-    "tagline": "proxy your docker container",
-    "trackingCode": "UA-40192634-26"
-  },
   "keywords": [
     "archLinux",
     "arch",
@@ -16,20 +12,20 @@
     "linux",
     "proxy"
   ],
+  "homepage": "https://torben.website/proxy",
+  "license": "CC-BY-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thaibault/proxy"
+  },
+  "main": "Dockerfile",
   "files": [
     "Dockerfile",
     "etc",
     "scripts",
     "service"
   ],
-  "main": "Dockerfile",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/thaibault/proxy"
-  },
   "scripts": {
-    "clear": "echo nothing to clear.",
-    "build": "echo nothing to build.",
     "lint": "shellcheck -x **/*.sh",
     "lint:given": "shellcheck -x",
     "start": "docker compose --file service/docker/base.yaml --file service/docker/mounts.yaml --file service/docker/local.yaml up",
@@ -43,6 +39,10 @@
     "node": ">=24",
     "npm": ">=11",
     "yarn": ">=4"
+  },
+  "webDocumentation": {
+    "tagline": "proxy your docker container",
+    "trackingCode": "UA-40192634-26"
   },
   "packageManager": "yarn@4.14.1+sha512.64df448055b2d37ba269d7db535a469b8da93f8ef1140c25fd7a83c00a8fbaacb214ca0e02553b92a2c54cef78bb67d0b4817fab02001df0e24fac0faccc3b42"
 }
