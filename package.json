@@ -1,7 +1,5 @@
 {
   "name": "proxy",
-  "version": "1.0.186",
-  "license": "CC-BY-3.0",
   "version": "1.0.184",
   "description": "generic dockerized proxy server",
   "keywords": [
@@ -36,8 +34,8 @@
     "web-documentation": "^1.0.45"
   },
   "engines": {
-    "node": ">=24",
-    "npm": ">=11",
+    "node": ">=26",
+    "npm": ">=12",
     "yarn": ">=4"
   },
   "webDocumentation": {
