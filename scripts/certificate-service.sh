@@ -38,7 +38,7 @@ declare email_address
 declare index
 declare name
 
-declare number_of_intervalls=0
+declare number_of_intervals=0
 while true; do
     for index in "${!PROXY_CERTIFICATES[@]}"; do
         domains=${PROXY_CERTIFICATE_DOMAINS[index]}
@@ -105,16 +105,16 @@ while true; do
             &>>"$CERTIFICATION_SERVICE_LOG"
     done
 
-    number_of_intervalls=$((number_of_intervalls + 1))
+    number_of_intervals=$((number_of_intervals + 1))
 
-    if ((number_of_intervalls == RELOAD_NGINX_INTERVAL)); then
+    if ((number_of_intervals == RELOAD_NGINX_INTERVAL)); then
         bl.logging.info \
-            "Reload nginx on ${number_of_intervalls}th intervall." \
+            "Reload nginx on ${number_of_intervals}th interval." \
             &>>"$CERTIFICATION_SERVICE_LOG"
 
         reload-nginx
 
-        number_of_intervalls=$((number_of_intervalls + 1))
+        number_of_intervals=$((number_of_intervals + 1))
     fi
 
     bl.logging.info \
