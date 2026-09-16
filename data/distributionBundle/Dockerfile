@@ -7,7 +7,7 @@
 # License
 # -------
 
-# This library written by Torben Sickert stand under a creative commons naming
+# This library written by Torben Sickert stands under a creative commons naming
 # 4.0 unported license.
 # See https://creativecommons.org/licenses/by/3.0/deed.de
 # endregion
