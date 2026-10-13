@@ -13,6 +13,12 @@ source get-bashlink
 #     'service.staging.com service-variation.staging.com'
 # )
 # PROXY_CERTIFICATE_EMAIL_ADDRESSES=(service@info.com)
+#
+# Optionally upload each certificate into a cloudflare zone (empty zone id
+# means no synchronisation for the corresponding certificate):
+# PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=(023e105f4ecef8ad9ca31a8372d0c353 '')
+# PROXY_CLOUDFLARE_API_TOKEN=TOKEN
+# PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=('' '') # Per certificate overwrites.
 
 if ! [ -f "$CERTIFICATION_SERVICE_LOG" ]; then
     run-command touch "$CERTIFICATION_SERVICE_LOG"
@@ -98,6 +104,21 @@ while true; do
             #    "APPLICATION_PATH='${APPLICATION_PATH}' retrieve-certificate ${command_line_arguments} &>>'${CERTIFICATION_SERVICE_LOG}'"
 
             echo "${domains}" >"$domain_path"
+        fi
+
+        if [ "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" != '' ]; then
+            PROXY_CLOUDFLARE_API_TOKEN="${PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS[index]:-$PROXY_CLOUDFLARE_API_TOKEN}" \
+            PROXY_CLOUDFLARE_API_URL="$PROXY_CLOUDFLARE_API_URL" \
+            PROXY_CLOUDFLARE_BUNDLE_METHOD="$PROXY_CLOUDFLARE_BUNDLE_METHOD" \
+            PROXY_CLOUDFLARE_CERTIFICATE_TYPE="$PROXY_CLOUDFLARE_CERTIFICATE_TYPE" \
+                synchronize-cloudflare-certificate \
+                    "$name" \
+                    "$certificate_path" \
+                    "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" \
+                    &>>"$CERTIFICATION_SERVICE_LOG" || \
+                bl.logging.warn \
+                    "Synchronizing certificate \"${name}\" to cloudflare failed." \
+                    &>>"$CERTIFICATION_SERVICE_LOG"
         fi
 
         bl.logging.info \
