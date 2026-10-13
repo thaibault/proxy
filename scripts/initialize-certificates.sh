@@ -41,6 +41,22 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
 
         run-command "echo '${domains}' >'${domain_path}'"
     fi
+
+    # NOTE: Synchronize already existing certificates as well to bring a newly
+    # connected cloudflare zone up to date on startup. A failing upload should
+    # not prevent the proxy from starting.
+    if [ "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" != '' ]; then
+        PROXY_CLOUDFLARE_API_TOKEN="${PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS[index]:-$PROXY_CLOUDFLARE_API_TOKEN}" \
+        PROXY_CLOUDFLARE_API_URL="$PROXY_CLOUDFLARE_API_URL" \
+        PROXY_CLOUDFLARE_BUNDLE_METHOD="$PROXY_CLOUDFLARE_BUNDLE_METHOD" \
+        PROXY_CLOUDFLARE_CERTIFICATE_TYPE="$PROXY_CLOUDFLARE_CERTIFICATE_TYPE" \
+            synchronize-cloudflare-certificate \
+                "$name" \
+                "$certificate_path" \
+                "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" || \
+            echo "Synchronizing certificate \"${name}\" to cloudflare failed." \
+                >&2
+    fi
 done
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:
