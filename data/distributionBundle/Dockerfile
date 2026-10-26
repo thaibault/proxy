@@ -47,6 +47,15 @@ ENV        PROXY_CERTIFICATES=''
 ENV        PROXY_CERTIFICATE_DOMAINS=''
 ENV        PROXY_CERTIFICATE_EMAIL_ADDRESSES=''
 ENV        PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
+# Optional synchronisation of retrieved certificates into cloudflare zones
+# (custom certificates). Zone ids (and optional per certificate api tokens)
+# are configured in the same order as "PROXY_CERTIFICATES".
+ENV        PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=''
+ENV        PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=''
+ENV        PROXY_CLOUDFLARE_API_TOKEN=''
+ENV        PROXY_CLOUDFLARE_API_URL='https://api.cloudflare.com/client/v4'
+ENV        PROXY_CLOUDFLARE_BUNDLE_METHOD=ubiquitous
+ENV        PROXY_CLOUDFLARE_CERTIFICATE_TYPE=sni_custom
 
 ENV        ACCESS_LOG='/dev/stdout'
 ENV        CERTIFICATION_SERVICE_LOG="${APPLICATION_PATH}certificates/log.txt"
@@ -68,6 +77,8 @@ RUN        pacman-wrapper \
                --refresh \
                certbot \
                certbot-nginx \
+               curl \
+               jq \
                nginx \
                openssl && \
            clean-up
@@ -125,5 +136,8 @@ RUN        ln --symbolic \
 RUN        ln --symbolic \
                "${SCRIPTS_PATH}update-certificate.sh" \
                /usr/bin/update-certificate
+RUN        ln --symbolic \
+               "${SCRIPTS_PATH}synchronize-cloudflare-certificate.sh" \
+               /usr/bin/synchronize-cloudflare-certificate
            # endregion
 #ENTRYPOINT ...
