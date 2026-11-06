@@ -1,6 +1,6 @@
 {
   "name": "proxy",
-  "version": "1.0.189",
+  "version": "1.0.189-1",
   "description": "generic dockerized proxy server",
   "keywords": [
     "archLinux",
@@ -14,7 +14,7 @@
   "license": "CC-BY-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaibault/proxy"
+    "url": "git+https://github.com/thaibault/proxy.git"
   },
   "main": "Dockerfile",
   "files": [
