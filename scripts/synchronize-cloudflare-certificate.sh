@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 set -e
 
+# shellcheck disable=SC1091
 source get-bashlink
 
 # Uploads (or replaces) the current certbot managed certificate as custom

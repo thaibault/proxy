@@ -24,9 +24,10 @@
     "service"
   ],
   "scripts": {
-    "lint": "shellcheck -x **/*.sh",
+    "lint": "shellcheck -x scripts/*.sh test/*.sh",
     "lint:given": "shellcheck -x",
     "start": "docker compose --file service/docker/base.yaml --file service/docker/mounts.yaml --file service/docker/local.yaml up",
+    "test": "bash ./test/scripts.sh",
     "update:documentation": "web-documentation"
   },
   "devDependencies": {

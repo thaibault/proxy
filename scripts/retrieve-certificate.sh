@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 set -e
 
+# shellcheck disable=SC1091
 source get-bashlink
 
-declare mode="--webroot -w '${2}letsEncrypt'"
+declare mode=(--webroot -w "${2}letsEncrypt")
 if [ "$1" = '--initialize' ]; then
     # NOTE: In this case no server has started yet.
-    mode='--standalone'
+    mode=(--standalone)
 
     shift
 fi
