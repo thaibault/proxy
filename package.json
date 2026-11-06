@@ -1,6 +1,6 @@
 {
   "name": "proxy",
-  "version": "1.0.189-1",
+  "version": "1.0.190",
   "description": "generic dockerized proxy server",
   "keywords": [
     "archLinux",
