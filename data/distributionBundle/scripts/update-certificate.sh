@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 set -e
 
+# shellcheck disable=SC1091
 source get-bashlink
 
 bl.logging.info "Update certificate for \"$1\"."
