@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 set -e
 
+# shellcheck disable=SC1091
 source get-bashlink
 
 # Example environment configuration:
@@ -27,7 +28,7 @@ fi
 
 # NOTE: Wait a bit before starting to avoid making too many challenges when
 # application restarts many times in short period.
-declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-'50m'}"
+declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-50m}"
 bl.logging.info \
     "Wait $delay until first certificate update check." \
     &>>"$CERTIFICATION_SERVICE_LOG"
@@ -135,7 +136,7 @@ while true; do
 
         reload-nginx
 
-        number_of_intervals=$((number_of_intervals + 1))
+        number_of_intervals=0
     fi
 
     bl.logging.info \
