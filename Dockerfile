@@ -47,7 +47,7 @@ ENV        PROXY_CERTIFICATES=''
 ENV        PROXY_CERTIFICATE_DOMAINS=''
 ENV        PROXY_CERTIFICATE_EMAIL_ADDRESSES=''
 ENV        PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
-# Optional synchronisation of retrieved certificates into cloudflare zones
+# Optional synchronization of retrieved certificates into cloudflare zones
 # (custom certificates). Zone ids (and optional per certificate api tokens)
 # are configured in the same order as "PROXY_CERTIFICATES".
 ENV        PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=''

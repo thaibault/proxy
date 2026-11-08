@@ -55,7 +55,7 @@ Features
   number of certificates, each covering multiple domains.
 - Re-retrieval when the configured domain list of a certificate changes.
 - Periodic nginx reloads to activate renewed certificates.
-- Optional synchronisation of every certificate into a Cloudflare zone as
+- Optional synchronization of every certificate into a Cloudflare zone as
   custom certificate.
 - Ready to use docker compose, podman (kubernetes) and systemd service files.
 
@@ -255,7 +255,7 @@ All certificate activity is logged to `certificates/log.txt` (configurable via
 `CERTIFICATION_SERVICE_LOG`). Certbot's own logs are written to
 `/tmp/<name>/letsEncryptLog` inside the container.
 
-### Cloudflare synchronisation
+### Cloudflare synchronization
 
 Each certificate can additionally be uploaded to a Cloudflare zone as
 [custom certificate](https://developers.cloudflare.com/ssl/edge-certificates/custom-certificates/).
@@ -265,7 +265,7 @@ Cloudflare a new one is created.
 
 ```bash
 # Zone id per certificate (same order as "PROXY_CERTIFICATES"). An empty
-# entry disables the synchronisation for that certificate.
+# entry disables the synchronization for that certificate.
 PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=(023e105f4ecef8ad9ca31a8372d0c353 '')
 # API token with the permission "Zone - SSL and Certificates - Edit".
 PROXY_CLOUDFLARE_API_TOKEN=YOUR_TOKEN
@@ -277,7 +277,7 @@ PROXY_CLOUDFLARE_BUNDLE_METHOD=ubiquitous
 PROXY_CLOUDFLARE_CERTIFICATE_TYPE=sni_custom
 ```
 
-Synchronisation runs on startup (so existing certificates are uploaded as soon
+Synchronization runs on startup (so existing certificates are uploaded as soon
 as a zone is configured) and after every daily check. An upload only happens
 if the certificate or key changed since the last successful upload. The
 Cloudflare certificate id and a fingerprint of the uploaded files are stored
@@ -313,7 +313,7 @@ Environment variables
 | `PROXY_CLOUDFLARE_CERTIFICATE_TYPE` | `sni_custom` | Type of uploaded custom certificates. |
 | `PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH` | `/etc/nginx/conf.d/*.conf` | Nginx configuration files to include (build time). |
 | `CERTIFICATION_SERVICE_LOG` | `/application/certificates/log.txt` | Log file of the certificate service. |
-| `COMMAND` | `nginx` | Command started after initialisation. |
+| `COMMAND` | `nginx` | Command started after initialization. |
 
 Variables of the
 [containerbase](https://github.com/thaibault/containerbase) image are
