@@ -16,7 +16,7 @@ source get-bashlink
 # PROXY_CERTIFICATE_EMAIL_ADDRESSES=(service@info.com)
 #
 # Optionally upload each certificate into a cloudflare zone (empty zone id
-# means no synchronisation for the corresponding certificate):
+# means no synchronization for the corresponding certificate):
 # PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=(023e105f4ecef8ad9ca31a8372d0c353 '')
 # PROXY_CLOUDFLARE_API_TOKEN=TOKEN
 # PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=('' '') # Per certificate overwrites.

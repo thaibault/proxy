@@ -329,16 +329,16 @@ assert_called "synchronize-cloudflare-certificate [beta] [${APPLICATION_PATH}cer
 [ "$(count_calls synchronize-cloudflare-certificate)" = 1 ] || \
     fail Certificates without a zone should not be synchronized.
 
-# A failing synchronisation should not prevent the proxy from starting.
+# A failing synchronization should not prevent the proxy from starting.
 reset_calls
 FAIL_synchronize_cloudflare_certificate=true \
     run_sourced "${scripts_path}initialize-certificates.sh" \
         <<<"$initialize_certificates_configuration" \
         2>"${work_path}/output.txt" || \
-    fail Failing synchronisation stopped initialization.
+    fail Failing synchronization stopped initialization.
 assert_not_called retrieve-certificate
 grep --quiet 'to cloudflare failed' "${work_path}/output.txt" || \
-    fail Failing synchronisation was not reported.
+    fail Failing synchronization was not reported.
 # endregion
 # region certificate-service
 # NOTE: Standard error is suppressed to hide the report of the terminated loop.
@@ -357,7 +357,7 @@ assert_called "retrieve-certificate [beta] [${APPLICATION_PATH}certificates/beta
     fail Domains were not stored.
 grep --quiet 'Synchronizing certificate "beta" to cloudflare failed.' \
     "$CERTIFICATION_SERVICE_LOG" || \
-    fail Failing synchronisation was not logged.
+    fail Failing synchronization was not logged.
 assert_not_called reload-nginx
 
 # Reloads nginx every 7th day.
