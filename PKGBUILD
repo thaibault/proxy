@@ -7,7 +7,8 @@
 # -------
 
 # This library written by Torben Sickert stands under a creative commons naming
-# 3.0 unported license. See https://creativecommons.org/licenses/by/3.0/deed.de
+# 4.0 international license.
+# See https://creativecommons.org/licenses/by/4.0/deed.de
 # endregion
 pkgname=proxy
 pkgver=1.0.15
@@ -15,7 +16,7 @@ pkgrel=13
 pkgdesc='generic proxy server'
 arch=(any)
 url=https://tsickert.com/proxy
-license=(CC-BY-3.0)
+license=(CC-BY-4.0)
 depends=(bash docker)
 source=(base.yaml Dockerfile proxy.service)
 md5sums=(SKIP SKIP SKIP)
