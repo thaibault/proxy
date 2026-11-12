@@ -23,10 +23,13 @@ md5sums=(SKIP SKIP SKIP)
 copy_to_aur=true
 
 package() {
-    install -D --mode 755 "${srcdir}/base.yaml" \
-        "${pkgdir}/srv/http/proxy/base.yaml"
-    install -D --mode 755 "${srcdir}/Dockerfile" \
-        "${pkgdir}/srv/http/proxy/Dockerfile"
-    install -D --mode 655 "${srcdir}/proxy.service" \
+    install -D --mode 755 "${srcdir}/service/docker" \
+        "${pkgdir}/srv/http/proxy/docker"
+
+    install -D --mode 655 "${srcdir}/service/systemd/proxy.service" \
         "${pkgdir}/etc/systemd/system/proxy.service"
+    install -D --mode 655 "${srcdir}/service/systemd/reload-proxy.service" \
+        "${pkgdir}/etc/systemd/system/reload-proxy.service"
+    install -D --mode 655 "${srcdir}/service/systemd/reload-proxy.timer" \
+        "${pkgdir}/etc/systemd/system/reload-proxy.timer"
 }
