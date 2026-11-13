@@ -5,7 +5,9 @@ set -e
 # shellcheck disable=SC1091
 source get-bashlink
 
-declare mode=(--webroot -w "${2}letsEncrypt")
+# NOTE: Nginx is already running in this case so it has to load retrieved
+# certificates.
+declare mode=(--webroot -w "${2}letsEncrypt" --deploy-hook reload-nginx)
 if [ "$1" = '--initialize' ]; then
     # NOTE: In this case no server has started yet.
     mode=(--standalone)

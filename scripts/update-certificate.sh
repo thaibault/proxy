@@ -22,6 +22,7 @@ certbot renew \
     --agree-tos \
     --cert-name "$1" \
     --config-dir "${2}letsEncrypt/configuration" \
+    --deploy-hook reload-nginx \
     --disable-renew-updates \
     --email "$4" \
     --expand \
