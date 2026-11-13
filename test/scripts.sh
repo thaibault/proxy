@@ -276,7 +276,7 @@ reset_calls
     "$name" "$certificate_path" a.test mail@a.test >/dev/null || \
     fail Retrieving via webroot failed.
 grep --quiet --fixed-strings -- \
-    "[--verbose] [--webroot] [-w] [${certificate_path}letsEncrypt] [--work-dir]" \
+    "[--verbose] [--webroot] [-w] [${certificate_path}letsEncrypt] [--deploy-hook] [reload-nginx] [--work-dir]" \
     "$CALL_LOG_FILE_PATH" || \
     fail Webroot mode was not passed as separate arguments.
 # endregion
@@ -292,7 +292,7 @@ reset_calls
 "${scripts_path}update-certificate.sh" \
     "$name" "$certificate_path" a.test mail@a.test >/dev/null || \
     fail Updating failed.
-assert_called "certbot [renew] [--agree-tos] [--cert-name] [${name}] [--config-dir] [${certificate_path}letsEncrypt/configuration] [--disable-renew-updates] [--email] [mail@a.test] [--expand] [--installer] [null] [--keep-until-expiring] [--logs-dir] [/tmp/${name}/letsEncryptLog] [--non-interactive] [--renew-with-new-domains] [--verbose] [--work-dir] [${certificate_path}letsEncrypt]"
+assert_called "certbot [renew] [--agree-tos] [--cert-name] [${name}] [--config-dir] [${certificate_path}letsEncrypt/configuration] [--deploy-hook] [reload-nginx] [--disable-renew-updates] [--email] [mail@a.test] [--expand] [--installer] [null] [--keep-until-expiring] [--logs-dir] [/tmp/${name}/letsEncryptLog] [--non-interactive] [--renew-with-new-domains] [--verbose] [--work-dir] [${certificate_path}letsEncrypt]"
 [ "$(readlink "${certificate_path}letsEncrypt/.well-known/acme-challenge")" = \
   "${APPLICATION_PATH}certificates/acme-challenge" ] || \
     fail Acme challenge location was not linked.

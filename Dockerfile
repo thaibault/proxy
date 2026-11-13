@@ -28,7 +28,7 @@ ARG        BASE_IMAGE
 FROM       ${BASE_IMAGE:-'ghcr.io/thaibault/containerbase:latest'}
 
 LABEL      org.opencontainers.image.title='Nginx proxy with certbot.'
-LABEL      org.opencontainers.image.description='Image serving an engix proxy next to a running configurable certbot with encryption support.'
+LABEL      org.opencontainers.image.description='Image serving an nginx proxy next to a running configurable certbot with encryption support.'
 LABEL      org.opencontainers.image.authors='Torben Sickert <info@tsickert.com> (@thaibault)'
 LABEL      org.opencontainers.image.url=https://github.com/thaibault/proxy/pkgs/container/proxy
 LABEL      org.opencontainers.image.documentation=https://github.com/thaibault/proxy/blob/main/readme.md
@@ -126,10 +126,9 @@ RUN        ln --force --symbolic \
 RUN        ln --symbolic \
                "${SCRIPTS_PATH}initialize-certificates.sh" \
                /usr/bin/initialize-certificates
-RUN        mkdir --parents /etc/letsencrypt/renewal-hooks/post
 RUN        ln --symbolic \
                "${SCRIPTS_PATH}reload-nginx.sh" \
-               /etc/letsencrypt/renewal-hooks/post/50-reload-nginx.sh
+               /usr/bin/reload-nginx
 RUN        ln --symbolic \
                "${SCRIPTS_PATH}retrieve-certificate.sh" \
                /usr/bin/retrieve-certificate

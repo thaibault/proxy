@@ -252,6 +252,30 @@ compose ("latest" by default).
 - "reload-proxy.timer" triggers "reload-proxy.service" five minutes after
   boot and once a week afterwards.<!--deDE:"reload-proxy.timer" löst "reload-proxy.service" fünf Minuten nach dem Start und danach einmal pro Woche aus.--><!--frFR:"reload-proxy.timer" déclenche "reload-proxy.service" cinq minutes après le démarrage puis une fois par semaine.-->
 
+On Arch Linux the included "PKGBUILD" builds a package via
+"makepkg --install". It installs the compose files and the configuration
+skeleton into "/srv/http/service/proxy" and the units into systemd's unit
+folder. The user "service" has to exist and be allowed to use docker:
+<!--deDE:
+    Unter Arch Linux baut das enthaltene "PKGBUILD" über "makepkg --install"
+    ein Paket. Es installiert die Compose-Dateien und das
+    Konfigurationsgerüst nach "/srv/http/service/proxy" und die Units in den
+    Unit-Ordner von systemd. Der Benutzer "service" muss existieren und
+    docker verwenden dürfen:
+-->
+<!--frFR:
+    Sous Arch Linux, le "PKGBUILD" inclus construit un paquet via
+    "makepkg --install". Il installe les fichiers compose et le squelette de
+    configuration dans "/srv/http/service/proxy" et les unités dans le
+    dossier des unités de systemd. L'utilisateur "service" doit exister et
+    avoir le droit d'utiliser docker:
+-->
+
+```bash
+useradd --groups docker --system service
+systemctl enable --now proxy.service reload-proxy.timer
+```
+
 <!--|deDE:Nginx-Konfiguration-->
 <!--|frFR:Configuration nginx-->
 Nginx configuration
@@ -423,9 +447,9 @@ started.
 3. Daily checks: Every 24 hours each certificate is renewed through the
    running nginx when it is close to expiry. Certificates with a changed
    domain list are retrieved again.<!--deDE:Tägliche Prüfungen: Alle 24 Stunden wird jedes Zertifikat kurz vor Ablauf über das laufende nginx erneuert. Zertifikate mit geänderter Domainliste werden neu abgerufen.--><!--frFR:Vérifications quotidiennes: Toutes les 24 heures, chaque certificat proche de l'expiration est renouvelé via le nginx en cours d'exécution. Les certificats dont la liste de domaines a changé sont obtenus à nouveau.-->
-4. Reload: Nginx is reloaded every seventh check to pick up renewed
-   certificates. Use the systemd timer or
-   `docker exec proxy nginx -s reload` for more frequent reloads.<!--deDE:Neuladen: Nginx wird bei jeder siebten Prüfung neu geladen, um erneuerte Zertifikate zu übernehmen. Für häufigeres Neuladen verwenden Sie den systemd-Timer oder `docker exec proxy nginx -s reload`.--><!--frFR:Rechargement: Nginx est rechargé toutes les sept vérifications pour prendre en compte les certificats renouvelés. Pour des rechargements plus fréquents, utilisez le timer systemd ou `docker exec proxy nginx -s reload`.-->
+4. Reload: Nginx is reloaded right after each renewal or retrieval, so new
+   certificates are served immediately. Additionally it is reloaded every
+   seventh check.<!--deDE:Neuladen: Nginx wird direkt nach jeder Erneuerung oder jedem Abruf neu geladen, neue Zertifikate werden also sofort ausgeliefert. Zusätzlich wird es bei jeder siebten Prüfung neu geladen.--><!--frFR:Rechargement: Nginx est rechargé juste après chaque renouvellement ou obtention, les nouveaux certificats sont donc servis immédiatement. Il est en plus rechargé toutes les sept vérifications.-->
 
 All certificate activity is logged to "certificates/log.txt" (configurable via
 "CERTIFICATION_SERVICE_LOG"). Certbot's own logs are written to
@@ -605,14 +629,8 @@ required):
 - "initialize-certificates": Retrieves all configured certificates which are
   missing.<!--deDE:"initialize-certificates": Ruft alle konfigurierten, noch fehlenden Zertifikate ab.--><!--frFR:"initialize-certificates": Obtient tous les certificats configurés manquants.-->
 - "certificate-service": Runs the periodic renewal loop.<!--deDE:"certificate-service": Führt die periodische Erneuerungsschleife aus.--><!--frFR:"certificate-service": Exécute la boucle de renouvellement périodique.-->
-
-`docker exec proxy nginx -s reload` reloads the nginx configuration.
-<!--deDE:
-    `docker exec proxy nginx -s reload` lädt die nginx-Konfiguration neu.
--->
-<!--frFR:
-    `docker exec proxy nginx -s reload` recharge la configuration nginx.
--->
+- "reload-nginx": Reloads the nginx configuration and with it all
+  certificates.<!--deDE:"reload-nginx": Lädt die nginx-Konfiguration und damit alle Zertifikate neu.--><!--frFR:"reload-nginx": Recharge la configuration nginx et avec elle tous les certificats.-->
 
 <!--|deDE:Entwicklung-->
 <!--|frFR:Développement-->
