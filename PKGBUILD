@@ -11,7 +11,7 @@
 # See https://creativecommons.org/licenses/by/4.0/deed.de
 # endregion
 pkgname=proxy
-pkgver=1.0.191
+pkgver=1.0.192
 pkgrel=1
 pkgdesc='generic dockerized proxy server'
 arch=(any)
