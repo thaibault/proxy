@@ -21,27 +21,12 @@ on:
 
 jobs:
   main:
-    runs-on: ubuntu-latest
-    container: node:lts
     # Allows pushing the version bump with its tag and dispatching the release
     # event.
     permissions:
       contents: write
 
-    steps:
-      - uses: thaibault/prepare-release-action@main
-        id: prepare-release
-        with:
-          debug: ${{ inputs.debug || '' }}
-          type: ${{ inputs.type || 'patch' }}
-
-      - name: Print determined version.
-        run: echo Newly determined version is \"${{ steps.prepare-release.outputs.version }}\".
-        shell: bash
-
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: prepare-${{ inputs.type == 'candidate' && 'pre-' || '' }}release-event
-          client-payload: '{"version": "${{ steps.prepare-release.outputs.version }}"}'
+    uses: thaibault/prepare-release-action/.github/workflows/prepare-and-dispatch-release.yaml@main
+    with:
+      debug: ${{ inputs.debug == true }}
+      type: ${{ inputs.type }}
