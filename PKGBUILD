@@ -26,7 +26,7 @@ backup=(
 # NOTE: Only the service files are needed, the image is pulled from the
 # registry.
 source=("https://github.com/thaibault/certbot-proxy/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('bb04df051220bb1777fde8ae34ee187ef74a542e53f8af5d28348e000f0b9309')
+sha256sums=('1a3bf4b38353ae397aeb75dba703b9cc11e1f2358ac6367d34a6b0aa6023cd54')
 copy_to_aur=true
 
 package() {
