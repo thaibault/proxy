@@ -27,9 +27,6 @@ jobs:
         with:
           debug: ${{ inputs.debug }}
 
-      - name: Install test dependencies
-        run: apt-get update && apt-get install --yes jq
-
       - name: Run tests
         env:
           NODE_ENV: ${{ contains(inputs.debug, 'true') && 'debug' || '' }}

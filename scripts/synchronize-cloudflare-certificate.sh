@@ -69,20 +69,44 @@ then
     exit 0
 fi
 
+# NOTE: We are using python for JSON handling since it is available anyway
+# because of certbot.
+# Prints the value at given dot separated path of the JSON document given via
+# standard input. Strings are printed raw, everything else as compact JSON.
+json_value() {
+    python3 -c '
+import json
+import sys
+
+value = json.load(sys.stdin)
+for key in sys.argv[1].split("."):
+    value = value.get(key) if isinstance(value, dict) else None
+print(
+    value if isinstance(value, str)
+    else json.dumps(value, separators=(",", ":"))
+)' "$1"
+}
+
 declare payload
 payload="$(
-    jq \
-        --null-input \
-        --arg bundle_method "$bundle_method" \
-        --arg type "$certificate_type" \
-        --rawfile certificate "$certificate_file_path" \
-        --rawfile private_key "$private_key_file_path" \
-        '{
-            bundle_method: $bundle_method,
-            certificate: $certificate,
-            private_key: $private_key,
-            type: $type
-        }'
+    python3 -c '
+import json
+import sys
+
+bundle_method, certificate_type, certificate_file_path, private_key_file_path = \
+    sys.argv[1:]
+with open(certificate_file_path) as certificate_file, \
+        open(private_key_file_path) as private_key_file:
+    print(json.dumps({
+        "bundle_method": bundle_method,
+        "certificate": certificate_file.read(),
+        "private_key": private_key_file.read(),
+        "type": certificate_type
+    }))' \
+        "$bundle_method" \
+        "$certificate_type" \
+        "$certificate_file_path" \
+        "$private_key_file_path"
 )"
 declare -r payload
 
@@ -109,11 +133,11 @@ if [ "$certificate_id" != '' ]; then
 
     response="$(request PATCH "${api_url}/${certificate_id}")"
 
-    if [ "$(jq --raw-output '.success' <<<"$response")" != 'true' ]; then
+    if [ "$(json_value success <<<"$response")" != 'true' ]; then
         bl.logging.warn \
             "Replacing custom certificate \"${certificate_id}\" failed" \
             "(falling back to create a new one):" \
-            "$(jq --compact-output '.errors' <<<"$response")"
+            "$(json_value errors <<<"$response")"
 
         certificate_id=''
     fi
@@ -126,21 +150,21 @@ if [ "$certificate_id" = '' ]; then
 
     response="$(request POST "$api_url")"
 
-    if [ "$(jq --raw-output '.success' <<<"$response")" != 'true' ]; then
+    if [ "$(json_value success <<<"$response")" != 'true' ]; then
         bl.logging.error \
             "Creating custom certificate for \"${name}\" failed:" \
-            "$(jq --compact-output '.errors' <<<"$response")"
+            "$(json_value errors <<<"$response")"
         exit 1
     fi
 fi
 
-jq --raw-output '.result.id' <<<"$response" >"$id_file_path"
+json_value result.id <<<"$response" >"$id_file_path"
 echo "$fingerprint" >"$fingerprint_file_path"
 
 bl.logging.info \
     "Synchronized certificate \"${name}\" as custom certificate" \
     "\"$(cat "$id_file_path")\" (expires on" \
-    "$(jq --raw-output '.result.expires_on' <<<"$response")) to cloudflare" \
+    "$(json_value result.expires_on <<<"$response")) to cloudflare" \
     "zone \"${zone_id}\"."
 # region modline
 # vim: set tabstop=4 shiftwidth=4 expandtab filetype=dockerfile:

@@ -644,7 +644,7 @@ Development
 yarn install
 # Lint all shell scripts via shellcheck.
 yarn lint
-# Run the scripts against recorded fake commands (needs "jq").
+# Run the scripts against recorded fake commands (needs "python3").
 yarn test
 # Start locally with the scripts of this working copy mounted.
 yarn start

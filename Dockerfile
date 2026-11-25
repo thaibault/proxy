@@ -78,7 +78,6 @@ RUN        pacman-wrapper \
                certbot \
                certbot-nginx \
                curl \
-               jq \
                nginx \
                openssl && \
            clean-up

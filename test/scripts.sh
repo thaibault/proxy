@@ -195,13 +195,23 @@ grep --quiet -- '\[--request\] \[POST\] .*\[https://api.test/zones/ZONE/custom_c
     fail Custom certificate was not created via POST.
 grep --quiet -- '\[Authorization: Bearer TOKEN\]' "$CALL_LOG_FILE_PATH" || \
     fail Api token was not sent.
-[ "$(jq --raw-output .certificate "${FAKE_CURL_RESPONSES_PATH}/request-1.json")" = \
+# Prints given property of the first recorded request body.
+request_value() {
+    python3 -c '
+import json
+import sys
+
+with open(sys.argv[1]) as file:
+    print(json.load(file)[sys.argv[2]])' \
+        "${FAKE_CURL_RESPONSES_PATH}/request-1.json" "$1"
+}
+[ "$(request_value certificate)" = \
   "$(cat "${live_path}fullchain.pem")" ] || \
     fail Request does not contain the certificate.
-[ "$(jq --raw-output .private_key "${FAKE_CURL_RESPONSES_PATH}/request-1.json")" = \
+[ "$(request_value private_key)" = \
   "$(cat "${live_path}privkey.pem")" ] || \
     fail Request does not contain the private key.
-[ "$(jq --raw-output '.bundle_method + " " + .type' "${FAKE_CURL_RESPONSES_PATH}/request-1.json")" = \
+[ "$(request_value bundle_method) $(request_value type)" = \
   'ubiquitous sni_custom' ] || \
     fail Request does not contain default bundle method and type.
 [ "$(cat "${certificate_path}cloudflareCertificateID.txt")" = FIRST_ID ] || \
