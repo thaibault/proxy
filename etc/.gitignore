@@ -1,5 +1,5 @@
 *
-!containerBase/.gitkeep
+!containerbase/.gitkeep
 !nginx
 !nginx/00_default.conf
 
