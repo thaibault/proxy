@@ -1,20 +1,21 @@
 {
-  "name": "proxy",
+  "name": "certbot-proxy",
   "version": "2.0.0",
-  "description": "generic dockerized proxy server",
+  "description": "generic dockerized nginx proxy server with certbot",
   "keywords": [
     "archLinux",
     "arch",
+    "certbot",
     "docker",
     "hosting",
     "linux",
     "proxy"
   ],
-  "homepage": "https://tsickert.com/proxy",
+  "homepage": "https://tsickert.com/certbot-proxy",
   "license": "CC-BY-4.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thaibault/proxy.git"
+    "url": "git+https://github.com/thaibault/certbot-proxy.git"
   },
   "main": "Dockerfile",
   "files": [

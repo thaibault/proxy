@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/proxy.iml" filepath="$PROJECT_DIR$/.idea/proxy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/certbot-proxy.iml" filepath="$PROJECT_DIR$/.idea/certbot-proxy.iml" />
     </modules>
   </component>
 </project>

@@ -1,5 +1,4 @@
-name: Prepare release
-run-name: Prepare release
+name: Build package and push
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -19,14 +18,35 @@ on:
           - patch
           - candidate
 
+permissions:
+  # Required for OpenID Connect (OIDC) used by npm for "Trusted Publishing".
+  id-token: write
+  # Allows git actions like pushing tags and version bumps.
+  contents: write
+
 jobs:
   main:
-    # Allows pushing the version bump with its tag and dispatching the release
-    # event.
-    permissions:
-      contents: write
+    runs-on: ubuntu-latest
+    container: node:lts
 
-    uses: thaibault/prepare-release-action/.github/workflows/prepare-and-dispatch-release.yaml@main
-    with:
-      debug: ${{ inputs.debug == true }}
-      type: ${{ inputs.type }}
+    steps:
+      - uses: thaibault/build-package-push-action@main
+        id: build-package-and-push
+        with:
+          debug: ${{ inputs.debug || '' }}
+          # Not needed anymore when using "Trusted Publishing".
+          #npm-token: ${{ secrets.NPM_TOKEN }}
+          # Publishes an existing "PKGBUILD" to arch's user repository.
+          aur-ssh-private-key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          type: ${{ inputs.type || 'patch' }}
+
+      - name: Print determined version.
+        run: echo Newly determined version is \"${{ steps.build-package-and-push.outputs.version }}\".
+        shell: bash
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: prepare-${{ inputs.type == 'candidate' && 'pre-' || '' }}release-event
+          client-payload: '{"version": "${{ steps.build-package-and-push.outputs.version }}"}'

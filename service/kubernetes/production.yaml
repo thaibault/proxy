@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-    name: proxy_pod
+    name: certbot-proxy_pod
     labels:
-        app: proxy
+        app: certbot-proxy
 spec:
     containers:
-        - name: proxy
-          image: ghcr.io/thaibault/proxy:latest
+        - name: certbot-proxy
+          image: ghcr.io/thaibault/certbot-proxy:latest
           env:
               - name: container
                 value: podman

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile-upstream:master-labs
 # region header
-# [Project page](https://tsickert.com/proxy)
+# [Project page](https://tsickert.com/certbot-proxy)
 
 # Copyright Torben Sickert (info["~at~"]tsickert.com) 16.12.2012
 
@@ -15,12 +15,12 @@
 # Run the following command in the directory where this file lives to build a
 # new docker image:
 
-# - docker pull ghcr.io/thaibault/containerbase:latest && docker buildx build --no-cache --tag ghcr.io/thaibault/proxy:latest .
+# - docker pull ghcr.io/thaibault/containerbase:latest && docker buildx build --no-cache --tag ghcr.io/thaibault/certbot-proxy:latest .
 # endregion
 # region start container commands
 # Run the following command in the directory where this file lives to start:
 # - podman pod rm --force proxy_pod; podman play kube service/kubernetes/production.yaml
-# - docker rm --force proxy; docker compose --file service/docker/base.yaml --file service/docker/local.yaml up
+# - docker rm --force certbot-proxy; docker compose --file service/docker/base.yaml --file service/docker/local.yaml up
 # endregion
            # region configuration
 ARG        BASE_IMAGE
@@ -30,9 +30,9 @@ FROM       ${BASE_IMAGE:-'ghcr.io/thaibault/containerbase:latest'}
 LABEL      org.opencontainers.image.title='Nginx proxy with certbot.'
 LABEL      org.opencontainers.image.description='Image serving an nginx proxy next to a running configurable certbot with encryption support.'
 LABEL      org.opencontainers.image.authors='Torben Sickert <info@tsickert.com> (@thaibault)'
-LABEL      org.opencontainers.image.url=https://github.com/thaibault/proxy/pkgs/container/proxy
-LABEL      org.opencontainers.image.documentation=https://github.com/thaibault/proxy/blob/main/readme.md
-LABEL      org.opencontainers.image.source=https://github.com/thaibault/proxy
+LABEL      org.opencontainers.image.url=https://github.com/thaibault/certbot-proxy/pkgs/container/certbot-proxy
+LABEL      org.opencontainers.image.documentation=https://github.com/thaibault/certbot-proxy/blob/main/readme.md
+LABEL      org.opencontainers.image.source=https://github.com/thaibault/certbot-proxy
 LABEL      org.opencontainers.image.licenses=CC-BY-4.0
 LABEL      org.opencontainers.image.version=0.0.1
 

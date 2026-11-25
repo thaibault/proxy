@@ -1,5 +1,5 @@
 services:
-  proxy:
+  certbot-proxy:
     environment:
       PROXY_CERTIFICATES_START_UPDATE_DELAY: 0
     ports:

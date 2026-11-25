@@ -16,13 +16,13 @@ endregion -->
 Project status
 --------------
 
-[![build push image](https://img.shields.io/github/actions/workflow/status/thaibault/proxy/build-image-and-push-periodically-2.yaml?label=build%20push%20image&style=for-the-badge)](https://github.com/thaibault/proxy/actions/workflows/build-image-and-push-periodically-2.yaml)
+[![build push image](https://img.shields.io/github/actions/workflow/status/thaibault/certbot-proxy/build-image-and-push-periodically-2.yaml?label=build%20push%20image&style=for-the-badge)](https://github.com/thaibault/certbot-proxy/actions/workflows/build-image-and-push-periodically-2.yaml)
 
-[![lint](https://img.shields.io/github/actions/workflow/status/thaibault/proxy/lint.yaml?label=lint&style=for-the-badge)](https://github.com/thaibault/proxy/actions/workflows/lint.yaml)
-[![test](https://img.shields.io/github/actions/workflow/status/thaibault/proxy/test.yaml?label=test&style=for-the-badge)](https://github.com/thaibault/proxy/actions/workflows/test.yaml)
+[![lint](https://img.shields.io/github/actions/workflow/status/thaibault/certbot-proxy/lint.yaml?label=lint&style=for-the-badge)](https://github.com/thaibault/certbot-proxy/actions/workflows/lint.yaml)
+[![test](https://img.shields.io/github/actions/workflow/status/thaibault/certbot-proxy/test.yaml?label=test&style=for-the-badge)](https://github.com/thaibault/certbot-proxy/actions/workflows/test.yaml)
 
-[![deploy web documentation](https://img.shields.io/github/actions/workflow/status/thaibault/proxy/deploy-web-documentation.yaml?label=deploy%20web%20documentation&style=for-the-badge)](https://github.com/thaibault/proxy/actions/workflows/deploy-web-documentation.yaml)
-[![web documentation](https://img.shields.io/website-up-down-green-red/https/tsickert.com/proxy.svg?label=web-documentation&style=for-the-badge)](https://tsickert.com/proxy)
+[![deploy web documentation](https://img.shields.io/github/actions/workflow/status/thaibault/certbot-proxy/deploy-web-documentation.yaml?label=deploy%20web%20documentation&style=for-the-badge)](https://github.com/thaibault/certbot-proxy/actions/workflows/deploy-web-documentation.yaml)
+[![web documentation](https://img.shields.io/website-up-down-green-red/https/tsickert.com/certbot-proxy.svg?label=web-documentation&style=for-the-badge)](https://tsickert.com/certbot-proxy)
 
 <!--|deDE:Einsatzmöglichkeiten-->
 <!--|frFR:Cas d'utilisation-->
@@ -95,7 +95,7 @@ Pull the prebuilt image (built weekly for "x86-64" and "arm-64"):
 -->
 
 ```bash
-docker pull ghcr.io/thaibault/proxy:latest
+docker pull ghcr.io/thaibault/certbot-proxy:latest
 ```
 
 The service files and the configuration skeleton live in this repository, so
@@ -110,8 +110,8 @@ clone it to the host:
 -->
 
 ```bash
-git clone https://github.com/thaibault/proxy.git
-cd proxy
+git clone https://github.com/thaibault/certbot-proxy.git
+cd certbot-proxy
 ```
 
 To build the image yourself run:
@@ -120,7 +120,7 @@ To build the image yourself run:
 
 ```bash
 docker pull ghcr.io/thaibault/containerbase:latest
-docker buildx build --no-cache --tag ghcr.io/thaibault/proxy:latest .
+docker buildx build --no-cache --tag ghcr.io/thaibault/certbot-proxy:latest .
 ```
 
 <!--|deDE:Verwendung-->
@@ -182,14 +182,14 @@ docker compose \
 
 In production use "service/docker/production.yaml" instead of
 "service/docker/local.yaml". It binds the ports 80 and 443, restarts on
-failure, limits log sizes and attaches the proxy to an external docker network
-named "proxy". Attach your application containers to that network to reach
-them by their container name from nginx:
+failure, limits log sizes and attaches the proxy to an external docker
+network named "certbot-proxy". Attach your application containers to that
+network to reach them by their container name from nginx:
 <!--deDE:
     In Produktion verwenden Sie "service/docker/production.yaml" statt
     "service/docker/local.yaml". Es bindet die Ports 80 und 443, startet bei
     Fehlern neu, begrenzt die Protokollgröße und hängt den Proxy an ein
-    externes Docker-Netzwerk namens "proxy". Hängen Sie Ihre
+    externes Docker-Netzwerk namens "certbot-proxy". Hängen Sie Ihre
     Anwendungscontainer an dieses Netzwerk, um sie von nginx aus über ihren
     Containernamen zu erreichen:
 -->
@@ -197,18 +197,18 @@ them by their container name from nginx:
     En production, utilisez "service/docker/production.yaml" au lieu de
     "service/docker/local.yaml". Il lie les ports 80 et 443, redémarre en
     cas d'échec, limite la taille des journaux et rattache le proxy à un
-    réseau docker externe nommé "proxy". Rattachez vos conteneurs
+    réseau docker externe nommé "certbot-proxy". Rattachez vos conteneurs
     d'application à ce réseau pour les joindre depuis nginx par leur nom de
     conteneur:
 -->
 
 ```bash
-docker network create proxy
+docker network create certbot-proxy
 docker compose \
     --file service/docker/base.yaml \
     --file service/docker/mounts.yaml \
     --file service/docker/production.yaml \
-    --project-name proxy \
+    --project-name certbot-proxy \
     up
 ```
 
@@ -245,35 +245,36 @@ compose ("latest" by default).
     un hôte:
 -->
 
-- "proxy.service" creates the "proxy" network and runs the production compose
-  setup from "/srv/http/service/proxy" as user "service".<!--deDE:"proxy.service" legt das Netzwerk "proxy" an und startet das Produktions-Compose-Setup aus "/srv/http/service/proxy" als Benutzer "service".--><!--frFR:"proxy.service" crée le réseau "proxy" et lance la configuration compose de production depuis "/srv/http/service/proxy" en tant qu'utilisateur "service".-->
-- "reload-proxy.service" reloads the nginx configuration (and with it all
-  certificate files) of the running container.<!--deDE:"reload-proxy.service" lädt die nginx-Konfiguration (und damit alle Zertifikatsdateien) des laufenden Containers neu.--><!--frFR:"reload-proxy.service" recharge la configuration nginx (et avec elle tous les fichiers de certificats) du conteneur en cours d'exécution.-->
-- "reload-proxy.timer" triggers "reload-proxy.service" five minutes after
-  boot and once a week afterwards.<!--deDE:"reload-proxy.timer" löst "reload-proxy.service" fünf Minuten nach dem Start und danach einmal pro Woche aus.--><!--frFR:"reload-proxy.timer" déclenche "reload-proxy.service" cinq minutes après le démarrage puis une fois par semaine.-->
+- "certbot-proxy.service" creates the "certbot-proxy" network and runs the
+  production compose setup from "/srv/http/service/certbot-proxy" as user "service".<!--deDE:"certbot-proxy.service" legt das Netzwerk "certbot-proxy" an und startet das Produktions-Compose-Setup aus "/srv/http/service/certbot-proxy" als Benutzer "service".--><!--frFR:"certbot-proxy.service" crée le réseau "certbot-proxy" et lance la configuration compose de production depuis "/srv/http/service/certbot-proxy" en tant qu'utilisateur "service".-->
+- "reload-certbot-proxy.service" reloads the nginx configuration (and with
+  it all certificate files) of the running container.<!--deDE:"reload-certbot-proxy.service" lädt die nginx-Konfiguration (und damit alle Zertifikatsdateien) des laufenden Containers neu.--><!--frFR:"reload-certbot-proxy.service" recharge la configuration nginx (et avec elle tous les fichiers de certificats) du conteneur en cours d'exécution.-->
+- "reload-certbot-proxy.timer" triggers "reload-certbot-proxy.service" five
+  minutes after boot and once a week afterwards.<!--deDE:"reload-certbot-proxy.timer" löst "reload-certbot-proxy.service" fünf Minuten nach dem Start und danach einmal pro Woche aus.--><!--frFR:"reload-certbot-proxy.timer" déclenche "reload-certbot-proxy.service" cinq minutes après le démarrage puis une fois par semaine.-->
 
 On Arch Linux the included "PKGBUILD" builds a package via
 "makepkg --install". It installs the compose files and the configuration
-skeleton into "/srv/http/service/proxy" and the units into systemd's unit
-folder. The user "service" has to exist and be allowed to use docker:
+skeleton into "/srv/http/service/certbot-proxy" and the units into
+systemd's unit folder. The user "service" has to exist and be allowed to use
+docker:
 <!--deDE:
     Unter Arch Linux baut das enthaltene "PKGBUILD" über "makepkg --install"
     ein Paket. Es installiert die Compose-Dateien und das
-    Konfigurationsgerüst nach "/srv/http/service/proxy" und die Units in den
-    Unit-Ordner von systemd. Der Benutzer "service" muss existieren und
-    docker verwenden dürfen:
+    Konfigurationsgerüst nach "/srv/http/service/certbot-proxy" und die
+    Units in den Unit-Ordner von systemd. Der Benutzer "service" muss
+    existieren und docker verwenden dürfen:
 -->
 <!--frFR:
     Sous Arch Linux, le "PKGBUILD" inclus construit un paquet via
     "makepkg --install". Il installe les fichiers compose et le squelette de
-    configuration dans "/srv/http/service/proxy" et les unités dans le
+    configuration dans "/srv/http/service/certbot-proxy" et les unités dans le
     dossier des unités de systemd. L'utilisateur "service" doit exister et
     avoir le droit d'utiliser docker:
 -->
 
 ```bash
 useradd --groups docker --system service
-systemctl enable --now proxy.service reload-proxy.timer
+systemctl enable --now certbot-proxy.service reload-certbot-proxy.timer
 ```
 
 <!--|deDE:Nginx-Konfiguration-->
@@ -601,18 +602,18 @@ Container commands
 ------------------
 
 The following commands handle certificates manually inside the container
-(e.g. via `docker exec proxy <command>`). "&lt;path&gt;" is the certificate
-folder, e.g. "/application/certificates/web/" (the trailing slash is
-required):
+(e.g. via `docker exec certbot-proxy <command>`). "&lt;path&gt;" is the
+certificate folder, e.g. "/application/certificates/web/" (the trailing
+slash is required):
 <!--deDE:
     Die folgenden Befehle verwalten Zertifikate von Hand im Container (z. B.
-    über `docker exec proxy <command>`). "&lt;path&gt;" ist der
+    über `docker exec certbot-proxy <command>`). "&lt;path&gt;" ist der
     Zertifikatsordner, z. B. "/application/certificates/web/" (der
     abschließende Schrägstrich ist erforderlich):
 -->
 <!--frFR:
     Les commandes suivantes gèrent les certificats à la main dans le
-    conteneur (par exemple via `docker exec proxy <command>`).
+    conteneur (par exemple via `docker exec certbot-proxy <command>`).
     "&lt;path&gt;" est le dossier du certificat, par exemple
     "/application/certificates/web/" (la barre oblique finale est
     obligatoire):

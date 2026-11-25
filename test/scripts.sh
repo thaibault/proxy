@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # -*- coding: utf-8 -*-
 # region header
-# [Project page](https://tsickert.com/proxy)
+# [Project page](https://tsickert.com/certbot-proxy)
 
 # Copyright Torben Sickert (info["~at~"]tsickert.com) 16.12.2012
 
@@ -21,7 +21,7 @@ set -o errexit -o nounset -o pipefail
 root_path="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 work_path="$(mktemp --directory)"
 # NOTE: "retrieve-certificate" writes its logs into "/tmp/<name>/".
-name_prefix="proxy-test-$$-"
+name_prefix="certbot-proxy-test-$$-"
 trap 'rm --force --recursive "$work_path" /tmp/"$name_prefix"*' EXIT
 
 export CALL_LOG_FILE_PATH="${work_path}/calls.txt"

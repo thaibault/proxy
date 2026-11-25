@@ -10,30 +10,30 @@
 # 4.0 international license.
 # See https://creativecommons.org/licenses/by/4.0/deed.de
 # endregion
-pkgname=proxy
+pkgname=certbot-proxy
 pkgver=2.0.0
 pkgrel=1
-pkgdesc='generic dockerized proxy server'
+pkgdesc='generic dockerized nginx proxy server with certbot'
 arch=(any)
-url=https://tsickert.com/proxy
+url=https://tsickert.com/certbot-proxy
 license=(CC-BY-4.0)
 depends=(bash docker docker-compose)
 backup=(
-    srv/http/service/proxy/etc/nginx/00_default.conf
-    srv/http/service/proxy/etc/nginx/helper/certificate.include
-    srv/http/service/proxy/etc/nginx/helper/ssl.include
+    srv/http/service/certbot-proxy/etc/nginx/00_default.conf
+    srv/http/service/certbot-proxy/etc/nginx/helper/certificate.include
+    srv/http/service/certbot-proxy/etc/nginx/helper/ssl.include
 )
 # NOTE: Only the service files are needed, the image is pulled from the
 # registry.
-source=("https://github.com/thaibault/proxy/archive/refs/tags/v${pkgver}.tar.gz")
+source=("https://github.com/thaibault/certbot-proxy/archive/refs/tags/v${pkgver}.tar.gz")
 sha256sums=(21b0c9aa0b1082b679193bd49b96060fda8d4a5ba8ef47103d88e14caf3fea91)
 copy_to_aur=true
 
 package() {
-    cd "${srcdir}/proxy-${pkgver}"
-    # NOTE: "proxy.service" runs the compose files from here and they mount
-    # the configuration and certificate folders relative to themselves.
-    local -r target_path="${pkgdir}/srv/http/service/proxy/"
+    cd "${srcdir}/certbot-proxy-${pkgver}"
+    # NOTE: "certbot-proxy.service" runs the compose files from here and they
+    # mount the configuration and certificate folders relative to themselves.
+    local -r target_path="${pkgdir}/srv/http/service/certbot-proxy/"
     local file_path
     for file_path in \
         etc/nginx/00_default.conf \
