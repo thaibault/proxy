@@ -1,6 +1,6 @@
 {
   "name": "certbot-proxy",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "generic dockerized nginx proxy server with certbot",
   "keywords": [
     "archLinux",
