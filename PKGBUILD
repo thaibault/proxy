@@ -11,7 +11,7 @@
 # See https://creativecommons.org/licenses/by/4.0/deed.de
 # endregion
 pkgname=certbot-proxy
-pkgver=3.0.1
+pkgver=4.0.0
 pkgrel=1
 pkgdesc='generic dockerized nginx proxy server with certbot'
 arch=(any)
