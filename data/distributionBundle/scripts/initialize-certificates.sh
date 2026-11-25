@@ -9,14 +9,14 @@ declare email_address
 declare index
 declare name
 
-for index in "${!PROXY_CERTIFICATES[@]}"; do
-    domains=${PROXY_CERTIFICATE_DOMAINS[index]}
-    name="${PROXY_CERTIFICATES[index]}"
+for index in "${!CERTBOT_PROXY_CERTIFICATES[@]}"; do
+    domains=${CERTBOT_PROXY_CERTIFICATE_DOMAINS[index]}
+    name="${CERTBOT_PROXY_CERTIFICATES[index]}"
     certificate_path="${APPLICATION_PATH}certificates/${name}/"
     run-command "mkdir --parents '$certificate_path'"
 
-    if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
-        email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
+    if [ "${CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
+        email_address="${CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
     fi
 
     domain_path="${certificate_path}domains.txt"
@@ -44,15 +44,15 @@ for index in "${!PROXY_CERTIFICATES[@]}"; do
     # NOTE: Synchronize already existing certificates as well to bring a newly
     # connected cloudflare zone up to date on startup. A failing upload should
     # not prevent the proxy from starting.
-    if [ "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" != '' ]; then
-        PROXY_CLOUDFLARE_API_TOKEN="${PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS[index]:-$PROXY_CLOUDFLARE_API_TOKEN}" \
-        PROXY_CLOUDFLARE_API_URL="$PROXY_CLOUDFLARE_API_URL" \
-        PROXY_CLOUDFLARE_BUNDLE_METHOD="$PROXY_CLOUDFLARE_BUNDLE_METHOD" \
-        PROXY_CLOUDFLARE_CERTIFICATE_TYPE="$PROXY_CLOUDFLARE_CERTIFICATE_TYPE" \
+    if [ "${CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" != '' ]; then
+        CERTBOT_PROXY_CLOUDFLARE_API_TOKEN="${CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS[index]:-$CERTBOT_PROXY_CLOUDFLARE_API_TOKEN}" \
+        CERTBOT_PROXY_CLOUDFLARE_API_URL="$CERTBOT_PROXY_CLOUDFLARE_API_URL" \
+        CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD="$CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD" \
+        CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE="$CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE" \
             synchronize-cloudflare-certificate \
                 "$name" \
                 "$certificate_path" \
-                "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" || \
+                "${CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" || \
             echo "Synchronizing certificate \"${name}\" to cloudflare failed." \
                 >&2
     fi

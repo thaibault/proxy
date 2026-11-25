@@ -1,4 +1,4 @@
 services:
-  proxy:
-    container_name: proxy
-    image: "ghcr.io/thaibault/proxy:${IMAGE_TAG:-latest}"
+  certbot-proxy:
+    container_name: certbot-proxy
+    image: "ghcr.io/thaibault/certbot-proxy:${IMAGE_TAG:-latest}"

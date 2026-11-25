@@ -1,5 +1,5 @@
 services:
-  proxy:
+  certbot-proxy:
     volumes:
       - ../../certificates:/application/certificates
       - ../../etc/containerBase:/etc/containerBase
