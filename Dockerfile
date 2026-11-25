@@ -42,20 +42,20 @@ ENV        APPLICATION_USER_ID_INDICATOR_FILE_PATH=/etc/nginx/conf.d
 
 ENV        MAIN_USER_NAME=http
 
-ENV        PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH='/etc/nginx/conf.d/*.conf'
-ENV        PROXY_CERTIFICATES=''
-ENV        PROXY_CERTIFICATE_DOMAINS=''
-ENV        PROXY_CERTIFICATE_EMAIL_ADDRESSES=''
-ENV        PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
+ENV        CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH='/etc/nginx/conf.d/*.conf'
+ENV        CERTBOT_PROXY_CERTIFICATES=''
+ENV        CERTBOT_PROXY_CERTIFICATE_DOMAINS=''
+ENV        CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES=''
+ENV        CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
 # Optional synchronization of retrieved certificates into cloudflare zones
 # (custom certificates). Zone ids (and optional per certificate api tokens)
-# are configured in the same order as "PROXY_CERTIFICATES".
-ENV        PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=''
-ENV        PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=''
-ENV        PROXY_CLOUDFLARE_API_TOKEN=''
-ENV        PROXY_CLOUDFLARE_API_URL='https://api.cloudflare.com/client/v4'
-ENV        PROXY_CLOUDFLARE_BUNDLE_METHOD=ubiquitous
-ENV        PROXY_CLOUDFLARE_CERTIFICATE_TYPE=sni_custom
+# are configured in the same order as "CERTBOT_PROXY_CERTIFICATES".
+ENV        CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=''
+ENV        CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=''
+ENV        CERTBOT_PROXY_CLOUDFLARE_API_TOKEN=''
+ENV        CERTBOT_PROXY_CLOUDFLARE_API_URL='https://api.cloudflare.com/client/v4'
+ENV        CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD=ubiquitous
+ENV        CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE=sni_custom
 
 ENV        ACCESS_LOG='/dev/stdout'
 ENV        CERTIFICATION_SERVICE_LOG="${APPLICATION_PATH}certificates/log.txt"
@@ -90,7 +90,7 @@ RUN        configure-user && \
            # only to root.
            # Logging is disabled to be prepared for service specific log
            # configurations.
-           echo -e "daemon               off;\n#error_log            ${ERROR_LOG};\npid                  ${TEMPORARY_NGINX_PATH}pid;\n\nuser                 ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\n\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\n\nhttp {\n    #access_log              ${ACCESS_LOG};\n    charset                 utf8;\n\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n\n    default_type            application/octet-stream;\n    gzip                    on;\n\n    sendfile                on;\n\n    client_body_buffer_size 256k;\n    types_hash_max_size     4096;\n\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n\n    keepalive_timeout       65;\n\n    resolver                8.8.8.8;\n\n    include                 mime.types;\n    include                 ${PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH};\n}" \
+           echo -e "daemon               off;\n#error_log            ${ERROR_LOG};\npid                  ${TEMPORARY_NGINX_PATH}pid;\n\nuser                 ${MAIN_USER_NAME} ${MAIN_USER_GROUP_NAME};\n\nworker_processes     auto;\nworker_rlimit_nofile 2048;\n\nevents {\n    worker_connections   1024;\n}\n\nhttp {\n    #access_log              ${ACCESS_LOG};\n    charset                 utf8;\n\n    client_body_temp_path   ${TEMPORARY_NGINX_PATH}clientBody;\n    fastcgi_temp_path       ${TEMPORARY_NGINX_PATH}fastcgiTemp;\n    proxy_temp_path         ${TEMPORARY_NGINX_PATH}proxyTemp;\n    scgi_temp_path          ${TEMPORARY_NGINX_PATH}scgiTemp;\n    uwsgi_temp_path         ${TEMPORARY_NGINX_PATH}uwsgiTemp;\n\n    default_type            application/octet-stream;\n    gzip                    on;\n\n    sendfile                on;\n\n    client_body_buffer_size 256k;\n    types_hash_max_size     4096;\n\n    proxy_set_header        X-Forwarded-Proto \$scheme;\n    proxy_set_header        Upgrade \$http_upgrade;\n    proxy_set_header        Connection \"upgrade\";\n\n    keepalive_timeout       65;\n\n    resolver                8.8.8.8;\n\n    include                 mime.types;\n    include                 ${CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH};\n}" \
                1>/etc/nginx/nginx.conf && \
            mkdir --parents /etc/nginx/html && \
            echo ''>/etc/nginx/html/index.html && \

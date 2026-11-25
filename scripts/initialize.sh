@@ -18,7 +18,7 @@ source decrypt "$@"
 # shellcheck disable=SC1091
 source configure-runtime-user "${APPLICATION_PATH}certificates"
 
-if [[ "$PROXY_CERTIFICATES" != '' ]]; then
+if [[ "$CERTBOT_PROXY_CERTIFICATES" != '' ]]; then
     # shellcheck disable=SC1091
     source initialize-certificates
 

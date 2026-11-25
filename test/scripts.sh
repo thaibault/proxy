@@ -163,8 +163,8 @@ success_response() {
 }
 failure_response='{"success": false, "errors": [{"code": 1000, "message": "broken"}], "result": null}'
 synchronize() {
-    PROXY_CLOUDFLARE_API_TOKEN="${token-TOKEN}" \
-    PROXY_CLOUDFLARE_API_URL=https://api.test \
+    CERTBOT_PROXY_CLOUDFLARE_API_TOKEN="${token-TOKEN}" \
+    CERTBOT_PROXY_CLOUDFLARE_API_URL=https://api.test \
         "$synchronize" "$name" "$certificate_path" ZONE &>"${work_path}/output.txt"
 }
 
@@ -303,12 +303,12 @@ assert_called "certbot [renew] [--agree-tos] [--cert-name] [${name}] [--config-d
 initialize_certificates_configuration='
     MAIN_USER_NAME=user
     MAIN_USER_GROUP_NAME=group
-    PROXY_CERTIFICATES=(alpha beta)
-    PROXY_CERTIFICATE_DOMAINS=("alpha.test www.alpha.test" beta.test)
-    PROXY_CERTIFICATE_EMAIL_ADDRESSES=(mail@alpha.test)
-    PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=("" ZONE)
-    PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=("" BETA_TOKEN)
-    PROXY_CLOUDFLARE_API_TOKEN=GLOBAL_TOKEN
+    CERTBOT_PROXY_CERTIFICATES=(alpha beta)
+    CERTBOT_PROXY_CERTIFICATE_DOMAINS=("alpha.test www.alpha.test" beta.test)
+    CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES=(mail@alpha.test)
+    CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=("" ZONE)
+    CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=("" BETA_TOKEN)
+    CERTBOT_PROXY_CLOUDFLARE_API_TOKEN=GLOBAL_TOKEN
 '
 mkdir --parents "${APPLICATION_PATH}certificates/alpha"
 echo 'alpha.test www.alpha.test' \
@@ -363,7 +363,7 @@ assert_not_called reload-nginx
 # Reloads nginx every 7th day.
 reset_calls
 FAKE_SLEEP_LIMIT=15 \
-PROXY_CERTIFICATES_START_UPDATE_DELAY=1s \
+CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY=1s \
     run_sourced "${scripts_path}certificate-service.sh" <<<'' 2>/dev/null && \
     fail Service loop should only be stopped by the fake sleep.
 assert_called 'sleep [1s]'
@@ -372,7 +372,7 @@ assert_called 'sleep [1s]'
 # endregion
 # region initialize
 reset_calls
-COMMAND=nginx PROXY_CERTIFICATES='' \
+COMMAND=nginx CERTBOT_PROXY_CERTIFICATES='' \
     "${scripts_path}initialize.sh" --no-check-local-initializer -t -q || \
     fail Initializing failed.
 # NOTE: Given arguments are evaluated as shell code.
@@ -385,7 +385,7 @@ for name in initialize-certificates certificate-service; do
     echo "echo '${name}' >>\"\$CALL_LOG_FILE_PATH\"" >"${fake_path}/${name}"
 done
 # NOTE: "wait" lets us wait for the started background service.
-COMMAND=wait PROXY_CERTIFICATES=alpha "${scripts_path}initialize.sh" || \
+COMMAND=wait CERTBOT_PROXY_CERTIFICATES=alpha "${scripts_path}initialize.sh" || \
     fail Initializing with certificates failed.
 assert_called initialize-certificates
 assert_called certificate-service

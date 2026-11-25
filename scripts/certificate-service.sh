@@ -8,18 +8,19 @@ source get-bashlink
 # Example environment configuration:
 # APPLICATION_PATH='./'
 #
-# PROXY_CERTIFICATES=(service service.staging)
-# PROXY_CERTIFICATE_DOMAINS=(
+# CERTBOT_PROXY_CERTIFICATES=(service service.staging)
+# CERTBOT_PROXY_CERTIFICATE_DOMAINS=(
 #     'service.com service-variation.com'
 #     'service.staging.com service-variation.staging.com'
 # )
-# PROXY_CERTIFICATE_EMAIL_ADDRESSES=(service@info.com)
+# CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES=(service@info.com)
 #
 # Optionally upload each certificate into a cloudflare zone (empty zone id
 # means no synchronization for the corresponding certificate):
-# PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=(023e105f4ecef8ad9ca31a8372d0c353 '')
-# PROXY_CLOUDFLARE_API_TOKEN=TOKEN
-# PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=('' '') # Per certificate overwrites.
+# CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=(023e105f4ecef8ad9ca31a8372d0c353 '')
+# CERTBOT_PROXY_CLOUDFLARE_API_TOKEN=TOKEN
+# Per certificate overwrites:
+# CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=('' '')
 
 if ! [ -f "$CERTIFICATION_SERVICE_LOG" ]; then
     run-command touch "$CERTIFICATION_SERVICE_LOG"
@@ -28,7 +29,7 @@ fi
 
 # NOTE: Wait a bit before starting to avoid making too many challenges when
 # application restarts many times in short period.
-declare delay="${PROXY_CERTIFICATES_START_UPDATE_DELAY:-50m}"
+declare delay="${CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY:-50m}"
 bl.logging.info \
     "Wait $delay until first certificate update check." \
     &>>"$CERTIFICATION_SERVICE_LOG"
@@ -47,9 +48,9 @@ declare name
 
 declare number_of_intervals=0
 while true; do
-    for index in "${!PROXY_CERTIFICATES[@]}"; do
-        domains=${PROXY_CERTIFICATE_DOMAINS[index]}
-        name="${PROXY_CERTIFICATES[index]}"
+    for index in "${!CERTBOT_PROXY_CERTIFICATES[@]}"; do
+        domains=${CERTBOT_PROXY_CERTIFICATE_DOMAINS[index]}
+        name="${CERTBOT_PROXY_CERTIFICATES[index]}"
 
         bl.logging.info \
             "Start checking certificate \"${name}\"." \
@@ -58,8 +59,8 @@ while true; do
         certificate_path="${APPLICATION_PATH}certificates/${name}/"
         mkdir --parents "$certificate_path"
 
-        if [ "${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
-            email_address="${PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
+        if [ "${CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}" != '' ]; then
+            email_address="${CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES[index]}"
         fi
 
         command_line_arguments="${name} '${certificate_path}' '${domains}' '${email_address}'"
@@ -107,15 +108,15 @@ while true; do
             echo "${domains}" >"$domain_path"
         fi
 
-        if [ "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" != '' ]; then
-            PROXY_CLOUDFLARE_API_TOKEN="${PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS[index]:-$PROXY_CLOUDFLARE_API_TOKEN}" \
-            PROXY_CLOUDFLARE_API_URL="$PROXY_CLOUDFLARE_API_URL" \
-            PROXY_CLOUDFLARE_BUNDLE_METHOD="$PROXY_CLOUDFLARE_BUNDLE_METHOD" \
-            PROXY_CLOUDFLARE_CERTIFICATE_TYPE="$PROXY_CLOUDFLARE_CERTIFICATE_TYPE" \
+        if [ "${CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" != '' ]; then
+            CERTBOT_PROXY_CLOUDFLARE_API_TOKEN="${CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS[index]:-$CERTBOT_PROXY_CLOUDFLARE_API_TOKEN}" \
+            CERTBOT_PROXY_CLOUDFLARE_API_URL="$CERTBOT_PROXY_CLOUDFLARE_API_URL" \
+            CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD="$CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD" \
+            CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE="$CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE" \
                 synchronize-cloudflare-certificate \
                     "$name" \
                     "$certificate_path" \
-                    "${PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" \
+                    "${CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS[index]}" \
                     &>>"$CERTIFICATION_SERVICE_LOG" || \
                 bl.logging.warn \
                     "Synchronizing certificate \"${name}\" to cloudflare failed." \

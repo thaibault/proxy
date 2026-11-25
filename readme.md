@@ -285,15 +285,15 @@ Nginx configuration
 All files matching "/etc/nginx/conf.d/*.conf" are included into the main
 "http" block. The image itself only defines global settings (temporary paths,
 gzip, websocket aware proxy headers and "resolver 8.8.8.8"). The included
-files can be changed via
-"PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH" at build time.
+files can be changed at build time via
+"CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH".
 <!--deDE:
     Alle Dateien, die auf "/etc/nginx/conf.d/*.conf" passen, werden in den
     zentralen "http"-Block eingebunden. Das Image selbst definiert nur
     globale Einstellungen (temporäre Pfade, gzip, Websocket-fähige
     Proxy-Header und "resolver 8.8.8.8"). Die eingebundenen Dateien lassen
     sich beim Bauen über
-    "PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH" ändern.
+    "CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH" ändern.
 -->
 <!--frFR:
     Tous les fichiers correspondant à "/etc/nginx/conf.d/*.conf" sont inclus
@@ -301,7 +301,7 @@ files can be changed via
     réglages globaux (chemins temporaires, gzip, en-têtes de proxy compatibles
     websocket et "resolver 8.8.8.8"). Les fichiers inclus peuvent être
     modifiés à la construction via
-    "PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH".
+    "CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH".
 -->
 
 <!--|deDE:Standardserver-->
@@ -403,35 +403,36 @@ sourced on container start. The lists are Bash arrays matched by their index:
 ```bash
 # Name of each certificate. Files will be stored under
 # "certificates/<name>/letsEncrypt/configuration/live/<name>/".
-PROXY_CERTIFICATES=(web web.staging)
+CERTBOT_PROXY_CERTIFICATES=(web web.staging)
 # Space separated domains each certificate should cover.
-PROXY_CERTIFICATE_DOMAINS=(
+CERTBOT_PROXY_CERTIFICATE_DOMAINS=(
     'example.com www.example.com'
     'staging.example.com www.staging.example.com'
 )
 # Let's Encrypt account e-mail address per certificate. An empty or missing
 # entry reuses the address of the previous certificate.
-PROXY_CERTIFICATE_EMAIL_ADDRESSES=(admin@example.com)
+CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES=(admin@example.com)
 # Delay before the first renewal check after startup (any "sleep" duration).
-PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
+CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY=50m
 ```
 
 A single certificate can also be configured via plain environment variables
 (e.g. in a compose file), since a scalar acts like a one element array.
-Without "PROXY_CERTIFICATES" no certificates are managed and only nginx is
-started.
+Without "CERTBOT_PROXY_CERTIFICATES" no certificates are managed and only
+nginx is started.
 <!--deDE:
     Ein einzelnes Zertifikat lässt sich auch über einfache
     Umgebungsvariablen konfigurieren (z. B. in einer Compose-Datei), da sich
     ein Skalar wie ein Array mit einem Element verhält. Ohne
-    "PROXY_CERTIFICATES" werden keine Zertifikate verwaltet und nur nginx
-    wird gestartet.
+    "CERTBOT_PROXY_CERTIFICATES" werden keine Zertifikate verwaltet und nur
+    nginx wird gestartet.
 -->
 <!--frFR:
     Un seul certificat peut aussi être configuré via de simples variables
     d'environnement (par exemple dans un fichier compose), car un scalaire
-    se comporte comme un tableau à un élément. Sans "PROXY_CERTIFICATES",
-    aucun certificat n'est géré et seul nginx est démarré.
+    se comporte comme un tableau à un élément. Sans
+    "CERTBOT_PROXY_CERTIFICATES", aucun certificat n'est géré et seul nginx
+    est démarré.
 -->
 
 <!--|deDE:Ablauf-->
@@ -443,8 +444,8 @@ started.
    "certificates/&lt;name&gt;/domains.txt"), is retrieved via certbot's own
    web server before nginx starts.<!--deDE:Start: Jedes Zertifikat, das noch nicht abgerufen wurde oder dessen Domainliste von der beim Abruf verwendeten abweicht (gespeichert in "certificates/&lt;name&gt;/domains.txt"), wird vor dem Start von nginx über certbots eigenen Webserver abgerufen.--><!--frFR:Démarrage: Chaque certificat pas encore obtenu, ou dont la liste de domaines diffère de celle utilisée lors de son obtention (enregistrée dans "certificates/&lt;name&gt;/domains.txt"), est obtenu via le serveur web propre à certbot avant le démarrage de nginx.-->
 2. Start delay: The certificate service waits
-   "PROXY_CERTIFICATES_START_UPDATE_DELAY" before its first check, so that
-   frequent container restarts do not run into Let's Encrypt rate limits.<!--deDE:Startverzögerung: Der Zertifikatsdienst wartet "PROXY_CERTIFICATES_START_UPDATE_DELAY" bis zur ersten Prüfung, damit häufige Containerneustarts nicht in die Ratenbegrenzung von Let's Encrypt laufen.--><!--frFR:Délai de démarrage: Le service de certificats attend "PROXY_CERTIFICATES_START_UPDATE_DELAY" avant sa première vérification, afin que des redémarrages fréquents du conteneur n'atteignent pas les limites de Let's Encrypt.-->
+   "CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY" before its first check, so
+   that frequent container restarts do not run into Let's Encrypt rate limits.<!--deDE:Startverzögerung: Der Zertifikatsdienst wartet "CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY" bis zur ersten Prüfung, damit häufige Containerneustarts nicht in die Ratenbegrenzung von Let's Encrypt laufen.--><!--frFR:Délai de démarrage: Le service de certificats attend "CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY" avant sa première vérification, afin que des redémarrages fréquents du conteneur n'atteignent pas les limites de Let's Encrypt.-->
 3. Daily checks: Every 24 hours each certificate is renewed through the
    running nginx when it is close to expiry. Certificates with a changed
    domain list are retrieved again.<!--deDE:Tägliche Prüfungen: Alle 24 Stunden wird jedes Zertifikat kurz vor Ablauf über das laufende nginx erneuert. Zertifikate mit geänderter Domainliste werden neu abgerufen.--><!--frFR:Vérifications quotidiennes: Toutes les 24 heures, chaque certificat proche de l'expiration est renouvelé via le nginx en cours d'exécution. Les certificats dont la liste de domaines a changé sont obtenus à nouveau.-->
@@ -494,17 +495,18 @@ Cloudflare a new one is created.
 -->
 
 ```bash
-# Zone id per certificate (same order as "PROXY_CERTIFICATES"). An empty
-# entry disables the synchronization for that certificate.
-PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=(023e105f4ecef8ad9ca31a8372d0c353 '')
+# Zone id per certificate (same order as "CERTBOT_PROXY_CERTIFICATES"). An
+# empty entry disables the synchronization for that certificate.
+CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS=(023e105f4ecef8ad9ca31a8372d0c353 '')
 # API token with the permission "Zone - SSL and Certificates - Edit".
-PROXY_CLOUDFLARE_API_TOKEN=YOUR_TOKEN
-# Optional per certificate tokens overwriting "PROXY_CLOUDFLARE_API_TOKEN".
-PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=('' '')
+CERTBOT_PROXY_CLOUDFLARE_API_TOKEN=YOUR_TOKEN
+# Optional per certificate tokens overwriting
+# "CERTBOT_PROXY_CLOUDFLARE_API_TOKEN".
+CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS=('' '')
 # Optional: "ubiquitous" (default), "optimal" or "force".
-PROXY_CLOUDFLARE_BUNDLE_METHOD=ubiquitous
+CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD=ubiquitous
 # Optional: "sni_custom" (default) or "legacy_custom".
-PROXY_CLOUDFLARE_CERTIFICATE_TYPE=sni_custom
+CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE=sni_custom
 ```
 
 Synchronization runs on startup (so existing certificates are uploaded as soon
@@ -553,27 +555,27 @@ from starting nor stops the certificate service.
 Environment variables
 ---------------------
 
-- "PROXY_CERTIFICATES": Certificate names (array).<!--deDE:"PROXY_CERTIFICATES": Zertifikatsnamen (Array).--><!--frFR:"PROXY_CERTIFICATES": Noms des certificats (tableau).-->
-- "PROXY_CERTIFICATE_DOMAINS": Space separated domains per certificate
-  (array).<!--deDE:"PROXY_CERTIFICATE_DOMAINS": Leerzeichengetrennte Domains je Zertifikat (Array).--><!--frFR:"PROXY_CERTIFICATE_DOMAINS": Domaines séparés par des espaces pour chaque certificat (tableau).-->
-- "PROXY_CERTIFICATE_EMAIL_ADDRESSES": Let's Encrypt account e-mail address
-  per certificate (array).<!--deDE:"PROXY_CERTIFICATE_EMAIL_ADDRESSES": E-Mail-Adresse des Let's-Encrypt-Kontos je Zertifikat (Array).--><!--frFR:"PROXY_CERTIFICATE_EMAIL_ADDRESSES": Adresse e-mail du compte Let's Encrypt pour chaque certificat (tableau).-->
-- "PROXY_CERTIFICATES_START_UPDATE_DELAY": Delay before the first renewal
-  check, "50m" by default.<!--deDE:"PROXY_CERTIFICATES_START_UPDATE_DELAY": Wartezeit bis zur ersten Erneuerungsprüfung, standardmäßig "50m".--><!--frFR:"PROXY_CERTIFICATES_START_UPDATE_DELAY": Délai avant la première vérification de renouvellement, "50m" par défaut.-->
-- "PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS": Cloudflare zone id per
-  certificate (array).<!--deDE:"PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS": Cloudflare-Zonen-ID je Zertifikat (Array).--><!--frFR:"PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS": Identifiant de zone Cloudflare pour chaque certificat (tableau).-->
-- "PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS": Cloudflare API token per
-  certificate (array, optional).<!--deDE:"PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS": Cloudflare-API-Token je Zertifikat (Array, optional).--><!--frFR:"PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS": Jeton d'API Cloudflare pour chaque certificat (tableau, optionnel).-->
-- "PROXY_CLOUDFLARE_API_TOKEN": Default Cloudflare API token.<!--deDE:"PROXY_CLOUDFLARE_API_TOKEN": Standard-Cloudflare-API-Token.--><!--frFR:"PROXY_CLOUDFLARE_API_TOKEN": Jeton d'API Cloudflare par défaut.-->
-- "PROXY_CLOUDFLARE_API_URL": Cloudflare API base URL,
-  "https://api.cloudflare.com/client/v4" by default.<!--deDE:"PROXY_CLOUDFLARE_API_URL": Basis-URL der Cloudflare-API, standardmäßig "https://api.cloudflare.com/client/v4".--><!--frFR:"PROXY_CLOUDFLARE_API_URL": URL de base de l'API Cloudflare, "https://api.cloudflare.com/client/v4" par défaut.-->
-- "PROXY_CLOUDFLARE_BUNDLE_METHOD": Chain bundling of uploaded certificates,
-  "ubiquitous" by default.<!--deDE:"PROXY_CLOUDFLARE_BUNDLE_METHOD": Kettenbündelung hochgeladener Zertifikate, standardmäßig "ubiquitous".--><!--frFR:"PROXY_CLOUDFLARE_BUNDLE_METHOD": Regroupement de la chaîne des certificats envoyés, "ubiquitous" par défaut.-->
-- "PROXY_CLOUDFLARE_CERTIFICATE_TYPE": Type of uploaded custom certificates,
-  "sni_custom" by default.<!--deDE:"PROXY_CLOUDFLARE_CERTIFICATE_TYPE": Typ hochgeladener benutzerdefinierter Zertifikate, standardmäßig "sni_custom".--><!--frFR:"PROXY_CLOUDFLARE_CERTIFICATE_TYPE": Type des certificats personnalisés envoyés, "sni_custom" par défaut.-->
-- "PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH": Nginx
+- "CERTBOT_PROXY_CERTIFICATES": Certificate names (array).<!--deDE:"CERTBOT_PROXY_CERTIFICATES": Zertifikatsnamen (Array).--><!--frFR:"CERTBOT_PROXY_CERTIFICATES": Noms des certificats (tableau).-->
+- "CERTBOT_PROXY_CERTIFICATE_DOMAINS": Space separated domains per certificate
+  (array).<!--deDE:"CERTBOT_PROXY_CERTIFICATE_DOMAINS": Leerzeichengetrennte Domains je Zertifikat (Array).--><!--frFR:"CERTBOT_PROXY_CERTIFICATE_DOMAINS": Domaines séparés par des espaces pour chaque certificat (tableau).-->
+- "CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES": Let's Encrypt account e-mail
+  address per certificate (array).<!--deDE:"CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES": E-Mail-Adresse des Let's-Encrypt-Kontos je Zertifikat (Array).--><!--frFR:"CERTBOT_PROXY_CERTIFICATE_EMAIL_ADDRESSES": Adresse e-mail du compte Let's Encrypt pour chaque certificat (tableau).-->
+- "CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY": Delay before the first
+  renewal check, "50m" by default.<!--deDE:"CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY": Wartezeit bis zur ersten Erneuerungsprüfung, standardmäßig "50m".--><!--frFR:"CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY": Délai avant la première vérification de renouvellement, "50m" par défaut.-->
+- "CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS": Cloudflare zone id per
+  certificate (array).<!--deDE:"CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS": Cloudflare-Zonen-ID je Zertifikat (Array).--><!--frFR:"CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_ZONE_IDS": Identifiant de zone Cloudflare pour chaque certificat (tableau).-->
+- "CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS": Cloudflare API token per
+  certificate (array, optional).<!--deDE:"CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS": Cloudflare-API-Token je Zertifikat (Array, optional).--><!--frFR:"CERTBOT_PROXY_CERTIFICATE_CLOUDFLARE_API_TOKENS": Jeton d'API Cloudflare pour chaque certificat (tableau, optionnel).-->
+- "CERTBOT_PROXY_CLOUDFLARE_API_TOKEN": Default Cloudflare API token.<!--deDE:"CERTBOT_PROXY_CLOUDFLARE_API_TOKEN": Standard-Cloudflare-API-Token.--><!--frFR:"CERTBOT_PROXY_CLOUDFLARE_API_TOKEN": Jeton d'API Cloudflare par défaut.-->
+- "CERTBOT_PROXY_CLOUDFLARE_API_URL": Cloudflare API base URL,
+  "https://api.cloudflare.com/client/v4" by default.<!--deDE:"CERTBOT_PROXY_CLOUDFLARE_API_URL": Basis-URL der Cloudflare-API, standardmäßig "https://api.cloudflare.com/client/v4".--><!--frFR:"CERTBOT_PROXY_CLOUDFLARE_API_URL": URL de base de l'API Cloudflare, "https://api.cloudflare.com/client/v4" par défaut.-->
+- "CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD": Chain bundling of uploaded
+  certificates, "ubiquitous" by default.<!--deDE:"CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD": Kettenbündelung hochgeladener Zertifikate, standardmäßig "ubiquitous".--><!--frFR:"CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD": Regroupement de la chaîne des certificats envoyés, "ubiquitous" par défaut.-->
+- "CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE": Type of uploaded custom
+  certificates, "sni_custom" by default.<!--deDE:"CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE": Typ hochgeladener benutzerdefinierter Zertifikate, standardmäßig "sni_custom".--><!--frFR:"CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE": Type des certificats personnalisés envoyés, "sni_custom" par défaut.-->
+- "CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH": Nginx
   configuration files to include at build time,
-  "/etc/nginx/conf.d/*.conf" by default.<!--deDE:"PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH": Beim Bauen einzubindende nginx-Konfigurationsdateien, standardmäßig "/etc/nginx/conf.d/*.conf".--><!--frFR:"PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH": Fichiers de configuration nginx à inclure à la construction, "/etc/nginx/conf.d/*.conf" par défaut.-->
+  "/etc/nginx/conf.d/*.conf" by default.<!--deDE:"CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH": Beim Bauen einzubindende nginx-Konfigurationsdateien, standardmäßig "/etc/nginx/conf.d/*.conf".--><!--frFR:"CERTBOT_PROXY_APPLICATION_SPECIFIC_NGINX_CONFIGURATION_FILE_PATH": Fichiers de configuration nginx à inclure à la construction, "/etc/nginx/conf.d/*.conf" par défaut.-->
 - "CERTIFICATION_SERVICE_LOG": Log file of the certificate service,
   "/application/certificates/log.txt" by default.<!--deDE:"CERTIFICATION_SERVICE_LOG": Protokolldatei des Zertifikatsdienstes, standardmäßig "/application/certificates/log.txt".--><!--frFR:"CERTIFICATION_SERVICE_LOG": Fichier journal du service de certificats, "/application/certificates/log.txt" par défaut.-->
 - "COMMAND": Command started after initialization, "nginx" by default.<!--deDE:"COMMAND": Nach der Initialisierung gestarteter Befehl, standardmäßig "nginx".--><!--frFR:"COMMAND": Commande lancée après l'initialisation, "nginx" par défaut.-->
@@ -626,7 +628,7 @@ slash is required):
   &lt;e-mail&gt;": Renews a certificate if it is close to expiry.<!--deDE:"update-certificate &lt;name&gt; &lt;path&gt; '&lt;domains&gt;' &lt;e-mail&gt;": Erneuert ein Zertifikat, wenn es bald abläuft.--><!--frFR:"update-certificate &lt;name&gt; &lt;path&gt; '&lt;domains&gt;' &lt;e-mail&gt;": Renouvelle un certificat proche de l'expiration.-->
 - "synchronize-cloudflare-certificate &lt;name&gt; &lt;path&gt;
   &lt;zone-id&gt;": Uploads a certificate to Cloudflare (needs
-  "PROXY_CLOUDFLARE_API_TOKEN").<!--deDE:"synchronize-cloudflare-certificate &lt;name&gt; &lt;path&gt; &lt;zone-id&gt;": Lädt ein Zertifikat zu Cloudflare hoch (benötigt "PROXY_CLOUDFLARE_API_TOKEN").--><!--frFR:"synchronize-cloudflare-certificate &lt;name&gt; &lt;path&gt; &lt;zone-id&gt;": Envoie un certificat à Cloudflare (nécessite "PROXY_CLOUDFLARE_API_TOKEN").-->
+  "CERTBOT_PROXY_CLOUDFLARE_API_TOKEN").<!--deDE:"synchronize-cloudflare-certificate &lt;name&gt; &lt;path&gt; &lt;zone-id&gt;": Lädt ein Zertifikat zu Cloudflare hoch (benötigt "CERTBOT_PROXY_CLOUDFLARE_API_TOKEN").--><!--frFR:"synchronize-cloudflare-certificate &lt;name&gt; &lt;path&gt; &lt;zone-id&gt;": Envoie un certificat à Cloudflare (nécessite "CERTBOT_PROXY_CLOUDFLARE_API_TOKEN").-->
 - "initialize-certificates": Retrieves all configured certificates which are
   missing.<!--deDE:"initialize-certificates": Ruft alle konfigurierten, noch fehlenden Zertifikate ab.--><!--frFR:"initialize-certificates": Obtient tous les certificats configurés manquants.-->
 - "certificate-service": Runs the periodic renewal loop.<!--deDE:"certificate-service": Führt die periodische Erneuerungsschleife aus.--><!--frFR:"certificate-service": Exécute la boucle de renouvellement périodique.-->

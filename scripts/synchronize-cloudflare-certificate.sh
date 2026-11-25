@@ -10,7 +10,7 @@ source get-bashlink
 # certificate has already been synchronized.
 #
 # Usage:
-# PROXY_CLOUDFLARE_API_TOKEN=TOKEN synchronize-cloudflare-certificate \
+# CERTBOT_PROXY_CLOUDFLARE_API_TOKEN=TOKEN synchronize-cloudflare-certificate \
 #     NAME CERTIFICATE_PATH ZONE_ID
 #
 # The api token needs the permission "Zone - SSL and Certificates - Edit" for
@@ -20,9 +20,9 @@ declare -r name="$1"
 declare -r certificate_path="$2"
 declare -r zone_id="$3"
 
-declare -r api_url="${PROXY_CLOUDFLARE_API_URL:-https://api.cloudflare.com/client/v4}/zones/${zone_id}/custom_certificates"
-declare -r bundle_method="${PROXY_CLOUDFLARE_BUNDLE_METHOD:-ubiquitous}"
-declare -r certificate_type="${PROXY_CLOUDFLARE_CERTIFICATE_TYPE:-sni_custom}"
+declare -r api_url="${CERTBOT_PROXY_CLOUDFLARE_API_URL:-https://api.cloudflare.com/client/v4}/zones/${zone_id}/custom_certificates"
+declare -r bundle_method="${CERTBOT_PROXY_CLOUDFLARE_BUNDLE_METHOD:-ubiquitous}"
+declare -r certificate_type="${CERTBOT_PROXY_CLOUDFLARE_CERTIFICATE_TYPE:-sni_custom}"
 
 declare -r live_path="${certificate_path}letsEncrypt/configuration/live/${name}/"
 declare -r certificate_file_path="${live_path}fullchain.pem"
@@ -33,7 +33,7 @@ declare -r private_key_file_path="${live_path}privkey.pem"
 declare -r id_file_path="${certificate_path}cloudflareCertificateID.txt"
 declare -r fingerprint_file_path="${certificate_path}cloudflareCertificateFingerprint.txt"
 
-if [ "$PROXY_CLOUDFLARE_API_TOKEN" = '' ]; then
+if [ "$CERTBOT_PROXY_CLOUDFLARE_API_TOKEN" = '' ]; then
     bl.logging.error \
         "No cloudflare api token provided to synchronize certificate \"${name}\"."
     exit 1
@@ -92,7 +92,7 @@ request() {
     curl \
         --connect-timeout 30 \
         --data-binary @- \
-        --header "Authorization: Bearer ${PROXY_CLOUDFLARE_API_TOKEN}" \
+        --header "Authorization: Bearer ${CERTBOT_PROXY_CLOUDFLARE_API_TOKEN}" \
         --header 'Content-Type: application/json' \
         --request "$1" \
         --retry 3 \

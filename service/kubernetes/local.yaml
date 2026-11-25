@@ -11,7 +11,7 @@ spec:
           env:
               - name: container
                 value: podman
-              - name: PROXY_CERTIFICATES_START_UPDATE_DELAY
+              - name: CERTBOT_PROXY_CERTIFICATES_START_UPDATE_DELAY
                 value: '0'
           ports:
               - containerPort: 80
